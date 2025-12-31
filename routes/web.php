@@ -7,9 +7,7 @@ use Livewire\Volt\Volt;
 
 
 Route::get('/', function () {
-    $menu = new Menu;
-    $menus = $menu->getAllMenus();
-    return view('home', compact('menus'));
+    return view('home');
 });
 
 Volt::route('/login', 'pages.auth.login')
