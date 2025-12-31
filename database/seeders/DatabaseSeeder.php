@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,9 +19,15 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        DB::table('users')->insert([
+
+            'name' => env('TEST_USER_NAME'),
+            'email' => env('TEST_USER_EMAIL'),
+            'password' => bcrypt(env('TEST_USER_PASSWORD')),
+            'email_verified_at' => date('Y-m-d h:i:s'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+
         ]);
     }
 }
