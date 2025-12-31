@@ -11,6 +11,7 @@ export default defineConfig({
         tailwindcss(),
     ],
     server: {
+        host: 'micturion2026.test',
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },
