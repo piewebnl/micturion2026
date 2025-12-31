@@ -10,7 +10,7 @@ class ViewServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        View::composer('*', function ($view) {
+        View::composer(['home', 'components.nav.main'], function ($view) {
             $menu = new Menu;
             $menus = $menu->getAllMenus();
             $view->with('menus', $menus); // cached

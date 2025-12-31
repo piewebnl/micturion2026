@@ -13,7 +13,6 @@
         "filament/filament": "^4.4",
         "filament/forms": "^4.4",
         "intervention/image": "^3.11",
-        "jeroenzwart/laravel-csv-seeder": "^1.6",
         "jwilsson/spotify-web-api-php": "^7.0",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
@@ -21,7 +20,8 @@
         "livewire/volt": "^1.10",
         "matto1990/lastfm-api": "^1.6",
         "opcodesio/log-viewer": "^3.21",
-        "wire-elements/modal": "^3.0"
+        "wire-elements/modal": "^3.0",
+        "swayok/alternative-laravel-cache": "6.1.*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",
