@@ -28,6 +28,7 @@ class Album extends Model
         'genre_id' => 'genre_id',
         'compilation' => 'is_compilation',
         'date_modified' => 'date_modified',
+        'date_added' => 'date_added',
     ];
 
     // public $with = ['artist', 'albumImage'];
