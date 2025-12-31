@@ -1,0 +1,11 @@
+order;name;url;auth;homepage
+1;"Concerts";"/concerts";0;1
+2;"Music";"/music";0;1
+3;"Monthly playlists";"/spotify/monthly-playlists";0;1
+4;"Random album picker";"/music/albums/random";0;1
+5;"Now playing";"/spotify/now-playing";0;1
+6;"Spotify";"/admin/spotify";1;1
+7;"Last FM";"/admin/last-fm-api/scrobble";1;1
+8;"Wishlist";"/admin/wishlist";1;1
+9;"Discogs";"/admin/discogs";1;1
+10;"Music stats";"/admin/music/stats";1;1

@@ -2,32 +2,32 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
+     *
+     * @return void
      */
-    public function run(): void
+    public function run()
     {
-        // User::factory(10)->create();
 
-        DB::table('users')->insert([
-
-            'name' => env('TEST_USER_NAME'),
-            'email' => env('TEST_USER_EMAIL'),
-            'password' => bcrypt(env('TEST_USER_PASSWORD')),
-            'email_verified_at' => date('Y-m-d h:i:s'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-
-        ]);
+        $this->call(UserSeeder::class);
+        $this->call(MenuSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(ConcertVenueSeeder::class);
+        $this->call(ConcertArtistSeeder::class);
+        $this->call(ConcertFestivalSeeder::class);
+        $this->call(ConcertSeeder::class);
+        $this->call(ConcertItemSeeder::class);
+        $this->call(MusicStoreSeeder::class);
+        $this->call(WishlistAlbumSeeder::class);
+        $this->call(SpotifyAlbumCustomIdSeeder::class);
+        $this->call(SpotifyAlbumUnavailableSeeder::class);
+        $this->call(SpotifyTrackCustomIdSeeder::class);
+        $this->call(SpotifyTrackUnavailableSeeder::class);
+        $this->call(DiscogsReleaseCustomIdSeeder::class);
     }
 }
