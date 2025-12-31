@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Console\Commands\ItunesLibrary;
+
+use App\Jobs\ItunesLibrary\ItunesLibraryCheckerJob;
+use App\Traits\Logger\Logger;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\App;
+
+// php artisan command:ItunesLibraryChecker
+class ItunesLibraryCheckerCommand extends Command
+{
+    protected $signature = 'command:ItunesLibraryChecker';
+
+    private string $channel;
+
+    public function handle()
+    {
+        if (App::environment() != 'local') {
+            return;
+        }
+
+        $this->channel = 'itunes_library_checker';
+
+        Logger::deleteChannel($this->channel);
+
+        ItunesLibraryCheckerJob::dispatchSync();
+
+        Logger::echo($this->channel);
+    }
+}

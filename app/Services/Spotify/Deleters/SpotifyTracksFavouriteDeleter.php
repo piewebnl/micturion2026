@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Services\Spotify\Deleters;
+
+use App\Helpers\PaginationHelper;
+use Illuminate\Http\JsonResponse;
+
+// Delete tracks from User Library
+class SpotifyTracksFavouriteDeleter
+{
+    private $api;
+
+    private $perPage = 50;
+
+    private $page = 1;
+
+    private $lastPage;
+
+    private $total = 0;
+
+    private $allSpotifyTrackIds;
+
+    private $response;
+
+    public function __construct($api, array $allSpotifyTrackIds)
+    {
+        $this->api = $api;
+        $this->allSpotifyTrackIds = $allSpotifyTrackIds;
+        $this->total = count($this->allSpotifyTrackIds);
+        $this->calculateLastPage();
+    }
+
+    public function delete(int $page)
+    {
+        $this->page = $page;
+
+        $tracksToDelete = PaginationHelper::slicePerPage($this->allSpotifyTrackIds, $this->page, $this->perPage);
+
+        if (!$tracksToDelete) {
+            return;
+        }
+
+        $this->api->deleteMyTracks($tracksToDelete);
+
+        // return response
+        // $this->response = response()->success('Spotify tracks deleted');
+    }
+
+    private function getSpotifyTracksPerPage()
+    {
+        /*
+        $count = 0;
+        $this->start = ($this->page - 1) * $this->perPage;
+        $this->end = $this->start + $this->perPage;
+
+        foreach ($this->allSpotifyTrackIds as $track) {
+            if ($count >= $this->start and $count < $this->end) {
+                $this->allSpotifyTrackIdsPage[] = $track;
+            }
+            $count++;
+        }
+        */
+    }
+
+    private function calculateLastPage()
+    {
+        $this->lastPage = PaginationHelper::calculateLastPage($this->total, $this->perPage);
+    }
+
+    public function getLastPage()
+    {
+        return $this->lastPage;
+    }
+
+    public function getResponse(): JsonResponse
+    {
+        return $this->response;
+    }
+}
