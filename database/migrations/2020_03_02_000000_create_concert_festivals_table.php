@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('concert_festivals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image_url');
+            $table->string('image_url')->nullable();
             $table->timestamps();
         });
     }

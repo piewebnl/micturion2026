@@ -4,9 +4,10 @@ namespace App\Console\Commands\Menu;
 
 use App\Models\Menu\Menu;
 use App\Traits\Logger\Logger;
-use App\Traits\QueryCache\QueryCache;
 use Illuminate\Console\Command;
 use Illuminate\Http\JsonResponse;
+use App\Traits\QueryCache\QueryCache;
+use App\Services\Menu\MenuImageCreator;
 
 // php artisan command:MenuImageCreate
 class MenuImageCreateCommand extends Command

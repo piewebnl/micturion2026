@@ -41,7 +41,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
@@ -58,6 +58,67 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
             'report' => false,
+        ],
+
+        // Public
+        'images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images'),
+            'url' => env('APP_URL') . '/images',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'spine_images_extracted' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/spine-images-extracted'),
+            'url' => env('APP_URL') . '/spine-images-extracted',
+            'visibility' => 'public',
+        ],
+
+        'discogs_back_artwork' => [
+            'driver' => 'local',
+            'root' => public_path('images/discogs-back-artwork'),
+            'url' => env('APP_URL') . '/discogs-back-artwork',
+            'visibility' => 'public',
+        ],
+
+        'playlists' => [
+            'driver' => 'local',
+            'root' => public_path('playlists'),
+            'url' => env('APP_URL') . '/playlists',
+            'visibility' => 'public',
+        ],
+
+        'ituneslibrary' => [
+            'driver' => 'local',
+            'root' => storage_path('app/ituneslibrary'),
+        ],
+
+        'ftp' => [
+            'driver' => 'ftp',
+            'host' => env('FTP_HOST'),
+            'username' => env('FTP_USERNAME'),
+            'password' => env('FTP_PASSWORD'),
+
+            // Optional FTP Settings...
+            // 'port' => env('FTP_PORT', 21),
+            // 'root' => env('FTP_ROOT'),
+            // 'passive' => true,
+            // 'ssl' => true,
+            // 'timeout' => 30,
+        ],
+
+        'hiby' => [
+            'driver' => 'ftp',
+            'host' => env('HIBY_FTP_HOST'),
+            'port' => (int) env('HIBY_FTP_PORT', 2221),
+            'username' => env('HIBY_FTP_USER'),
+            'password' => env('HIBY_FTP_PASS'),
+            'root' => env('HIBY_FTP_PATH'),
+            'passive' => true,
+            'ssl' => false,
+            'timeout' => 60,
         ],
 
     ],
