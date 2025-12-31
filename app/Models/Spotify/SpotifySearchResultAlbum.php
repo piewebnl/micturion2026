@@ -15,7 +15,7 @@ class SpotifySearchResultAlbum extends Model
 
     protected $guarded = [];
 
-    private $response;
+    private // $response;
 
     private $resource = [];
 
@@ -25,15 +25,15 @@ class SpotifySearchResultAlbum extends Model
         // Store the album
         $spotifyAlbumModel = new SpotifyAlbum;
         $spotifyAlbum = $this->convertSpotifySearchResultAlbumToSpotifyAlbum($spotifySearchResultAlbum);
-        $response = $spotifyAlbumModel->store($spotifyAlbum);
+        // $response = $spotifyAlbumModel->store($spotifyAlbum);
 
         // Store relation
         $albumSpotifyAlbumModel = new AlbumSpotifyAlbum;
-        $spotifySearchResultAlbum->spotify_album_id = $response->id;
+        $spotifySearchResultAlbum->spotify_album_id = // $response->id;
 
         $albumSpotifyAlbum = $this->convertSpotifySearchResultAlbumToAlbumSpotifyAlbum($spotifySearchResultAlbum);
         $albumSpotifyAlbumModel->store($albumSpotifyAlbum);
 
-        return $response;
+        return // $response;
     }
 }

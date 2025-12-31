@@ -22,7 +22,7 @@ class SpotifyTrackImporter
 
     private $api;
 
-    private $response;
+    private // $response;
 
     private $resource = [];
 

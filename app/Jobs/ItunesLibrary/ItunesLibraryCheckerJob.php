@@ -15,7 +15,7 @@ class ItunesLibraryCheckerJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $response;
+    private // $response;
 
     public function handle()
     {

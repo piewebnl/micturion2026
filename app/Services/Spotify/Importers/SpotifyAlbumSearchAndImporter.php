@@ -19,7 +19,7 @@ class SpotifyAlbumSearchAndImporter
 
     private $api;
 
-    private $response;
+    private // $response;
 
     private $resource = [];
 

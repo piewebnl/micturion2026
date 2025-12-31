@@ -33,7 +33,7 @@ class ItunesLibraryPlaylistTracksImporter
 
     private $lastPage = null;
 
-    private $response;
+    private // $response;
 
     private $resource = [];
 

@@ -23,7 +23,7 @@ class ApiFetcher extends Component
 
     public array $item;
 
-    public $responses = [];
+    public // $responses = [];
 
     public $total = 0;
 

@@ -20,7 +20,7 @@ class SpotifyAlbumsDeleter
 
     private $allSpotifyAlbumIds;
 
-    private $response;
+    private // $response;
 
     public function __construct($api, array $allSpotifyAlbumIds)
     {

@@ -13,7 +13,7 @@ class AlbumSpotifyAlbumStatusChanger
 {
     use ToSpotifyAlbumCustomIdConverter;
 
-    private $response;
+    private // $response;
 
     private $resource = [];
 

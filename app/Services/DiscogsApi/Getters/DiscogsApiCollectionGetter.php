@@ -39,10 +39,10 @@ class DiscogsApiCollectionGetter
             'sort' => 'artist',
         ];
 
-        $response = Http::get($url, $params);
+        // $response = Http::get($url, $params);
 
-        if ($response->successful()) {
-            $data = $response->json(); // Returns an associative array
+        if (// $response->successful()) {
+            $data = // $response->json(); // Returns an associative array
         } else {
             Logger::log('error', $this->channel, 'Discogs API something went wrong');
             Logger::echo($this->channel);
@@ -53,7 +53,7 @@ class DiscogsApiCollectionGetter
             Logger::echo($this->channel);
         } else {
             $this->discogsApiCollectionReleases = $data['releases'];
-            $this->lastPage = $response['pagination']['pages'];
+            $this->lastPage = // $response['pagination']['pages'];
             $this->total = count($this->discogsApiCollectionReleases);
 
             return $this->discogsApiCollectionReleases;

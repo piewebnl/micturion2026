@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 // Create concert image (via upload or found on disk)
 class ConcertImageDeleter
 {
-    private $response;
+    private // $response;
 
     public function deleteConcertImage(int $id)
     {

@@ -18,7 +18,7 @@ class SpotifyTracksFavouriteExportJob
 
     private int $perPage = 0;
 
-    private JsonResponse $response;
+    private JsonResponse // $response;
 
     public function __construct(int $page, int $perPage)
     {

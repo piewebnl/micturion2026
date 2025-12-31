@@ -20,7 +20,7 @@ class WishlistAlbumPricesScrapeJob implements ShouldQueue
 
     private int $perPage = 1;
 
-    private JsonResponse $response;
+    private JsonResponse // $response;
 
     public function __construct(int $page, int $perPage)
     {

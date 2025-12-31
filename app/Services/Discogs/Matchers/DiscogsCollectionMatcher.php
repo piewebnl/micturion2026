@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 
 class DiscogsCollectionMatcher
 {
-    private JsonResponse $response;
+    private JsonResponse // $response;
 
     private $collectionReleases;
 

@@ -21,10 +21,10 @@ class DiscogsApiReleaseGetter
 
         $url = config('discogs.discogs_api_url') . 'releases/' . $releaseId;
 
-        $response = Http::get($url);
+        // $response = Http::get($url);
 
-        if ($response->successful()) {
-            $release = $response->json(); // Returns an associative array
+        if (// $response->successful()) {
+            $release = // $response->json(); // Returns an associative array
 
         } else {
             $release = [];

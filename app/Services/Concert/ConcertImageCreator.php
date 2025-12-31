@@ -9,7 +9,7 @@ use App\Models\Concert\ConcertItem;
 // Create concert image (via upload or found on disk)
 class ConcertImageCreator
 {
-    private $response;
+    private // $response;
 
     private string $channel = 'concert_create_images';
 

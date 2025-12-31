@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 // Get a json and write to db seedcsv
 class JsonToCsvSeedImporter
 {
-    private $response;
+    private // $response;
 
     private string $channel;
 

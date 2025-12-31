@@ -19,7 +19,7 @@ class SpotifyTrackImportJob implements ShouldQueue
 
     private $songId = 0;
 
-    private $response;
+    private // $response;
 
     public function __construct(int $songId)
     {

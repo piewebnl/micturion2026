@@ -19,7 +19,7 @@ class ItunesLibraryImportTracksJob implements ShouldQueue
 
     private $filterValues = [];
 
-    private $response;
+    private // $response;
 
     public function __construct($filterValues)
     {
@@ -33,12 +33,12 @@ class ItunesLibraryImportTracksJob implements ShouldQueue
         $importer = new ItunesLibraryTracksImporter($itunesLibrary);
         $importer->import($this->filterValues['page'], $this->filterValues['per_page']);
 
-        $response = $this->response = $importer->getResponse()->getData();
+        // $response = $this->response = $importer->getResponse()->getData();
 
         $persistantIds['imported'] = (array) Session::get('persistent_ids_imported');
         $persistantIds['not_imported'] = (array) Session::get('persistent_ids_not_imported');
 
-        foreach ($response->resource->tracks as $track) {
+        foreach (// $response->resource->tracks as $track) {
             if ($track->persistent_id) {
                 if ($track->status == 'success') {
                     $persistantIds['imported'][] = $track->persistent_id;

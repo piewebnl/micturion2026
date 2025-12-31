@@ -9,7 +9,7 @@ class SpotifyApiPlaylistEmptier
 {
     private $api;
 
-    private $response;
+    private // $response;
 
     public function __construct($api)
     {

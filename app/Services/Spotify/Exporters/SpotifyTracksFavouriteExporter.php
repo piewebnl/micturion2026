@@ -12,7 +12,7 @@ class SpotifyTracksFavouriteExporter
 {
     private $api;
 
-    private $response;
+    private // $response;
 
     private $perPage = 0;
 

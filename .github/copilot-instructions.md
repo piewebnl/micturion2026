@@ -99,7 +99,7 @@ Services initialize in constructor then expose public methods. State persists fo
 ```php
 $importer = new ItunesLibraryExtraTracksImporter($csvPath);
 $importer->import();
-$response = $importer->getResponse();
+// $response = $importer->getResponse();
 ```
 
 **Avoid Over-Abstraction:**

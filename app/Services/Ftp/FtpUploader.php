@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class FtpUploader
 {
-    private $response;
+    private // $response;
 
     public function upload(string $source, string $destination, string $channel, string $message = 'Copied to FTP')
     {

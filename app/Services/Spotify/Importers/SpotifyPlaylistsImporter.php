@@ -28,7 +28,7 @@ class SpotifyPlaylistsImporter
 
     private $channel = '';
 
-    private $response;
+    private // $response;
 
     private $resource = [];
 

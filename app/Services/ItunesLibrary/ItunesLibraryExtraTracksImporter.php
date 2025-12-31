@@ -4,50 +4,51 @@ namespace App\Services\ItunesLibrary;
 
 use App\Traits\Logger\Logger;
 use Illuminate\Support\Carbon;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Session;
 use App\Models\ItunesLibrary\ItunesLibraryTrack;
 
 // Imports extra itunes library tracks from a text file to the db
 class ItunesLibraryExtraTracksImporter
 {
-    private $extraTracks;
+    private ?array $extraTracks = [];
 
-    private $itunesLibraryExtraTtracksCsv;
+    private string $itunesLibraryExtraTracksCsv;
 
-    private $date;
+    private string $parsedExtratracks = '';
 
-    private $channel = 'itunes_library_import_extra_tracks';
+    private ?string $date = null;
 
-    public function __construct(string $itunesLibraryExtraTtracksCsv)
+    private string $channel = 'itunes_library_import_extra_tracks';
+
+
+    public function __construct(string $itunesLibraryExtraTracksCsv)
     {
-        $this->itunesLibraryExtraTtracksCsv = ltrim($itunesLibraryExtraTtracksCsv, '/');
+        $this->itunesLibraryExtraTracksCsv = ltrim($itunesLibraryExtraTracksCsv, '/');
         $this->loadExtraTracks();
     }
 
     public function import(): void
     {
-        $itunesLibraryTrack = new ItunesLibraryTrack;
-
         if (!$this->extraTracks) {
             Logger::log('error', $this->channel, 'No extra tracks found');
             return;
         }
 
-        $persistantIds['imported'] = (array) Session::get('persistent_ids_imported');
-        $persistantIds['not_imported'] = (array) Session::get('persistent_ids_not_imported');
-
+        $itunesLibraryTrack = new ItunesLibraryTrack;
+        $persistantIds = [
+            'imported' => (array) Session::get('persistent_ids_imported', []),
+            'not_imported' => (array) Session::get('persistent_ids_not_imported', []),
+        ];
 
         $itunesLibraryTracks = [];
         foreach ($this->extraTracks as $track) {
-
             $itunesLibraryTrack->storeTrack((array) $track);
-            $itunesLibraryTracks = $itunesLibraryTrack->getResource();
+            $itunesLibraryTracks = array_merge($itunesLibraryTracks, (array) $itunesLibraryTrack->getResource());
         }
 
         foreach ($itunesLibraryTracks as $track) {
-            if ($track['persistent_id']) {
-                if ($track['status'] == 'success') {
+            if (!empty($track['persistent_id'])) {
+                if ($track['status'] === 'success') {
                     $persistantIds['imported'][] = $track['persistent_id'];
                 } else {
                     $persistantIds['not_imported'][] = $track['persistent_id'];
@@ -62,56 +63,58 @@ class ItunesLibraryExtraTracksImporter
     public function loadExtraTracks(): void
     {
         try {
+            $file = fopen($this->itunesLibraryExtraTracksCsv, 'r');
+            if ($file === false) {
+                throw new \Exception('Cannot open file: ' . $this->itunesLibraryExtraTracksCsv);
+            }
 
-            $file = fopen($this->itunesLibraryExtraTtracksCsv, 'r');
-            $this->extraTracks = fread($file, filesize($this->itunesLibraryExtraTtracksCsv));
-            $this->date = date('Y-m-d H:i:s', filemtime($this->itunesLibraryExtraTtracksCsv));
+            $this->parsedExtratracks = fread($file, filesize($this->itunesLibraryExtraTracksCsv));
+            fclose($file);
+            $this->date = date('Y-m-d H:i:s', filemtime($this->itunesLibraryExtraTracksCsv));
 
             $this->convertExtraTracks();
         } catch (\Throwable $e) {
-            Logger::log('error', $this->channel, 'Not found: ' . $this->itunesLibraryExtraTtracksCsv);
+            Logger::log('error', $this->channel, 'Not found: ' . $this->itunesLibraryExtraTracksCsv);
         }
     }
 
-    public function getextraTracks(): array
+    public function getExtraTracks(): array
     {
-        return $this->extraTracks;
+        return $this->extraTracks ?? [];
     }
 
     private function convertExtraTracks(): void
     {
+        $tracks = preg_split('/\n|\r\n?/', $this->parsedExtratracks);
 
-        $tracks = preg_split('/\n|\r\n?/', $this->extraTracks);
-
-        $new = null;
+        $new = [];
         $headers = [];
 
-        // Get headers from the first line
         $headerFields = explode("\t", $tracks[0]);
-
         foreach ($headerFields as $field) {
             $headers[] = $field;
         }
 
         foreach ($tracks as $key => $track) {
-
-            if ($key > 0) {
-
+            if ($key > 0 && !empty($track)) {
                 $fields = explode("\t", $track);
+                $trackData = [];
                 foreach ($fields as $headerKey => $field) {
-                    $new[$key - 1][$headers[$headerKey]] = $field;
+                    if (isset($headers[$headerKey])) {
+                        $trackData[$headers[$headerKey]] = $field;
+                    }
                 }
-                $new[$key - 1]['Is Extra'] = true;
-                $hash = substr(md5($new[$key - 1]['Name'] . $new[$key - 1]['Sort Album'] . $new[$key - 1]['Artist']), 0, 16);
-                $new[$key - 1]['Persistent ID'] = $hash;
-                $hash = substr(md5($new[$key - 1]['Sort Album'] . $new[$key - 1]['Artist']), 0, 16);
-                $new[$key - 1]['Persistent Album ID'] = 'EXTRA' . $key;
 
-                // Get date of csv
-                $new[$key - 1]['Date Added'] = Carbon::parse($this->date)->setTimezone('UTC')->format('Y-m-d\TH:i:s\Z');
-                $new[$key - 1]['Date Modified'] = Carbon::parse($this->date)->setTimezone('UTC')->format('Y-m-d\TH:i:s\Z');
+                $trackData['Is Extra'] = true;
+                $hash = substr(md5($trackData['Name'] . $trackData['Sort Album'] . $trackData['Artist']), 0, 16);
+                $trackData['Persistent ID'] = $hash;
+                $trackData['Persistent Album ID'] = 'EXTRA' . $key;
 
-                // echo $new[$key - 1]['Persistent ID'] . "\r\n";
+                $formattedDate = Carbon::parse($this->date)->setTimezone('UTC')->format('Y-m-d\TH:i:s\Z');
+                $trackData['Date Added'] = $formattedDate;
+                $trackData['Date Modified'] = $formattedDate;
+
+                $new[$key - 1] = $trackData;
             }
         }
         $this->extraTracks = $new;

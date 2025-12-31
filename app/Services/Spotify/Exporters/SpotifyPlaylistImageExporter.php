@@ -15,7 +15,7 @@ class SpotifyPlaylistImageExporter
 {
     private $api;
 
-    private $response;
+    private // $response;
 
     private $playlist;
 

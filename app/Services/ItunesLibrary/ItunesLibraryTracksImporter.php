@@ -27,7 +27,7 @@ class ItunesLibraryTracksImporter
 
     private $totalTracks;
 
-    private $response;
+    private // $response;
 
     private $resource = [];
 

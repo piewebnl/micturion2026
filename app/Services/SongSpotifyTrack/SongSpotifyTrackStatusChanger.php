@@ -14,7 +14,7 @@ class SongSpotifyTrackStatusChanger
 {
     use ToSpotifyTrackCustomIdConverter;
 
-    private $response;
+    private // $response;
 
     private $resource = [];
 

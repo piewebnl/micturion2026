@@ -15,7 +15,7 @@ class ItunesLibraryImportPlaylistTracksJob implements ShouldQueue
 
     private $filterValues = [];
 
-    private $response;
+    private // $response;
 
     protected $playlistTracksImporter;
 
