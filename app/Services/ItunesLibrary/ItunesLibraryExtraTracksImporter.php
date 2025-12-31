@@ -2,9 +2,11 @@
 
 namespace App\Services\ItunesLibrary;
 
-use App\Models\ItunesLibrary\ItunesLibraryTrack;
-use Illuminate\Http\JsonResponse;
+use App\Traits\Logger\Logger;
 use Illuminate\Support\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Session;
+use App\Models\ItunesLibrary\ItunesLibraryTrack;
 
 // Imports extra itunes library tracks from a text file to the db
 class ItunesLibraryExtraTracksImporter
@@ -13,11 +15,9 @@ class ItunesLibraryExtraTracksImporter
 
     private $itunesLibraryExtraTtracksCsv;
 
-    private $response;
-
     private $date;
 
-    private $resource = [];
+    private $channel = 'itunes_library_import_extra_tracks';
 
     public function __construct(string $itunesLibraryExtraTtracksCsv)
     {
@@ -30,10 +30,13 @@ class ItunesLibraryExtraTracksImporter
         $itunesLibraryTrack = new ItunesLibraryTrack;
 
         if (!$this->extraTracks) {
-            $this->response = response()->error('No extra tracks found');
-
+            Logger::log('error', $this->channel, 'No extra tracks found');
             return;
         }
+
+        $persistantIds['imported'] = (array) Session::get('persistent_ids_imported');
+        $persistantIds['not_imported'] = (array) Session::get('persistent_ids_not_imported');
+
 
         $itunesLibraryTracks = [];
         foreach ($this->extraTracks as $track) {
@@ -42,15 +45,18 @@ class ItunesLibraryExtraTracksImporter
             $itunesLibraryTracks = $itunesLibraryTrack->getResource();
         }
 
-        $this->resource = [
-            'page' => 1,
-            'total_tracks' => count($this->extraTracks),
-            'last_page' => 1,
-            'total_tracks_imported' => count($this->extraTracks),
-            'tracks' => $itunesLibraryTracks,
-        ];
+        foreach ($itunesLibraryTracks as $track) {
+            if ($track['persistent_id']) {
+                if ($track['status'] == 'success') {
+                    $persistantIds['imported'][] = $track['persistent_id'];
+                } else {
+                    $persistantIds['not_imported'][] = $track['persistent_id'];
+                }
+            }
+        }
 
-        $this->response = response()->success('Extra tracks imported', $this->resource);
+        Session::put('persistent_ids_imported', $persistantIds['imported']);
+        Session::put('persistent_ids_not_imported', $persistantIds['not_imported']);
     }
 
     public function loadExtraTracks(): void
@@ -63,19 +69,13 @@ class ItunesLibraryExtraTracksImporter
 
             $this->convertExtraTracks();
         } catch (\Throwable $e) {
-
-            $this->response = response()->error('Not found: ' . $this->itunesLibraryExtraTtracksCsv);
+            Logger::log('error', $this->channel, 'Not found: ' . $this->itunesLibraryExtraTtracksCsv);
         }
     }
 
     public function getextraTracks(): array
     {
         return $this->extraTracks;
-    }
-
-    public function getResponse(): JsonResponse
-    {
-        return $this->response;
     }
 
     private function convertExtraTracks(): void

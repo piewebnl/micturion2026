@@ -2,17 +2,18 @@
 
 namespace App\Console\Commands\ItunesLibrary;
 
-use App\Jobs\ItunesLibrary\ItunesLibraryImportExtraTracksJob;
-use App\Jobs\ItunesLibrary\ItunesLibraryImportTracksJob;
-use App\Models\ItunesLibrary\ItunesLibrary;
+use App\Models\Music\Song;
 use App\Models\Music\Album;
 use App\Models\Music\Artist;
-use App\Models\Music\Song;
-use App\Services\ItunesLibrary\ItunesLibraryTracksImporter;
-use App\Services\Music\AlbumCalculatePlayCount;
 use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Session;
+use App\Models\ItunesLibrary\ItunesLibrary;
+use App\Services\Music\AlbumCalculatePlayCount;
+use App\Jobs\ItunesLibrary\ItunesLibraryImportTracksJob;
+use App\Services\ItunesLibrary\ItunesLibraryTracksImporter;
+use App\Jobs\ItunesLibrary\ItunesLibraryImportExtraTracksJob;
+use App\Services\ItunesLibrary\ItunesLibraryExtraTracksImporter;
 
 // php artisan command:ItunesLibraryImportTracks
 class ItunesLibraryImportTracksCommand extends Command
@@ -37,8 +38,12 @@ class ItunesLibraryImportTracksCommand extends Command
         $lastPage = $importer->getLastPage();
 
         // Import Extra Tracks first
-        ItunesLibraryImportExtraTracksJob::dispatchSync();
+        $filename = config('ituneslibrary.itunes_library_extra_tracks_csv_file');
+        $importer = new ItunesLibraryExtraTracksImporter($filename);
+        $importer->import();
 
+
+        dd('done');
         $this->output->progressStart($lastPage);
 
         Logger::deleteChannel($this->channel);
