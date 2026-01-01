@@ -60,7 +60,6 @@
 
 @endphp
 <div class="relative">
-
     @if ($showDelete)
         <button @click="$wire.deleteImage({{ $id }})" class="absolute right-0 m-2"> <svg
                 class="h-6 w-6 text-gray-800 drop-shadow dark:text-white" aria-hidden="true"
