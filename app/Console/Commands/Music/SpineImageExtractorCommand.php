@@ -28,6 +28,7 @@ class SpineImageExtractorCommand extends Command
 
         $albums = Album::with('artist', 'discogsReleases')->whereHas('discogsReleases')->get();
 
+
         $this->output->progressStart($albums->count());
 
         foreach ($albums as $album) {

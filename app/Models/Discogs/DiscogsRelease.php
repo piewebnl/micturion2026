@@ -33,12 +33,11 @@ class DiscogsRelease extends Model
                 'date' => $discogsRelease->date,
                 'format' => $discogsRelease->format,
                 'score' => $discogsRelease->score,
-
                 'country' => $discogsRelease->country,
                 'lowest_price' => $discogsRelease->lowest_price,
                 'comments' => $discogsRelease->comments,
                 'notes' => $discogsRelease->notes,
-                // 'status' => $discogsRelease->status,
+                'status' => $discogsRelease->status,
                 'hash' => $discogsRelease->hash,
                 'artwork_url' => $discogsRelease->artwork_url,
                 'artwork_other_urls' => $discogsRelease->artwork_other_urls,

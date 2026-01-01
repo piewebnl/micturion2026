@@ -24,7 +24,7 @@ class DiscogsReleaseInfoImportCommand extends Command
 
         Logger::echoChannel($this->channel);
 
-        $discogsReleases = DiscogsRelease::whereNull('status')->orWhere('updated_at', '<', Carbon::now()->subMonths(1))->get();
+        $discogsReleases = DiscogsRelease::where('status', 'imported')->orWhere('updated_at', '<', Carbon::now()->subMonths(1))->get();
         $lastPage = $discogsReleases->count();
 
         $this->output->progressStart($lastPage);

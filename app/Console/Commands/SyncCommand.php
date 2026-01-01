@@ -56,8 +56,9 @@ class SyncCommand extends Command
         // $this->call('command:MusicToHiby');
 
         // Discogs
-        $this->call('command:DiscogsCollectionImport');
-        $this->call('command:DiscogsReleaseInfoImport');
+        //$this->call('command:DiscogsCollectionImport');
+        //$this->call('command:DiscogsCollectionMatcher');
+        //$this->call('command:DiscogsReleaseInfoImport');
 
         // Spines
         $this->call('command:SpineImageExtractor');

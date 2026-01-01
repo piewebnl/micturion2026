@@ -40,10 +40,12 @@ class DiscogsApiCollectionRelease extends Model
 
     public function storeFromDiscogsReleaseMatcher($processedRelease)
     {
-        $discogsRelease = new DiscogsRelease;
-        $discogsRelease->fill(
+        $discogsRelease = DiscogsRelease::updateOrCreate(
+
             [
                 'release_id' => $processedRelease['id'],
+            ],
+            [
                 'album_id' => $processedRelease['album_id'] ?? null,
                 'artist' => $processedRelease['artist'],
                 'title' => $processedRelease['title'],
@@ -56,7 +58,7 @@ class DiscogsApiCollectionRelease extends Model
                 'status' => 'imported',
             ]
         );
-        $discogsRelease->store($discogsRelease);
+        return $discogsRelease;
     }
 
     public function storeAllFromDiscogsReleaseMatcher(array $processedReleases)

@@ -66,7 +66,7 @@ class DiscogsCollectionMatcher
 
         $this->collectionRelease->storeAllFromDiscogsReleaseMatcher($processedReleases->toArray());
 
-        $this->response = response()->success('Discogs collection imported', $this->collectionReleases);
+        //$this->response = response()->success('Discogs collection imported', $this->collectionReleases);
     }
 
     public function findMatch($release): ?array

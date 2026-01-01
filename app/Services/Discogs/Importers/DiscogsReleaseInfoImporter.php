@@ -58,6 +58,13 @@ class DiscogsReleaseInfoImporter
                 $imageContents = file_get_contents($artworkBackUrl);
 
                 $localImagePath = storage_path($discogsBackArtworkPath . '/' . $this->discogsRelease['release_id'] . '-' . ($index + 1) . '.jpg');
+
+                // Ensure directory exists
+                $directory = dirname($localImagePath);
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0755, true);
+                }
+
                 file_put_contents($localImagePath, $imageContents);
             }
         }
