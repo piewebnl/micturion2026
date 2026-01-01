@@ -26,7 +26,7 @@ class EnergyPriceApiGetPrice
 
         // Make the GET request
         $url = url()->query($baseUrl, $params);
-        // $response = Http::get($baseUrl, $params);
+        $response = Http::get($baseUrl, $params);
 
         $total = 0;
         $average = 0;
@@ -34,9 +34,9 @@ class EnergyPriceApiGetPrice
         $skip = [];
 
         // Check if the request was successful
-        if (// $response->successful()) {
+        if ($response->successful()) {
             // Get the JSON data as an array or object
-            $data = // $response->json();
+            $data = $response->json();
             foreach ($data['Prices'] as $price) {
 
                 $timeZone = env('APP_TIMEZONE', 'UTC'); // Default to 'UTC' if not set

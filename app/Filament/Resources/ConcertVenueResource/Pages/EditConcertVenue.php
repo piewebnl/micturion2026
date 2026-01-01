@@ -32,9 +32,9 @@ class EditConcertVenue extends EditRecord
                 $item->fill($this->data);
 
                 $imageCreator = new ConcertVenueImage;
-                // $response = $imageCreator->create($item, storage_path() . '/app/public/' . $image);
+                $response = $imageCreator->create($item, storage_path() . '/app/public/' . $image);
 
-                $item->image_url = '/storage/images/festivals/' . // $response->slug;
+                $item->image_url = '/storage/images/festivals/' . $response->slug;
                 $item->update();
             }
         }

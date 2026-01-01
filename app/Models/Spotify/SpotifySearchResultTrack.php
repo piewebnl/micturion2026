@@ -25,12 +25,12 @@ class SpotifySearchResultTrack extends Model
         // Store the track
         $spotifyTrackModel = new SpotifyTrack;
         $spotifyTrack = $this->convertSpotifySearchResultTrackToSpotifyTrack($spotifySearchResultTrack);
-        // $response = $spotifyTrackModel->store($spotifyTrack);
+        $response = $spotifyTrackModel->store($spotifyTrack);
 
         // Store relation
         $songSpotifyTrackModel = new SongSpotifyTrack;
-        $spotifySearchResultTrack->spotify_track_id = // $response->id;
-            $songSpotifyTrack = $this->convertSpotifySearchResultTrackToSongSpotifyTrack($spotifySearchResultTrack);
+        $spotifySearchResultTrack->spotify_track_id = $response->id;
+        $songSpotifyTrack = $this->convertSpotifySearchResultTrackToSongSpotifyTrack($spotifySearchResultTrack);
         $songSpotifyTrackModel->store($songSpotifyTrack);
 
         return $response;

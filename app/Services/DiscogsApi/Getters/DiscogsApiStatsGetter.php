@@ -10,12 +10,12 @@ class DiscogsApiStatsGetter
     {
         $url = config('discogs.discogs_api_url') . 'releases/' . $releaseId . '/stats';
 
-        // $response = Http::get($url);
+        $response = Http::get($url);
 
-        if (// $response->successful()) {
-            $release = // $response->json(); // Returns an associative array
+        if ($response->successful()) {
+            $release = $response->json(); // Returns an associative array
         } else {
-            dd(// $response);
+            dd($response);
         }
 
         return $release;

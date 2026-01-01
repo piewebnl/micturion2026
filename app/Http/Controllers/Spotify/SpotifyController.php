@@ -13,9 +13,9 @@ class SpotifyController extends Controller
         $spotifyConnect = new SpotifyApiConnect;
 
         $spotifyConnect->getApi();
-        // $response = $spotifyConnect->getResponse();
+        $response = $spotifyConnect->getResponse();
 
-        if (// $response->getData()->status == 'success') {
+        if ($response->getData()->status == 'success') {
             session()->flash('success', 'Spotify connection successfull!');
 
             $spotifyReviewSearchFormData = new SpotifyReviewSearchFormData;

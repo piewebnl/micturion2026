@@ -24,9 +24,6 @@ class MirrorDirectory
         $this->excludePatterns = $excludePatterns;
     }
 
-    /**
-     * Mirror a directory from source to destination with progress reporting
-     */
     public function mirror(): bool
     {
         if (!is_dir($this->sourcePath)) {
@@ -40,9 +37,6 @@ class MirrorDirectory
         return $this->copyFiles();
     }
 
-    /**
-     * Count total files to process
-     */
     private function countFiles(): void
     {
         $this->totalFiles = 0;
@@ -183,13 +177,9 @@ class MirrorDirectory
         return preg_match("#^{$regex}$#", $filename) === 1;
     }
 
-    /**
-     * Report progress to terminal
-     */
     private function reportProgress(): void
     {
         $percentage = $this->totalFiles > 0 ? floor(($this->processedFiles / $this->totalFiles) * 100) : 0;
-        //$bar = $this->getProgressBar((int)$percentage);
 
         echo sprintf(
             "\r%3d%% [%d/%d]",

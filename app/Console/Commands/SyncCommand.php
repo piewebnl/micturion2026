@@ -50,7 +50,7 @@ class SyncCommand extends Command
         // $this->call('command:WishlistAlbumPricesScrape');
 
         // To iNas Plex Amp [Local Only]
-        $this->call('command:MusicToPlexAmp');
+        //$this->call('command:MusicToPlexAmp');
 
         // To Hiby
         // $this->call('command:MusicToHiby');
