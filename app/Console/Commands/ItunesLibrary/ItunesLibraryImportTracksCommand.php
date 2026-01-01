@@ -53,11 +53,8 @@ class ItunesLibraryImportTracksCommand extends Command
         Logger::log('info', $this->channel, 'iTunes library changed: ' . date('d-m-Y h:i', strtotime($itunesLibrary->getDateXml())) . ' in xml');
 
         for ($page = 1; $page <= $lastPage; $page++) {
-
             $importer->import($page, $this->perPage);
-
             $this->resource = $importer->getResource();
-
 
             $persistantIds['imported'] = (array) Session::get('persistent_ids_imported');
             $persistantIds['not_imported'] = (array) Session::get('persistent_ids_not_imported');

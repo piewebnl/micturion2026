@@ -3,11 +3,14 @@
 namespace App\Console\Commands\Menu;
 
 use App\Models\Menu\Menu;
-use App\Services\Menu\MenuImageCreator;
 use Illuminate\Console\Command;
+use App\Traits\QueryCache\QueryCache;
+use App\Services\Menu\MenuImageCreator;
 
 class MenuImageCreateCommand extends Command
 {
+    use QueryCache;
+
     protected $signature = 'command:MenuImageCreate';
 
     public function handle(): void

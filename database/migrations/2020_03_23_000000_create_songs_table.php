@@ -17,7 +17,7 @@ return new class extends Migration
             // $table->unsignedInteger('year')->nullable(); // to album
             $table->unsignedTinyInteger('rating')->nullable();
 
-            $table->unsignedTinyInteger('track_number')->nullable();
+            $table->unsignedInteger('track_number')->nullable();
             $table->unsignedTinyInteger('track_count')->nullable();
             $table->unsignedTinyInteger('disc_number')->nullable();
             $table->unsignedTinyInteger('disc_count')->nullable();
