@@ -42,23 +42,19 @@ class MusicToPlexAmpCommand extends Command
         }
 
         Logger::log('info', $this->channel, 'Copy to Plex Amp');
+        Logger::echo($this->channel);
 
-        $rsyncBin = '/opt/homebrew/bin/rsync';
-        $cmd = sprintf(
-            '%s -a --delete --size-only --whole-file --no-compress --info=progress2 ' .
-                "--exclude='.DS_Store' --exclude='._*' %s/ %s/",
-            escapeshellarg($rsyncBin),
-            escapeshellarg($sourcePath),
-            escapeshellarg($destinationPath)
-        );
+        $excludePatterns = ['.DS_Store', '._*'];
+        $mirror = new MirrorDirectory($sourcePath, $destinationPath, $excludePatterns);
 
-        Logger::log('info', $this->channel, 'Running: ' . $cmd);
-        passthru($cmd, $exitCode);
+        $success = $mirror->mirror();
 
-        if ($exitCode === 0) {
-            Logger::log('info', $this->channel, 'Mirror complete.');
+        if ($success) {
+            Logger::log('info', $this->channel, 'Mirror complete. Files processed: ' . $mirror->getProcessedFiles());
+            $this->info('Mirror complete. ' . $mirror->getProcessedFiles() . ' files processed.');
         } else {
-            Logger::log('error', $this->channel, 'Rsync exited with status: ' . $exitCode);
+            Logger::log('error', $this->channel, 'Mirror failed to complete');
+            $this->error('Mirror failed to complete');
         }
 
         Logger::echo($this->channel);
