@@ -19,7 +19,7 @@ class SpotifyAlbumImportJob implements ShouldQueue
 
     private $albumId = 0;
 
-    private // $response;
+    private $response;
 
     public function __construct(int $albumId)
     {

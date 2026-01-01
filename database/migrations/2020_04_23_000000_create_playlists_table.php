@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('parent_name')->nullable();
             $table->string('persistent_id');
             $table->string('parent_persistent_id')->nullable();
-            $table->unsignedTinyInteger('has_changed')->nullable();
+            $table->unsignedInteger('has_changed')->nullable();
             $table->timestamps();
         });
     }

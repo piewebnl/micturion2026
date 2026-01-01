@@ -16,7 +16,7 @@ class SpotifyAlbumCustomIdSearcher
 
     private $spotifySearchResultAlbum;
 
-    private // $response;
+    private $response;
 
     private $resource;
 

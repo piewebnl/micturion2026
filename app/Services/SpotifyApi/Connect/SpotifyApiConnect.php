@@ -14,7 +14,7 @@ class SpotifyApiConnect
 
     private $configValues; // spotify config file
 
-    private // $response;
+    private $response;
 
     private $refreshToken;
 

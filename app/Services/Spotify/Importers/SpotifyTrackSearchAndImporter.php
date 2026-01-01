@@ -19,7 +19,7 @@ class SpotifyTrackSearchAndImporter
 
     private $api;
 
-    private // $response;
+    private $response;
 
     private $resource = [];
 

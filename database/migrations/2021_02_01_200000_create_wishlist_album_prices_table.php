@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('format', 10)->nullable();
 
             $table->float('price', 10, 2)->nullable()->index();
-            $table->unsignedTinyInteger('score', null)->nullable();
+            $table->unsignedInteger('score', null)->nullable();
             // $table->unique(['wishlist_album_id', 'music_store_id']);
             $table->timestamps();
         });

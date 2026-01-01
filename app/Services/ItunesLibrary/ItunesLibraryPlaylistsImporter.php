@@ -25,7 +25,7 @@ class ItunesLibraryPlaylistsImporter
 
     private $totalPlaylists;
 
-    private // $response;
+    private $response;
 
     private $resource = [];
 

@@ -15,7 +15,7 @@ return new class extends Migration
 
             $table->foreignId('spotify_track_id')->constrained('spotify_tracks')->onDelete('cascade');
 
-            $table->unsignedTinyInteger('has_changed')->nullable();
+            $table->unsignedInteger('has_changed')->nullable();
             $table->bigInteger('order');
             $table->timestamps();
         });

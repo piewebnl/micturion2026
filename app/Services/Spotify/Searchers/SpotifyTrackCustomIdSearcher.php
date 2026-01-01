@@ -16,7 +16,7 @@ class SpotifyTrackCustomIdSearcher
 
     private $spotifySearchResultTrack;
 
-    private // $response;
+    private $response;
 
     private $resource;
 

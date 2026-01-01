@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('format', 25)->nullable();
             $table->date('date')->nullable();
             $table->string('country')->nullable();
-            $table->unsignedTinyInteger('score', null)->nullable();
+            $table->unsignedInteger('score', null)->nullable();
             $table->string('status', 20)->nullable();
             $table->unsignedInteger('lowest_price', null)->nullable();
             $table->text('comments')->nullable();

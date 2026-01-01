@@ -14,7 +14,7 @@ return new class extends Migration
 
             $table->foreignId('spotify_album_id')->nullable()->constrained('spotify_albums')->onDelete('cascade');
 
-            $table->unsignedTinyInteger('score', null)->nullable();
+            $table->unsignedInteger('score', null)->nullable();
             $table->string('status'); // valid, warning, invalid
 
             $table->string('search_artist')->nullable();

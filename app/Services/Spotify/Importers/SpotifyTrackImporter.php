@@ -22,7 +22,7 @@ class SpotifyTrackImporter
 
     private $api;
 
-    private // $response;
+    private $response;
 
     private $resource = [];
 
@@ -68,7 +68,6 @@ class SpotifyTrackImporter
         $spotifyTrackCustomIdModel->store($spotifyTrackCustomId);
 
         $this->storeSpotifyTrackValid();
-
     }
 
     private function storeSpotifyTrackValid()

@@ -30,11 +30,9 @@ class ItunesLibraryImportTracksCommand extends Command
     {
 
         // Import Extra Tracks first
-        /*
         $filename = config('ituneslibrary.itunes_library_extra_tracks_csv_file');
         $importer = new ItunesLibraryExtraTracksImporter($filename);
         $importer->import();
-        */
 
         // Import library tracks
         $filterValues['page'] ??= 1;

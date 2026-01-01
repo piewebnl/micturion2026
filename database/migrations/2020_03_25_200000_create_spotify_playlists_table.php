@@ -19,8 +19,8 @@ return new class extends Migration
             $table->integer('total_tracks')->nullable();
             $table->datetime('date')->nullable();
             $table->string('snapshot_id')->nullable();
-            $table->unsignedTinyInteger('snapshot_id_has_changed')->nullable();
-            $table->unsignedTinyInteger('has_changed')->nullable();
+            $table->unsignedInteger('snapshot_id_has_changed')->nullable();
+            $table->unsignedInteger('has_changed')->nullable();
             $table->timestamps();
         });
     }

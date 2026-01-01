@@ -17,7 +17,7 @@ class ItunesLibraryImportPlaylistsJob implements ShouldQueue
 
     private $filterValues = [];
 
-    private // $response;
+    private $response;
 
     public function __construct($filterValues)
     {

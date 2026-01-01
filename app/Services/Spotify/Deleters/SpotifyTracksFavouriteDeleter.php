@@ -20,7 +20,7 @@ class SpotifyTracksFavouriteDeleter
 
     private $allSpotifyTrackIds;
 
-    private // $response;
+    private $response;
 
     public function __construct($api, array $allSpotifyTrackIds)
     {

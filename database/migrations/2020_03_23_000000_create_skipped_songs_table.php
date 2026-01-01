@@ -17,16 +17,16 @@ return new class extends Migration
             $table->string('album_name');
             $table->string('artist_name');
 
-            $table->unsignedTinyInteger('track_number')->nullable();
-            $table->unsignedTinyInteger('track_count')->nullable();
-            $table->unsignedTinyInteger('disc_number')->nullable();
-            $table->unsignedTinyInteger('disc_count')->nullable();
+            $table->unsignedInteger('track_number')->nullable();
+            $table->unsignedInteger('track_count')->nullable();
+            $table->unsignedInteger('disc_number')->nullable();
+            $table->unsignedInteger('disc_count')->nullable();
 
             $table->string('grouping')->nullable();
 
             $table->string('time', 10)->nullable();
             $table->unsignedBigInteger('play_count')->nullable();
-            $table->unsignedTinyInteger('rating')->nullable();
+            $table->unsignedInteger('rating')->nullable();
 
             $table->text('comments', 255)->nullable();
             $table->string('location')->nullable();

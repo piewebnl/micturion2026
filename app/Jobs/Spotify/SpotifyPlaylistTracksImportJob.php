@@ -23,7 +23,7 @@ class SpotifyPlaylistTracksImportJob implements ShouldQueue
 
     private SpotifyPlaylist $spotifyPlaylist;
 
-    private JsonResponse // $response;
+    private JsonResponse $response;
 
     public function __construct(SpotifyPlaylist $spotifyPlaylist, int $page, int $perPage)
     {

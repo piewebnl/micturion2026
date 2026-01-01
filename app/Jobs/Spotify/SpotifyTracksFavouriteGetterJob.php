@@ -16,7 +16,7 @@ class SpotifyTracksFavouriteGetterJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private // $response;
+    private $response;
 
     private int $page = 1;
 

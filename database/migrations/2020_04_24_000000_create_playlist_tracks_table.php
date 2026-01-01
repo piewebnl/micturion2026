@@ -17,7 +17,7 @@ return new class extends Migration
 
             // $table->string('persistent_id', 16);
 
-            $table->unsignedTinyInteger('has_changed')->nullable();
+            $table->unsignedInteger('has_changed')->nullable();
             $table->unsignedInteger('order')->nullable();
             $table->timestamps();
         });

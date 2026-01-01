@@ -17,7 +17,7 @@ class SpotifyPlaylistTracksExporter
 {
     private $api;
 
-    private // $response;
+    private $response;
 
     private $playlist;
 

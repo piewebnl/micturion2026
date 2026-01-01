@@ -15,14 +15,14 @@ return new class extends Migration
             $table->string('persistent_id', 16)->unique();
             $table->string('name');
             // $table->unsignedInteger('year')->nullable(); // to album
-            $table->unsignedTinyInteger('rating')->nullable();
+            $table->unsignedInteger('rating')->nullable();
 
             $table->unsignedInteger('track_number')->nullable();
-            $table->unsignedTinyInteger('track_count')->nullable();
-            $table->unsignedTinyInteger('disc_number')->nullable();
-            $table->unsignedTinyInteger('disc_count')->nullable();
+            $table->unsignedInteger('track_count')->nullable();
+            $table->unsignedInteger('disc_number')->nullable();
+            $table->unsignedInteger('disc_count')->nullable();
 
-            $table->unsignedTinyInteger('favourite')->nullable();
+            $table->unsignedInteger('favourite')->nullable();
 
             $table->string('grouping')->nullable();
 

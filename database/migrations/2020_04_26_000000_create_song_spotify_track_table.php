@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('spotify_track_custom_id')->references('id')->on('spotify_track_custom_ids')->nullable();
             */
 
-            $table->unsignedTinyInteger('score', null)->nullable();
+            $table->unsignedInteger('score', null)->nullable();
             $table->string('status'); // valid, warning, invalid
 
             $table->string('search_artist')->nullable();

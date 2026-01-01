@@ -15,7 +15,7 @@ class SpotifySearchResultTrack extends Model
 
     protected $guarded = [];
 
-    private // $response;
+    private $response;
 
     private $resource = [];
 
@@ -30,9 +30,9 @@ class SpotifySearchResultTrack extends Model
         // Store relation
         $songSpotifyTrackModel = new SongSpotifyTrack;
         $spotifySearchResultTrack->spotify_track_id = // $response->id;
-        $songSpotifyTrack = $this->convertSpotifySearchResultTrackToSongSpotifyTrack($spotifySearchResultTrack);
+            $songSpotifyTrack = $this->convertSpotifySearchResultTrackToSongSpotifyTrack($spotifySearchResultTrack);
         $songSpotifyTrackModel->store($songSpotifyTrack);
 
-        return // $response;
+        return $response;
     }
 }
