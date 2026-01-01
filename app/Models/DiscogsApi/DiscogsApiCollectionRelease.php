@@ -43,7 +43,7 @@ class DiscogsApiCollectionRelease extends Model
         $discogsRelease = DiscogsRelease::updateOrCreate(
 
             [
-                'release_id' => $processedRelease['id'],
+                'release_id' => $processedRelease['release_id'],
             ],
             [
                 'album_id' => $processedRelease['album_id'] ?? null,
@@ -57,6 +57,7 @@ class DiscogsApiCollectionRelease extends Model
                 'hash' => $processedRelease['hash'] ?? null,
                 'status' => 'imported',
             ]
+
         );
         return $discogsRelease;
     }
