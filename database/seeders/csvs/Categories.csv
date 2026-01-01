@@ -1,0 +1,8 @@
+id;name;format_match;image_type;order
+1;Albums;(Album);album;1
+2;EPs;(EP);album;2
+3;Singles;(Single);album;3
+4;Videos;(Video);video;4
+5;Bootlegs;(Bootleg);album;5
+6;Video Bootlegs;(Video-Bootleg);video;6
+7;Songs;(Song);album;7

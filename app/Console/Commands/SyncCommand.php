@@ -50,21 +50,22 @@ class SyncCommand extends Command
         // $this->call('command:WishlistAlbumPricesScrape');
 
         // To iNas Plex Amp [Local Only]
-        //$this->call('command:MusicToPlexAmp');
+        $this->call('command:MusicToPlexAmp');
 
         // To Hiby
         // $this->call('command:MusicToHiby');
 
         // Discogs
-        //$this->call('command:DiscogsCollectionImport');
-        //$this->call('command:DiscogsCollectionMatcher');
-        //$this->call('command:DiscogsReleaseInfoImport');
+        $this->call('command:DiscogsCollectionImport');
+        $this->call('command:DiscogsCollectionMatcher');
+        $this->call('command:DiscogsReleaseInfoImport');
 
         // Spines
         $this->call('command:SpineImageExtractor');
         $this->call('command:SpineImageCreate');
 
         // Spotify
+        /*
         $this->call('command:SpotifyPlaylistsImport');
         $this->call('command:SpotifyPlaylistTracksImport');
         $this->call('command:SpotifyPlaylistTracksExport');
@@ -73,5 +74,6 @@ class SyncCommand extends Command
         $this->call('command:SpotifyPlaylistTrackSongSearch');
         $this->call('command:SpotifySearchAndImportAlbums');
         $this->call('command:SpotifySearchAndImportTracks');
+        */
     }
 }
