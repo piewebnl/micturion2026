@@ -27,9 +27,8 @@ class ItunesLibraryTracksImporter
 
     private $totalTracks;
 
-    private // $response;
+    private $resource;
 
-    private $resource = [];
 
     public function __construct(ItunesLibrary $itunesLibrary)
     {
@@ -41,8 +40,6 @@ class ItunesLibraryTracksImporter
         $this->itunesLibrary->getItunesLibrary();
         $this->itunesLibraryTracks = $this->itunesLibrary->getTracks();
         $this->totalTracks = $this->itunesLibrary->getTotalTracks();
-
-        // $lastDate = Setting::getSetting('itunes_library_xml_date');
 
         $this->calculateLastPage();
     }
@@ -74,8 +71,6 @@ class ItunesLibraryTracksImporter
         if ($this->page == $this->lastPage) {
             Logger::log('info', 'itunes_library_import_tracks', 'Tracks importerd: ' . $this->totalTracks);
         }
-
-        $this->response = response()->success('Tracks imported', $this->resource);
     }
 
     private function getItunesLibraryAllTracks()
@@ -149,9 +144,9 @@ class ItunesLibraryTracksImporter
         return $this;
     }
 
-    public function getResponse(): JsonResponse
+    public function getResource()
     {
 
-        return $this->response;
+        return $this->resource;
     }
 }

@@ -24,9 +24,19 @@ class ItunesLibraryImportTracksCommand extends Command
 
     private int $perPage = 500;
 
+    private $resource;
+
     public function handle()
     {
 
+        // Import Extra Tracks first
+        /*
+        $filename = config('ituneslibrary.itunes_library_extra_tracks_csv_file');
+        $importer = new ItunesLibraryExtraTracksImporter($filename);
+        $importer->import();
+        */
+
+        // Import library tracks
         $filterValues['page'] ??= 1;
         $filterValues['per_page'] ??= $this->perPage;
 
@@ -37,25 +47,34 @@ class ItunesLibraryImportTracksCommand extends Command
         $importer->setPerPage($this->perPage);
         $lastPage = $importer->getLastPage();
 
-        // Import Extra Tracks first
-        $filename = config('ituneslibrary.itunes_library_extra_tracks_csv_file');
-        $importer = new ItunesLibraryExtraTracksImporter($filename);
-        $importer->import();
-
-
-        dd('done');
         $this->output->progressStart($lastPage);
 
         Logger::deleteChannel($this->channel);
         Logger::log('info', $this->channel, 'iTunes library changed: ' . date('d-m-Y h:i', strtotime($itunesLibrary->getDateXml())) . ' in xml');
 
         for ($page = 1; $page <= $lastPage; $page++) {
-            ItunesLibraryImportTracksJob::dispatchSync(
-                [
-                    'page' => $page,
-                    'per_page' => $filterValues['per_page'],
-                ]
-            );
+
+            $importer->import($page, $this->perPage);
+
+            $this->resource = $importer->getResource();
+
+
+            $persistantIds['imported'] = (array) Session::get('persistent_ids_imported');
+            $persistantIds['not_imported'] = (array) Session::get('persistent_ids_not_imported');
+
+            foreach ($this->resource['tracks'] as $track) {
+
+                if ($track['persistent_id']) {
+                    if ($track['status'] == 'success') {
+                        $persistantIds['imported'][] = $track['persistent_id'];
+                    } else {
+                        $persistantIds['not_imported'][] = $track['persistent_id'];
+                    }
+                }
+            }
+
+            Session::put('persistent_ids_imported', $persistantIds['imported']);
+            Session::put('persistent_ids_not_imported', $persistantIds['not_imported']);
 
             $this->output->progressAdvance();
         }
