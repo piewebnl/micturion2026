@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Menu\Menu;
-use Illuminate\View\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

@@ -4,18 +4,21 @@ namespace App\Models\Concert;
 
 use App\Scopes\GlobalScopesTrait;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\EloquentSortable\Sortable;
-use Spatie\EloquentSortable\SortableTrait;
 
-class ConcertItem extends Model implements Sortable
+// use Spatie\EloquentSortable\Sortable;
+// use Spatie\EloquentSortable\SortableTrait;
+
+class ConcertItem extends Model
 {
     use GlobalScopesTrait;
-    use SortableTrait;
+    // use SortableTrait;
 
+    /*
     public $sortable = [
         'order_column_name' => 'order',
         'sort_when_creating' => true,
     ];
+    */
 
     public $with = ['concertArtist', 'concertImage'];
 

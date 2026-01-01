@@ -75,4 +75,5 @@ class DiscogsApiCollectionGetter
 
         return $this->total;
     }
+    
 }

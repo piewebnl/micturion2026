@@ -2,10 +2,10 @@
 
 namespace App\Services\ItunesLibrary;
 
+use App\Models\ItunesLibrary\ItunesLibraryTrack;
 use App\Traits\Logger\Logger;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
-use App\Models\ItunesLibrary\ItunesLibraryTrack;
 
 // Imports extra itunes library tracks from a text file to the db
 class ItunesLibraryExtraTracksImporter
@@ -20,7 +20,6 @@ class ItunesLibraryExtraTracksImporter
 
     private string $channel = 'itunes_library_import_extra_tracks';
 
-
     public function __construct(string $itunesLibraryExtraTracksCsv)
     {
         $this->itunesLibraryExtraTracksCsv = ltrim($itunesLibraryExtraTracksCsv, '/');
@@ -31,6 +30,7 @@ class ItunesLibraryExtraTracksImporter
     {
         if (!$this->extraTracks) {
             Logger::log('error', $this->channel, 'No extra tracks found');
+
             return;
         }
 

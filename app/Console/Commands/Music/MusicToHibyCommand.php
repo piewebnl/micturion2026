@@ -29,7 +29,7 @@ class MusicToHibyCommand extends Command
 
         set_time_limit(0);
 
-        $local = rtrim(env('PATH_TO_MUSIC'), '/');
+        $local = rtrim(env('MUSIC_PATH'), '/');
         $disk = Storage::disk('hiby');
 
         if (App::environment() !== 'local') {

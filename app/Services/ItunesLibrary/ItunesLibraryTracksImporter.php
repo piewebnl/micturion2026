@@ -5,9 +5,7 @@ namespace App\Services\ItunesLibrary;
 use App\Helpers\PaginationHelper;
 use App\Models\ItunesLibrary\ItunesLibrary;
 use App\Models\ItunesLibrary\ItunesLibraryTrack;
-use App\Models\Setting;
 use App\Traits\Logger\Logger;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
 // Import iTunes library tracks (songs) to db
@@ -28,7 +26,6 @@ class ItunesLibraryTracksImporter
     private $totalTracks;
 
     private $resource;
-
 
     public function __construct(ItunesLibrary $itunesLibrary)
     {

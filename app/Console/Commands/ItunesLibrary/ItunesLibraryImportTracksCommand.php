@@ -2,18 +2,16 @@
 
 namespace App\Console\Commands\ItunesLibrary;
 
-use App\Models\Music\Song;
+use App\Models\ItunesLibrary\ItunesLibrary;
 use App\Models\Music\Album;
 use App\Models\Music\Artist;
+use App\Models\Music\Song;
+use App\Services\ItunesLibrary\ItunesLibraryExtraTracksImporter;
+use App\Services\ItunesLibrary\ItunesLibraryTracksImporter;
+use App\Services\Music\AlbumCalculatePlayCount;
 use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Session;
-use App\Models\ItunesLibrary\ItunesLibrary;
-use App\Services\Music\AlbumCalculatePlayCount;
-use App\Jobs\ItunesLibrary\ItunesLibraryImportTracksJob;
-use App\Services\ItunesLibrary\ItunesLibraryTracksImporter;
-use App\Jobs\ItunesLibrary\ItunesLibraryImportExtraTracksJob;
-use App\Services\ItunesLibrary\ItunesLibraryExtraTracksImporter;
 
 // php artisan command:ItunesLibraryImportTracks
 class ItunesLibraryImportTracksCommand extends Command

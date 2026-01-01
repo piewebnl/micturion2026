@@ -3,9 +3,9 @@
 namespace App\Console\Commands\Menu;
 
 use App\Models\Menu\Menu;
-use Illuminate\Console\Command;
-use App\Traits\QueryCache\QueryCache;
 use App\Services\Menu\MenuImageCreator;
+use App\Traits\QueryCache\QueryCache;
+use Illuminate\Console\Command;
 
 class MenuImageCreateCommand extends Command
 {

@@ -126,294 +126,293 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+        // Custom
+        'config' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/config.log'),
+            'days' => 1,
+        ],
 
-    ],
-    // Custom
-    'config' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/config.log'),
-        'days' => 1,
-    ],
+        'menu_create_images' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/menu_create_images.log'),
+            'days' => 1,
+        ],
 
-    'menu_create_images' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/menu_create_images.log'),
-        'days' => 1,
-    ],
+        'menu_create_images' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/menu_create_images.log'),
+            'days' => 1,
+        ],
 
-    'menu_create_images' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/menu_create_images.log'),
-        'days' => 1,
-    ],
+        'energy_prices' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/energy_prices.log'),
+            'days' => 1,
+        ],
 
-    'energy_prices' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/energy_prices.log'),
-        'days' => 1,
-    ],
+        'concert_create_images' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/concert_create_images.log'),
+            'days' => 1,
+        ],
 
-    'concert_create_images' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/concert_create_images.log'),
-        'days' => 1,
-    ],
+        'concert_festival_create_images' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/concert_festival_create_images.log'),
+            'days' => 1,
+        ],
 
-    'concert_festival_create_images' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/concert_festival_create_images.log'),
-        'days' => 1,
-    ],
+        'album_create_images' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/album_create_images.log'),
+            'days' => 1,
+        ],
 
-    'album_create_images' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/album_create_images.log'),
-        'days' => 1,
-    ],
+        'spine_image_extractor' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spine_image_extractor.log'),
+            'days' => 1,
+        ],
 
-    'spine_image_extractor' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spine_image_extractor.log'),
-        'days' => 1,
-    ],
+        'spine_image_create_images' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spine_image_create_images.log'),
+            'days' => 1,
+        ],
 
-    'spine_image_create_images' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spine_image_create_images.log'),
-        'days' => 1,
-    ],
+        'album_image_copy_to_ftp' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/album_image_copy_to_ftp.log'),
+            'days' => 1,
+        ],
 
-    'album_image_copy_to_ftp' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/album_image_copy_to_ftp.log'),
-        'days' => 1,
-    ],
+        'album_image_others_copy_to_ftp' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/album_image_others_copy_to_ftp.log'),
+            'days' => 1,
+        ],
 
-    'album_image_others_copy_to_ftp' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/album_image_others_copy_to_ftp.log'),
-        'days' => 1,
-    ],
+        'best_of_artwork_image_copy_to_ftp' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/best_of_artwork_image_copy_to_ftp.log'),
+            'days' => 1,
+        ],
 
-    'best_of_artwork_image_copy_to_ftp' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/best_of_artwork_image_copy_to_ftp.log'),
-        'days' => 1,
-    ],
+        'music_to_plex_amp' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/music_to_plex_amp.log'),
+            'days' => 1,
+        ],
 
-    'music_to_plex_amp' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/music_to_plex_amp.log'),
-        'days' => 1,
-    ],
+        'music_to_hiby' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/music_to_hiby.log'),
+            'days' => 1,
+        ],
 
-    'music_to_hiby' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/music_to_hiby.log'),
-        'days' => 1,
-    ],
+        'itunes_library_xml_copy_to_ftp' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/itunes_library_xml_copy_to_ftp.log'),
+            'days' => 1,
+        ],
 
-    'itunes_library_xml_copy_to_ftp' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/itunes_library_xml_copy_to_ftp.log'),
-        'days' => 1,
-    ],
+        'itunes_library_importer' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/itunes_library_importer.log'),
+            'days' => 1,
+        ],
 
-    'itunes_library_importer' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/itunes_library_importer.log'),
-        'days' => 1,
-    ],
+        'itunes_library_import_playlists' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/itunes_library_import_playlists.log'),
+            'days' => 1,
+        ],
 
-    'itunes_library_import_playlists' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/itunes_library_import_playlists.log'),
-        'days' => 1,
-    ],
+        'itunes_library_import_playlist_tracks' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/itunes_library_import_playlist_tracks.log'),
+            'days' => 1,
+        ],
 
-    'itunes_library_import_playlist_tracks' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/itunes_library_import_playlist_tracks.log'),
-        'days' => 1,
-    ],
+        'itunes_library_import_tracks' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/itunes_library_import_tracks.log'),
+            'days' => 1,
+        ],
 
-    'itunes_library_import_tracks' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/itunes_library_import_tracks.log'),
-        'days' => 1,
-    ],
+        'itunes_library_import_extra_tracks' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/itunes_library_import_extra_tracks.log'),
+            'days' => 1,
+        ],
 
-    'itunes_library_import_extra_tracks' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/itunes_library_import_extra_tracks.log'),
-        'days' => 1,
-    ],
+        'itunes_library_import_tracks_favourite' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/itunes_library_import_tracks_favourite.log'),
+            'days' => 1,
+        ],
 
-    'itunes_library_import_tracks_favourite' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/itunes_library_import_tracks_favourite.log'),
-        'days' => 1,
-    ],
+        'itunes_library_import_last_fm_play_counts' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/itunes_library_import_last_fm_play_counts.log'),
+            'days' => 1,
+        ],
 
-    'itunes_library_import_last_fm_play_counts' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/itunes_library_import_last_fm_play_counts.log'),
-        'days' => 1,
-    ],
+        'itunes_library_checker' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/itunes_library_checker.log'),
+            'days' => 1,
+        ],
 
-    'itunes_library_checker' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/itunes_library_checker.log'),
-        'days' => 1,
-    ],
+        'concert_venue_import_csv' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/concert_venue_import_csv.log'),
+            'days' => 1,
+        ],
 
-    'concert_venue_import_csv' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/concert_venue_import_csv.log'),
-        'days' => 1,
-    ],
+        'concert_artist_import_csv' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/concert_artist_import_csv.log'),
+            'days' => 1,
+        ],
 
-    'concert_artist_import_csv' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/concert_artist_import_csv.log'),
-        'days' => 1,
-    ],
+        'concert_festival_import_csv' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/concert_festival_import_csv.log'),
+            'days' => 1,
+        ],
+        'concert_item_import_csv' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/concert_item_import_csv.log'),
+            'days' => 1,
+        ],
+        'concert_import_csv' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/concert_import_csv.log'),
+            'days' => 1,
+        ],
+        'concert_image_copy_from_ftp' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/concert_image_copy_from_ftp.log'),
+            'days' => 1,
+        ],
+        'concert_festival_image_import' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/concert_festival_image_import.log'),
+            'days' => 1,
+        ],
+        'spotify_api_connect' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_api_connect.log'),
+            'days' => 1,
+        ],
 
-    'concert_festival_import_csv' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/concert_festival_import_csv.log'),
-        'days' => 1,
-    ],
-    'concert_item_import_csv' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/concert_item_import_csv.log'),
-        'days' => 1,
-    ],
-    'concert_import_csv' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/concert_import_csv.log'),
-        'days' => 1,
-    ],
-    'concert_image_copy_from_ftp' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/concert_image_copy_from_ftp.log'),
-        'days' => 1,
-    ],
-    'concert_festival_image_import' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/concert_festival_image_import.log'),
-        'days' => 1,
-    ],
-    'spotify_api_connect' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_api_connect.log'),
-        'days' => 1,
-    ],
+        'spotify_import' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_import.log'),
+            'days' => 1,
+        ],
+        'spotify_playlist_tracks_import' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_playlist_tracks_import.log'),
+            'days' => 1,
+        ],
+        'spotify_playlists_import' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_playlists_import.log'),
+            'days' => 1,
+        ],
+        'spotify_search_and_import_tracks' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_search_and_import_tracks.log'),
+            'days' => 1,
+        ],
+        'spotify_import_csv_custom_track_ids' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_import_csv_custom_track_ids.log'),
+            'days' => 1,
+        ],
+        'spotify_import_tracks_unavailable' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_import_tracks_unavailable.log'),
+            'days' => 1,
+        ],
+        'spotify_search_and_import_albums' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_search_and_import_albums.log'),
+            'days' => 1,
+        ],
+        'spotify_import_csv_custom_album_ids' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_import_csv_custom_album_ids.log'),
+            'days' => 1,
+        ],
+        'spotify_import_albums_unavailable' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_import_albums_unavailable.log'),
+            'days' => 1,
+        ],
+        'spotify_export' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_export.log'),
+            'days' => 1,
+        ],
+        'spotify_playlists_tracks_export' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_playlists_tracks_export.log'),
+            'days' => 1,
+        ],
+        'spotify_tracks_favourite_export' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_tracks_favourite_export.log'),
+            'days' => 1,
+        ],
+        'spotify_albums_export' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spotify_albums_export.log'),
+            'days' => 1,
+        ],
+        'wishlist_albums_scrape_prices' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/wishlist_albums_scrape_prices.log'),
+            'days' => 1,
+        ],
+        'wishlist_album_import_csv' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/wishlist_album_import_csv.log'),
+            'days' => 1,
+        ],
 
-    'spotify_import' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_import.log'),
-        'days' => 1,
-    ],
-    'spotify_playlist_tracks_import' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_playlist_tracks_import.log'),
-        'days' => 1,
-    ],
-    'spotify_playlists_import' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_playlists_import.log'),
-        'days' => 1,
-    ],
-    'spotify_search_and_import_tracks' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_search_and_import_tracks.log'),
-        'days' => 1,
-    ],
-    'spotify_import_csv_custom_track_ids' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_import_csv_custom_track_ids.log'),
-        'days' => 1,
-    ],
-    'spotify_import_tracks_unavailable' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_import_tracks_unavailable.log'),
-        'days' => 1,
-    ],
-    'spotify_search_and_import_albums' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_search_and_import_albums.log'),
-        'days' => 1,
-    ],
-    'spotify_import_csv_custom_album_ids' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_import_csv_custom_album_ids.log'),
-        'days' => 1,
-    ],
-    'spotify_import_albums_unavailable' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_import_albums_unavailable.log'),
-        'days' => 1,
-    ],
-    'spotify_export' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_export.log'),
-        'days' => 1,
-    ],
-    'spotify_playlists_tracks_export' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_playlists_tracks_export.log'),
-        'days' => 1,
-    ],
-    'spotify_tracks_favourite_export' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_tracks_favourite_export.log'),
-        'days' => 1,
-    ],
-    'spotify_albums_export' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/spotify_albums_export.log'),
-        'days' => 1,
-    ],
-    'wishlist_albums_scrape_prices' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/wishlist_albums_scrape_prices.log'),
-        'days' => 1,
-    ],
-    'wishlist_album_import_csv' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/wishlist_album_import_csv.log'),
-        'days' => 1,
-    ],
+        'wishlist_albums_prices_local_to_live' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/wishlist_albums_prices_local_to_live.log'),
+            'days' => 1,
+        ],
 
-    'wishlist_albums_prices_local_to_live' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/wishlist_albums_prices_local_to_live.log'),
-        'days' => 1,
-    ],
+        'wishlist_albums_live_to_local' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/wishlist_albums_live_to_local.log'),
+            'days' => 1,
+        ],
 
-    'wishlist_albums_live_to_local' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/wishlist_albums_live_to_local.log'),
-        'days' => 1,
-    ],
+        'html_scraper' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/html_scraper.log'),
+            'days' => 1,
+        ],
 
-    'html_scraper' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/html_scraper.log'),
-        'days' => 1,
-    ],
+        'discogs_collection_importer' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/discogs_collection_importer.log'),
+            'days' => 1,
+        ],
 
-    'discogs_collection_importer' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/discogs_collection_importer.log'),
-        'days' => 1,
-    ],
-
-    'discogs_release_info_importer' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/discogs_release_info_importer.log'),
-        'days' => 1,
+        'discogs_release_info_importer' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/discogs_release_info_importer.log'),
+            'days' => 1,
+        ],
     ],
 
 ];

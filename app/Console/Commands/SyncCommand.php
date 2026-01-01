@@ -43,14 +43,17 @@ class SyncCommand extends Command
         $this->call('command:ConcertFestivalImageCreate');
 
         // Wishlist Prices [Local Only]
-        $this->call('command:WishlistAlbumLocalDbSync');
-        $this->call('command:WishlistAlbumPricesLocalToLive');
+        // $this->call('command:WishlistAlbumLocalDbSync');
+        // $this->call('command:WishlistAlbumPricesLocalToLive');
 
         // Wishlist Prices
-        $this->call('command:WishlistAlbumPricesScrape');
+        // $this->call('command:WishlistAlbumPricesScrape');
 
         // To iNas Plex Amp [Local Only]
         $this->call('command:MusicToPlexAmp');
+
+        // To Hiby
+        // $this->call('command:MusicToHiby');
 
         // Discogs
         $this->call('command:DiscogsCollectionImport');
