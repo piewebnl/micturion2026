@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Ramsey\Uuid\Type\Time;
 
 class DatabaseSeeder extends Seeder
 {
@@ -29,5 +30,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SpotifyTrackCustomIdSeeder::class);
         $this->call(SpotifyTrackUnavailableSeeder::class);
         $this->call(DiscogsReleaseCustomIdSeeder::class);
+
+        // Cannot seed these because of artist/album constraints
+        //$this->call(TiermakerArtistSeeder::class);
+        //$this->call(TiermakerAlbumSeeder::class);
     }
 }
