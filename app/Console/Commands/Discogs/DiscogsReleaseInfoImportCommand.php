@@ -21,7 +21,13 @@ class DiscogsReleaseInfoImportCommand extends Command
         Logger::deleteChannel($this->channel);
         Logger::echoChannel($this->channel, $this);
 
-        $discogsReleases = DiscogsRelease::where('status', 'matched')->orWhere('status', 'custom')->orWhere('updated_at', '<', Carbon::now()->subMonths(1))->get();
+        $discogsReleases = DiscogsRelease::where('status_info', null)->orWhere('status', 'custom')->orWhere('updated_at', '<', Carbon::now()->subMonths(1))->get();
+
+        if ($discogsReleases->isEmpty()) {
+            Logger::log('error', $this->channel, 'No discogs releases', [], $this);
+            return;
+        }
+
         $lastPage = $discogsReleases->count();
 
         $this->output->progressStart($lastPage);

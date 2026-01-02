@@ -28,7 +28,6 @@ class SpineImageCreateCommand extends Command
             ->orderBy('id', 'asc')
             ->pluck('id');
 
-
         if ($ids->isEmpty()) {
             Logger::log('error', $this->channel, 'No albums with discogs releases yet to create spine images', [], $this);
             return;

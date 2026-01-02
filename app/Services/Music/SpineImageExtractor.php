@@ -11,13 +11,10 @@ class SpineImageExtractor
 
     public string $destSlug;
 
-    private string $spineImagesExtractedPath;
-
     public function __construct(string $filename, $destSlug)
     {
         $this->filename = $filename;
         $this->destSlug = $destSlug;
-        $this->spineImagesExtractedPath = 'public/spine-images-extracted';
     }
 
     public function extract(): string|false
@@ -63,9 +60,9 @@ class SpineImageExtractor
         imagejpeg($spine, null, 92);
         $data = ob_get_clean();
 
-        $path = $this->spineImagesExtractedPath . '/' . $this->destSlug . '.jpg';
+        $path = $this->destSlug . '.jpg';
 
-        Storage::disk('local')->put($path, $data);
+        Storage::disk('spine_images_extracted')->put($path, $data);
 
         return Storage::url($path);
     }

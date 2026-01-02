@@ -24,8 +24,8 @@ class SpineImageExtractorCommand extends Command
 
         $albums = Album::with('artist', 'discogsReleases')->whereHas('discogsReleases')->get();
 
-        if (!$albums) {
-            Logger::log('error', $this->channel, 'No albums with discogs releases yet to extract spine images', [], $this);
+        if ($albums->isEmpty()) {
+            Logger::log('error', $this->channel, 'No albums, or no matched or no discogs release info yet to extract spine images', [], $this);
             return;
         }
 
@@ -34,6 +34,7 @@ class SpineImageExtractorCommand extends Command
         foreach ($albums as $album) {
 
             foreach ($album->discogsReleases as $discogsRelease) {
+
 
                 if ($discogsRelease['format'] == 'CD') {
 

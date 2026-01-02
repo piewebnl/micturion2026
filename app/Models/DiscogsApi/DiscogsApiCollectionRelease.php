@@ -27,7 +27,7 @@ class DiscogsApiCollectionRelease extends Model
                 'title' => $discogsApiCollectionRelease['basic_information']['title'],
                 'score' => $discogsApiCollectionRelease['score'] ?? null,
                 'date' => $discogsApiCollectionRelease['released'] ?? null,
-                'format' => $discogsApiCollectionRelease['format'] ?? null,
+                'format' => $discogsApiCollectionRelease['basic_information']['formats'][0]['name'] ?? null,
                 'url' => $discogsApiCollectionRelease['basic_information']['resource_url'],
                 'artwork_url' => $discogsApiCollectionRelease['basic_information']['thumb'],
                 'comments' => $discogsApiCollectionRelease['comments'] ?? null,

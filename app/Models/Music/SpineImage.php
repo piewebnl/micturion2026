@@ -75,28 +75,12 @@ class SpineImage extends Model
         );
 
         Logger::log(
-            'info',
+            'notice',
             $this->channel,
             'Spine image created: ' . $this->album->artist->name . ' - ' . $this->album->name
         );
     }
 
-    /*
-    public function remove(Album $album, $slug)
-    {
-        $imageDeleter = new ImageDeleter($this->type);
-        $imageDeleter->delete($albumImage->slug);
-
-        // Delete in db
-        $albumImage = ConcertImage::destroy($album->id);
-
-        $this->response = response()->success('Concert image deleted ' . $this->album->name);
-
-        Logger::log('info', $this->channel, 'Concert image deleted  ' . $this->album->name);
-
-        return $albumImage;
-    }
-        */
 
     public function existsInDb()
     {
