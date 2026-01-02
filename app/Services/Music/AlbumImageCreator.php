@@ -11,12 +11,16 @@ class AlbumImageCreator
     public function createAlbumImage(int $id)
     {
 
+        $status = false;
+
         $album = Album::with(['Artist', 'Category'])->find($id);
 
         if ($album) {
 
             $albumImage = new AlbumImage;
-            $albumImage->create($album);
+            $status = $albumImage->create($album);
         }
+
+        return $status;
     }
 }

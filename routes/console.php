@@ -35,6 +35,3 @@ Schedule::command('command:SpotifySearchAndImportTracks')->hourly();
 // Backups
 Schedule::command('backup:clean')->daily()->at('06:00');
 Schedule::command('backup:run')->daily()->at('07:00');
-
-// Energy Price Alerts
-// Schedule::command('command:EnergyPriceAlert')->daily()->at('20:00');

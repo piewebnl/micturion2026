@@ -28,18 +28,27 @@ class AlbumImageCreateCommand extends Command
         $ids = Album::with(['Album', 'AlbumArtist'])->orderBy('id', 'asc')->pluck('id');
 
         if (!$ids) {
-            Logger::log('error', $this->channel, 'No album items found');
-
+            Logger::log('error', $this->channel, 'No album items found', [], $this);
             return;
         }
+
+        $clearCache = false;
 
         $this->output->progressStart(count($ids));
 
         foreach ($ids as $id) {
             $albumImageCreator = new AlbumImageCreator;
-            $albumImageCreator->createAlbumImage($id);
+            $status = $albumImageCreator->createAlbumImage($id);
+            if ($status) {
+                $clearCache = true;
+            }
             $this->output->progressAdvance();
         }
+
+        if ($clearCache) {
+            $this->clearCache('music', $this->channel, $this);
+        }
+
         $this->output->progressFinish();
     }
 }
