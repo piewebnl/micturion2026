@@ -20,7 +20,7 @@ class FtpDownloader
 
         if (file_exists($destination)) {
             $localModified = filemtime($destination);
-            if ($localModified !== false && $remoteModified <= $localModified) {
+            if ($localModified !== false && $remoteModified !== false && $remoteModified <= $localModified) {
                 Logger::log(
                     'info',
                     $channel,

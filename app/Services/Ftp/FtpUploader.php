@@ -18,6 +18,20 @@ class FtpUploader
         ];
 
         if (file_exists(($source))) {
+            $localModified = filemtime($source);
+            if (Storage::disk('ftp')->exists($destination)) {
+                $remoteModified = Storage::disk('ftp')->lastModified($destination);
+                if ($localModified !== false && $remoteModified !== false && $remoteModified >= $localModified) {
+                    Logger::log(
+                        'info',
+                        $channel,
+                        'Skipped (up-to-date): ' . basename($source),
+                        $resource
+                    );
+
+                    return;
+                }
+            }
 
             $fileContents = Storage::disk('ftp')->put($destination, file_get_contents($source));
             if ($fileContents) {

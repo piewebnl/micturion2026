@@ -52,8 +52,6 @@ class ConcertFestivalImageDownloadFromFtpCommand extends Command
             $this->output->progressAdvance();
         }
 
-        // $this->clearCache('concerts');
-
         $this->output->progressFinish();
     }
 }
