@@ -63,6 +63,7 @@
         {{ $slot }}
     </main>
 
+
     @persist('toaster')
     @endpersist
     @livewireScripts

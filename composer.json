@@ -19,6 +19,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "league/flysystem-ftp": "^3.29",
+        "livewire/livewire": "^3.7",
         "livewire/volt": "^1.10",
         "matto1990/lastfm-api": "^1.6",
         "opcodesio/log-viewer": "^3.21",
