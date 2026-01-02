@@ -61,6 +61,7 @@ class DiscogsCollectionMatcher
             );
 
             $release['album_id'] = $album->id;
+            $release['status'] = 'skipped';
             $release['score'] = 100;
             return $release->toArray();
         }
@@ -75,6 +76,7 @@ class DiscogsCollectionMatcher
                 $this->command
             );
             $release['album_id'] = $match['album']->id;
+            $release['status'] = 'matched';
             $release['score'] = max(0, round($match['score']) - 1);
         }
         return $release->toArray();
@@ -130,6 +132,10 @@ class DiscogsCollectionMatcher
 
         foreach ($skipped as $skip) {
             $album = Album::where('persistent_id', $skip['persistent_album_id'])->first();
+
+            if (!$album) {
+                continue;
+            }
             $discogsRelease = DiscogsRelease::where('album_id', $album->id)->first();
 
             if ($discogsRelease) {

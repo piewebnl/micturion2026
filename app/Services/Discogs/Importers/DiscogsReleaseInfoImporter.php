@@ -25,35 +25,22 @@ class DiscogsReleaseInfoImporter
             return;
         }
 
-        // Image Urls
+        // Handle images
         $imageUrls = [];
         foreach ($release['images'] as $image) {
             $imageUrls[] = $image['uri'];
         }
-
-        $this->discogsRelease->fill([
-            'status' => 'imported',
-            'notes' => $release['notes'] ?? null,
-            'country' => $release['country'] ?? null,
-            'date' => $release['released'] ?? null,
-            'url' => $release['uri'] ?? null,
-            'artwork_other_urls' => $imageUrls,
-            'lowest_price' => $release['lowest_price'] ?? 0,
-            'satus' => 'scraped',
-
-        ]);
-
-        $this->downloadReleaseImage();
-
-        $this->discogsRelease->store($this->discogsRelease);
+        $release['artwork_other_urls'] = $imageUrls;
+        $this->downloadReleaseImage($imageUrls);
+        $this->discogsRelease->storeFromDiscogsApiRelease($release);
     }
 
-    private function downloadReleaseImage()
+    private function downloadReleaseImage($imageUrls)
     {
 
         $discogsBackArtworkPath = config('discogs.discogs_back_artwork_path');
 
-        foreach ($this->discogsRelease['artwork_other_urls'] as $index => $artworkBackUrl) {
+        foreach ($imageUrls as $index => $artworkBackUrl) {
             if ($artworkBackUrl != '') {
                 $imageContents = file_get_contents($artworkBackUrl);
 

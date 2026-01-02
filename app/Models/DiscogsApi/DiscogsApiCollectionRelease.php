@@ -13,9 +13,10 @@ class DiscogsApiCollectionRelease extends Model
 
     protected $guarded = [];
 
-    // CONVERTER HOORT HIER NIET?
     public function storeFromDiscogApiCollectionRelease(array $discogsApiCollectionRelease)
     {
+
+        echo $discogsApiCollectionRelease['basic_information']['artists'][0]['name'] . "\r\n";
 
         $discogsRelease = DiscogsRelease::updateOrCreate(
 
@@ -24,18 +25,20 @@ class DiscogsApiCollectionRelease extends Model
             ],
             [
                 'album_id' => $discogsApiCollectionRelease['album_id'] ?? null,
-                'artist' => $discogsApiCollectionRelease['basic_information']['artists'][0]['name'],
+                'artist' => $discogsApiCollectionRelease['basic_information']['artists'][0]['name'] ?? 'NULL',
                 'title' => $discogsApiCollectionRelease['basic_information']['title'],
                 'score' => $discogsApiCollectionRelease['score'] ?? null,
                 'date' => $discogsApiCollectionRelease['released'] ?? null,
                 'format' => $discogsApiCollectionRelease['format'] ?? null,
-                // 'url' => $discogsApiCollectionRelease['basic_information']['resource_url'],
+                'url' => $discogsApiCollectionRelease['basic_information']['resource_url'],
                 'artwork_url' => $discogsApiCollectionRelease['basic_information']['thumb'],
                 'comments' => $discogsApiCollectionRelease['comments'] ?? null,
                 'hash' => $discogsApiCollectionRelease['hash'] ?? null,
                 'status' => 'imported',
             ]
         );
+
+        return $discogsRelease;
     }
 
     public function storeFromDiscogsReleaseMatcher($processedRelease)
@@ -55,7 +58,7 @@ class DiscogsApiCollectionRelease extends Model
                 'artwork_url' => $processedRelease['artwork_url'],
                 'comments' => $processedRelease['comments'] ?? null,
                 'hash' => $processedRelease['hash'] ?? null,
-                'status' => 'imported',
+                'status' => $processedRelease['status'] ?? null,
             ]
 
         );

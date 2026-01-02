@@ -24,11 +24,11 @@ class DiscogsRelease extends Model
         self::updateOrCreate(
             [
                 'release_id' => $discogsRelease->release_id,
-                'url' => $discogsRelease->url,
             ],
             [
                 'album_id' => $discogsRelease->album_id,
                 'artist' => $discogsRelease->artist,
+
                 'title' => $discogsRelease->title,
                 'date' => $discogsRelease->date,
                 'format' => $discogsRelease->format,
@@ -39,8 +39,33 @@ class DiscogsRelease extends Model
                 'notes' => $discogsRelease->notes,
                 'status' => $discogsRelease->status,
                 'hash' => $discogsRelease->hash,
+                'url' => $discogsRelease->url,
                 'artwork_url' => $discogsRelease->artwork_url,
                 'artwork_other_urls' => $discogsRelease->artwork_other_urls,
+            ]
+        );
+    }
+
+    public function storeFromDiscogsApiRelease($discogsApiRelease): void
+    {
+
+        dd($discogsApiRelease);
+        self::updateOrCreate(
+            [
+                'release_id' => $discogsApiRelease['id'],
+
+            ],
+            [
+                'artist' => $discogsApiRelease['artist'],
+                'title' => $discogsApiRelease['title'],
+                'url' => $discogsApiRelease['uri'],
+                'notes' => $discogsApiRelease['notes'] ?? null,
+                'country' => $discogsApiRelease['country'] ?? null,
+                'date' => $discogsApiRelease['released'] ?? null,
+                'url' => $discogsApiRelease['uri'] ?? null,
+                'artwork_other_urls' => $discogsApiRelease['artwork_other_urls'],
+                'lowest_price' => $discogsApiRelease['lowest_price'] ?? 0,
+                'status' => 'scraped',
             ]
         );
     }

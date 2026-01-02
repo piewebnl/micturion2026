@@ -13,16 +13,13 @@ class DiscogsReleaseInfoImportCommand extends Command
 {
     protected $signature = 'command:DiscogsReleaseInfoImport';
 
-    private string $channel;
+    private string $channel = 'discogs_release_info_importer';
 
     public function handle()
     {
 
-        $this->channel = 'discogs_release_info_importer';
-
         Logger::deleteChannel($this->channel);
-
-        Logger::echoChannel($this->channel);
+        Logger::echoChannel($this->channel, $this);
 
         $discogsReleases = DiscogsRelease::where('status', 'imported')->orWhere('updated_at', '<', Carbon::now()->subMonths(1))->get();
         $lastPage = $discogsReleases->count();
@@ -37,7 +34,5 @@ class DiscogsReleaseInfoImportCommand extends Command
         }
 
         $this->output->progressFinish();
-
-        // Logger::echo($this->channel);
     }
 }
