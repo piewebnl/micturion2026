@@ -144,6 +144,13 @@ class DiscogsCollectionImporter
                 $discogsRelease->release_id = 0;
                 $discogsRelease->score = 0;
                 $discogsRelease->save();
+                Logger::log(
+                    'warning',
+                    $this->channel,
+                    'Skip Discogs Release: ' . $discogsRelease->artist . ' - ' . $discogsRelease->title,
+                    [],
+                    $this->command
+                );
             }
         }
     }
@@ -159,7 +166,7 @@ class DiscogsCollectionImporter
         Logger::log(
             'warning',
             $this->channel,
-            'Deleted skipped: ' . count($diff),
+            'Deleted old entries: ' . count($diff),
             [],
             $this->command
         );
