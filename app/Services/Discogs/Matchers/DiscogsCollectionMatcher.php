@@ -2,71 +2,82 @@
 
 namespace App\Services\Discogs\Matchers;
 
+use App\Models\Music\Album;
+use App\Traits\Logger\Logger;
+use Illuminate\Console\Command;
+use Illuminate\Http\JsonResponse;
 use App\Models\Discogs\DiscogsRelease;
 use App\Models\Discogs\DiscogsReleaseCustomId;
 use App\Models\DiscogsApi\DiscogsApiCollectionRelease;
-use App\Models\Music\Album;
-use App\Traits\Logger\Logger;
-use Illuminate\Http\JsonResponse;
 
 class DiscogsCollectionMatcher
 {
     private JsonResponse $response;
 
-    private $collectionReleases;
-
     private $collectionRelease;
 
     private $customReleaseIds;
 
-    public function __construct()
+    private Command $command;
+
+    private string $channel = 'discogs_collection_matcher';
+
+    public function __construct(?Command $command)
     {
+        $this->command = $command;
         $this->customReleaseIds = DiscogsReleaseCustomId::all();
         $this->collectionRelease = new DiscogsApiCollectionRelease;
     }
 
-    public function match(): void
+    public function match(DiscogsRelease $release): ?array
     {
-        $processedReleases = collect();
+        $release['format'] = $release->format ?? null;
 
-        $this->collectionReleases = DiscogsRelease::all();
+        // Any custom ids?
+        $custom = $this->customReleaseIds->firstWhere('release_id', $release['release_id']);
 
-        foreach ($this->collectionReleases as $release) {
+        if ($custom) {
+            $album = Album::with('artist')->where('persistent_id', $custom['persistent_album_id'])->first();
 
-            $match = $this->findMatch($release);
+            if (!$album) {
+                Logger::log(
+                    'error',
+                    $this->channel,
+                    'Custom ID used, but album NOT found for release ID ' . $release['id'] .
+                        ' with ' . $custom['persistent_album_id'],
+                    [],
+                    $this->command
+                );
 
-            $release['format'] = $release->format ?? null;
-
-            if ($match) {
-                $release['album_id'] = $match['album']->id;
-                $release['score'] = max(0, round($match['score']) - 1);
+                return null;
             }
 
-            $custom = $this->customReleaseIds->firstWhere('release_id', $release['id']);
-            if ($custom) {
-                $album = Album::where('persistent_id', $custom['persistent_album_id'])->first();
+            Logger::log(
+                'notice',
+                $this->channel,
+                'Custom ID used for: ' . $album->artist->name . ' - ' . $album->name . ' [' . $release['release_id'] . ']',
+                [],
+                $this->command
+            );
 
-                if (!$album) {
-                    Logger::log(
-                        'error',
-                        'discogs_collection_importer',
-                        'Custom ID used, but album NOT found for release ID ' . $release['id'] .
-                            ' with ' . $custom['persistent_album_id']
-                    );
-
-                    continue; // Skip this release
-                }
-
-                $release['album_id'] = $album->id;
-                $release['score'] = 100;
-            }
-
-            $processedReleases->push($release);
+            $release['album_id'] = $album->id;
+            $release['score'] = 100;
+            return $release->toArray();
         }
 
-        $this->collectionRelease->storeAllFromDiscogsReleaseMatcher($processedReleases->toArray());
-
-        // $this->response = response()->success('Discogs collection imported', $this->collectionReleases);
+        $match = $this->findMatch($release);
+        if ($match) {
+            Logger::log(
+                'info',
+                $this->channel,
+                'Discogs Release matched: ' . $match['album']->artist->name . ' - ' . $match['album']->name . ' [' . $release['release_id'] . ']',
+                [],
+                $this->command
+            );
+            $release['album_id'] = $match['album']->id;
+            $release['score'] = max(0, round($match['score']) - 1);
+        }
+        return $release->toArray();
     }
 
     public function findMatch($release): ?array
@@ -106,5 +117,33 @@ class DiscogsCollectionMatcher
     public function getResponse(): JsonResponse
     {
         return $this->response;
+    }
+
+    public function storeMatches(array $processedReleases): int
+    {
+        return $this->collectionRelease->storeAllFromDiscogsReleaseMatcher($processedReleases);
+    }
+
+    public function handleSkipped(): void
+    {
+        $skipped = DiscogsReleaseCustomId::where('release_id', 'skipped')->get();
+
+        foreach ($skipped as $skip) {
+            $album = Album::where('persistent_id', $skip['persistent_album_id'])->first();
+            $discogsRelease = DiscogsRelease::where('album_id', $album->id)->first();
+
+            if ($discogsRelease) {
+                $discogsRelease->release_id = 0;
+                $discogsRelease->score = 0;
+                $discogsRelease->save();
+                Logger::log(
+                    'warning',
+                    $this->channel,
+                    'Skip Discogs Release: ' . $discogsRelease->artist . ' - ' . $discogsRelease->title,
+                    [],
+                    $this->command
+                );
+            }
+        }
     }
 }

@@ -415,6 +415,12 @@ return [
             'path' => storage_path('logs/discogs_release_info_importer.log'),
             'days' => 1,
         ],
+
+        'discogs_collection_matcher' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/discogs_collection_matcher.log'),
+            'days' => 1,
+        ],
     ],
 
 ];

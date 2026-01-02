@@ -7,7 +7,6 @@ use App\Traits\Logger\Logger;
 use App\Helpers\JsonHashHelper;
 use Illuminate\Console\Command;
 use App\Models\Discogs\DiscogsRelease;
-use App\Models\Discogs\DiscogsReleaseCustomId;
 use App\Models\DiscogsApi\DiscogsApiCollectionRelease;
 use App\Services\DiscogsApi\Getters\DiscogsApiCollectionGetter;
 
@@ -89,7 +88,6 @@ class DiscogsCollectionImporter
         }
 
         $this->logDuplicates($idsFromApi);
-        $this->handleSkipped();
         $this->removeOld($idsFromApi);
     }
 
@@ -130,29 +128,6 @@ class DiscogsCollectionImporter
         }
 
         return null;
-    }
-
-    private function handleSkipped(): void
-    {
-        $skipped = DiscogsReleaseCustomId::where('release_id', 'skipped')->get();
-
-        foreach ($skipped as $skip) {
-            $album = Album::where('persistent_id', $skip['persistent_album_id'])->first();
-            $discogsRelease = DiscogsRelease::where('album_id', $album->id)->first();
-
-            if ($discogsRelease) {
-                $discogsRelease->release_id = 0;
-                $discogsRelease->score = 0;
-                $discogsRelease->save();
-                Logger::log(
-                    'warning',
-                    $this->channel,
-                    'Skip Discogs Release: ' . $discogsRelease->artist . ' - ' . $discogsRelease->title,
-                    [],
-                    $this->command
-                );
-            }
-        }
     }
 
     private function removeOld(array $idsFromApi): void

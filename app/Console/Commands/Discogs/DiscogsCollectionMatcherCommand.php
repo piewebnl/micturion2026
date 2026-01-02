@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Discogs;
 
+use App\Models\Discogs\DiscogsRelease;
 use App\Services\Discogs\Matchers\DiscogsCollectionMatcher;
 use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
@@ -15,10 +16,29 @@ class DiscogsCollectionMatcherCommand extends Command
 
     public function handle()
     {
-
         Logger::deleteChannel($this->channel);
+        Logger::echoChannel($this->channel, $this);
 
-        $discogsCollectionMatcher = new DiscogsCollectionMatcher;
-        $discogsCollectionMatcher->match();
+        $discogsCollectionMatcher = new DiscogsCollectionMatcher($this);
+
+        $processedReleases = [];
+        $total = DiscogsRelease::count();
+
+        $this->output->progressStart($total);
+
+        foreach (DiscogsRelease::all() as $release) {
+            $processedRelease = $discogsCollectionMatcher->match($release);
+
+            if ($processedRelease) {
+                $processedReleases[] = $processedRelease;
+            }
+
+            $this->output->progressAdvance();
+        }
+
+        $this->output->progressFinish();
+
+        $discogsCollectionMatcher->storeMatches($processedReleases);
+        $discogsCollectionMatcher->handleSkipped();
     }
 }
