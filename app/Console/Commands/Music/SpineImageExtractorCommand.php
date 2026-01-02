@@ -14,19 +14,20 @@ class SpineImageExtractorCommand extends Command
 {
     protected $signature = 'command:SpineImageExtractor';
 
-    private string $channel;
+    private string $channel = 'spine_image_extractor';
 
     public function handle()
     {
-        $this->channel = 'spine_image_extractor';
 
         Logger::deleteChannel($this->channel);
-
-        if (App::environment() == 'local') {
-            Logger::echoChannel($this->channel);
-        }
+        Logger::echoChannel($this->channel, $this);
 
         $albums = Album::with('artist', 'discogsReleases')->whereHas('discogsReleases')->get();
+
+        if (!$albums) {
+            Logger::log('error', $this->channel, 'No albums with discogs releases yet to extract spine images', [], $this);
+            return;
+        }
 
         $this->output->progressStart($albums->count());
 
@@ -50,7 +51,5 @@ class SpineImageExtractorCommand extends Command
         }
 
         $this->output->progressFinish();
-
-        // Logger::echo($this->channel);
     }
 }

@@ -19,26 +19,29 @@ class SpineImageCreateCommand extends Command
     {
 
         Logger::deleteChannel($this->channel);
+        Logger::echoChannel($this->channel, $this);
 
-        // Albums with discogsrelease and CD only
-        $albumIds = Album::whereHas('discogsReleases', function ($q) {
+        // Albums with Discogs Release and CD only
+        $ids = Album::whereHas('discogsReleases', function ($q) {
             $q->where('format', 'cd');
         })
             ->orderBy('id', 'asc')
             ->pluck('id');
 
-        $this->output->progressStart(count($albumIds));
 
-        foreach ($albumIds as $albumId) {
+        if ($ids->isEmpty()) {
+            Logger::log('error', $this->channel, 'No albums with discogs releases yet to create spine images', [], $this);
+            return;
+        }
+
+        $this->output->progressStart(count($ids));
+
+        foreach ($ids as $id) {
             $spineImageCreator = new SpineImageCreator;
-            $spineImageCreator->createSpineImage($albumId);
+            $spineImageCreator->createSpineImage($id);
             $this->output->progressAdvance();
         }
 
         $this->output->progressFinish();
-
-        // Cache::flush();
-
-        // Logger::echo($this->channel);
     }
 }

@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands\Music;
 
-use App\Helpers\VolumeMountedCheck;
-use App\Models\Playlist\Playlist;
-use App\Services\Music\BestOfArtworkImageUploadToFtp;
 use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
+use App\Models\Playlist\Playlist;
+use App\Helpers\VolumeMountedCheck;
 use Illuminate\Support\Facades\App;
+use App\Services\Music\BestOfArtworkImageUploadToFtp;
 
 // php artisan command:BestOfArtworkImageUploadToFtp
 class BestOfArtworkImageUploadToFtpCommand extends Command
@@ -18,37 +18,33 @@ class BestOfArtworkImageUploadToFtpCommand extends Command
 
     public function handle()
     {
-        if (App::environment() != 'local') {
+        if (!App::environment('local')) {
             return;
         }
 
-        if (!VolumeMountedCheck::check('/Volumes/iTunes', $this->channel)) {
+        if (!VolumeMountedCheck::check('/Volumes/iTunes', $this->channel, $this)) {
             return;
         }
 
         Logger::deleteChannel($this->channel);
+        Logger::echoChannel($this->channel, $this);
 
         $playlists = Playlist::where('parent_name', 'Best Of')->get();
 
-        Logger::echoChannel($this->channel);
-
-        if (count($playlists) > 0) {
-
-            $this->output->progressStart(count($playlists));
-
-            foreach ($playlists as $playlist) {
-
-                $bestOfArtworkImageUploadToFtp = new BestOfArtworkImageUploadToFtp;
-                $bestOfArtworkImageUploadToFtp->copyBestOfArtworkImageToFtp($playlist->name);
-                $this->output->progressAdvance();
-            }
-
-            $this->output->progressFinish();
-        } else {
-
-            Logger::log('info', $this->channel, 'Nothing to copy');
+        if (count($playlists) == 0) {
+            Logger::log('error', $this->channel, 'No playlists to copy');
+            return;
         }
 
-        // Logger::echo($this->channel);
+        $this->output->progressStart(count($playlists));
+
+        foreach ($playlists as $playlist) {
+
+            $bestOfArtworkImageUploadToFtp = new BestOfArtworkImageUploadToFtp;
+            $bestOfArtworkImageUploadToFtp->uploadBestOfArtworkImageToFtp($playlist->name);
+            $this->output->progressAdvance();
+        }
+
+        $this->output->progressFinish();
     }
 }

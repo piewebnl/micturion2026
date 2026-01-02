@@ -17,22 +17,18 @@ class MusicToPlexAmpCommand extends Command
 
     public function handle()
     {
-        if (App::environment() != 'local') {
-            return;
-        }
-
-        if (!VolumeMountedCheck::check('/Volumes/iTunes', $this->channel)) {
+        if (!VolumeMountedCheck::check('/Volumes/iTunes', $this->channel, $this)) {
             return;
         }
 
         Logger::deleteChannel($this->channel);
+        Logger::echoChannel($this->channel, $this);
 
         $sourcePath = config('music.music_path');
         $destinationPath = config('music.plex_amp_path');
 
         if (!is_dir($sourcePath)) {
-            Logger::log('error', $this->channel, "Source does not exist: {$sourcePath}");
-
+            Logger::log('error', $this->channel, "Source does not exist: {$sourcePath}", [], $this);
             return;
         }
 
@@ -41,9 +37,6 @@ class MusicToPlexAmpCommand extends Command
             mkdir(dirname($destinationPath), 0777, true);
         }
 
-        Logger::log('info', $this->channel, 'Copy to Plex Amp');
-        // Logger::echo($this->channel);
-
         $excludePatterns = ['.DS_Store', '._*'];
         $mirror = new MirrorDirectory($sourcePath, $destinationPath, $excludePatterns);
 
@@ -51,12 +44,8 @@ class MusicToPlexAmpCommand extends Command
 
         if ($success) {
             Logger::log('info', $this->channel, 'Mirror complete. Files processed: ' . $mirror->getProcessedFiles());
-            $this->info('Mirror complete. ' . $mirror->getProcessedFiles() . ' files processed.');
         } else {
-            Logger::log('error', $this->channel, 'Mirror failed to complete');
-            $this->error('Mirror failed to complete');
+            Logger::log('error', $this->channel, 'Mirror failed to complete', [], $this);
         }
-
-        // Logger::echo($this->channel);
     }
 }

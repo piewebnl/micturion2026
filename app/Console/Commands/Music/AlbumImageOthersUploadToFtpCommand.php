@@ -31,19 +31,19 @@ class AlbumImageOthersUploadToFtpCommand extends Command
 
         $ids = Album::whereNull('location')->pluck('id')->toArray();
 
-        if ($ids) {
-
-            $this->output->progressStart(count($ids));
-
-            foreach ($ids as $id) {
-                $albumImageUploadToFtp = new AlbumImageOthersUploadToFtp;
-                $albumImageUploadToFtp->uploadAlbumImageOthersToFtp($id, $this);
-                $this->output->progressAdvance();
-            }
-
-            $this->output->progressFinish();
-        } else {
+        if (!$ids) {
             Logger::log('error', $this->channel, 'No albums to copy', [], $this);
+            return;
         }
+
+        $this->output->progressStart(count($ids));
+
+        foreach ($ids as $id) {
+            $albumImageUploadToFtp = new AlbumImageOthersUploadToFtp;
+            $albumImageUploadToFtp->uploadAlbumImageOthersToFtp($id, $this);
+            $this->output->progressAdvance();
+        }
+
+        $this->output->progressFinish();
     }
 }
