@@ -65,28 +65,11 @@ class ConcertFestivalImage extends Model
         );
 
         Logger::log(
-            'info',
+            'notice',
             $this->channel,
             'Concert festival image created: ' . $this->concertFestival->name . ' [' . $this->concertFestival->concert->date . ']'
         );
     }
-
-    /*
-    public function remove(ConcertFestival $concertFestival, $slug)
-    {
-        $imageDeleter = new ImageDeleter($this->type);
-        $imageDeleter->delete($concertImage->slug);
-
-        // Delete in db
-        $concertFestivalImage = ConcertImage::destroy($concertFestival->id);
-
-        $this->response = response()->success('Concert image deleted ' . $this->concertFestival->name);
-
-        Logger::log('info', $this->channel, 'Concert image deleted  ' . $this->concertFestival->name);
-
-        return $concertFestivalImage;
-    }
-        */
 
     public function existsInDb()
     {
