@@ -46,6 +46,6 @@ class DatabaseDumperCommand extends Command
         Cache::flush();
 
         $this->output->progressFinish();
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

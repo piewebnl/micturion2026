@@ -35,7 +35,7 @@ class WishlistAlbumPricesScrapeCommand extends Command
         $musicStores = MusicStore::all();
         if ($musicStores->count() == 0) {
             Logger::log('error', $this->channel, 'No music stores found. Please seed.');
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
 
             return;
         }
@@ -58,6 +58,6 @@ class WishlistAlbumPricesScrapeCommand extends Command
 
         $this->clearCache('get-wishlist-albums-with-prices');
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

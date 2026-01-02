@@ -28,7 +28,7 @@ class SpotifyPlaylistTrackSongSearchCommand extends Command
         $api = (new SpotifyApiConnect)->getApi();
         if (!$api) {
             Logger::log('error', $this->channel, 'No valid spotify API connection');
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
 
             return;
         }
@@ -39,14 +39,14 @@ class SpotifyPlaylistTrackSongSearchCommand extends Command
 
         if (!(new SpotifyPlaylist)->areSpotifyPlaylistsImported()) {
             Logger::log('warning', $this->channel, 'No spotify playlists to Search songs with yet.');
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
 
             return;
         }
 
         $api = (new SpotifyApiConnect)->getApi();
         if (!$api) {
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
 
             return;
         }
@@ -72,6 +72,6 @@ class SpotifyPlaylistTrackSongSearchCommand extends Command
         Cache::flush();
 
         $this->output->progressFinish();
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

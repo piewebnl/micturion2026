@@ -31,7 +31,7 @@ class SpotifyPlaylistsImportCommand extends Command
         $api = (new SpotifyApiConnect)->getApi();
         if (!$api) {
 
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
 
             return;
         }
@@ -48,6 +48,6 @@ class SpotifyPlaylistsImportCommand extends Command
 
         $this->output->progressFinish();
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

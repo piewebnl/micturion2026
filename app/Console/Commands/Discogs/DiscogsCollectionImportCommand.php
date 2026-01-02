@@ -97,6 +97,6 @@ class DiscogsCollectionImportCommand extends Command
             );
         }
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

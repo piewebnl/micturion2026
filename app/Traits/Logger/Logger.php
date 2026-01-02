@@ -2,71 +2,56 @@
 
 namespace App\Traits\Logger;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 
 class Logger
 {
     // Log to DB
-    public static function log(string $type, string $channel, string $message, array $context = [])
+    public static function log(string $type, string $channel, string $message, array $context = [], ?Command $command = null)
     {
 
-        $channelFilename = self::changeName($channel);
-
         if ($type == 'info') {
-            Log::channel($channelFilename)->info($message, $context);
+            Log::channel($channel)->info($message, $context);
         }
         if ($type == 'notice') {
-            Log::channel($channelFilename)->notice($message, $context);
+            Log::channel($channel)->notice($message, $context);
         }
         if ($type == 'warning') {
-            Log::channel($channelFilename)->warning($message, $context);
+            Log::channel($channel)->warning($message, $context);
+            if ($command) {
+                $command->warn($message);
+            }
         }
         if ($type == 'error') {
-            Log::channel($channelFilename)->error($message, $context);
+            Log::channel($channel)->error($message, $context);
+            if ($command) {
+                $command->error($message);
+            }
         }
     }
 
-    public static function echoChannel(string $channel)
+    public static function displayName(string $channel)
     {
-        echo Str::title(str_replace('_', ' ', $channel)) . "\r\n\r\n";
+        return Str::title(str_replace('_', ' ', $channel));
     }
 
     // Echo to terminal or something
-    public static function echo(string $channel)
+    public static function echoChannel(string $channel, ?Command $command = null)
     {
-        $isCli = PHP_SAPI === 'cli';
 
-        if (App::environment() == 'local') {
-            echo "\r\n";
-            $channelFilename = self::changeName($channel);
-            $logFile = storage_path() . '/logs/' . $channelFilename . '.log';
-
-            echo basename($logFile) . "\r\n\r\n";
-            if (file_exists($logFile)) {
-                $logFile = file($logFile);
-                foreach ($logFile as $line) {
-                    echo $isCli ? $line : htmlspecialchars($line);
-                }
-            }
-
-            echo "\r\n\r\n";
+        if (App::environment() == 'local' && $command) {
+            $name = self::displayName($channel);
+            $command->info($name);
         }
     }
 
     public static function deleteChannel(string $channel)
     {
-        $channelFilename = self::changeName($channel);
-        File::delete(File::glob(storage_path('logs/' . $channelFilename . '.log')));
-    }
 
-    private static function changeName($channel)
-    {
-        $channel = strtolower($channel);
-        $channel = Str::snake($channel);
-
-        return $channel;
+        File::delete(File::glob(storage_path('logs/' . $channel . '.log')));
     }
 }

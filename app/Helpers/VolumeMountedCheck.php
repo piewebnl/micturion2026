@@ -4,16 +4,17 @@ namespace App\Helpers;
 
 use App\Traits\Logger\Logger;
 use Illuminate\Support\Facades\App;
+use Illuminate\Console\Command;
 
 class VolumeMountedCheck
 {
-    public static function check($path, $channel)
+    public static function check($path, $channel, Command $command)
     {
         if (App::environment() == 'local' and !file_exists($path)) {
             Logger::deleteChannel($channel);
             Logger::log('error', $channel, $path . ' not mounted');
-            Logger::echo($channel);
-
+            $command->info($channel);
+            $command->error($path . ' not mounted');
             return false;
         }
 

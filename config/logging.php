@@ -293,11 +293,13 @@ return [
             'days' => 1,
         ],
         'concert_image_copy_from_ftp' => [
+
             'driver' => 'single',
             'path' => storage_path('logs/concert_image_copy_from_ftp.log'),
             'days' => 1,
         ],
         'concert_festival_image_import' => [
+
             'driver' => 'single',
             'path' => storage_path('logs/concert_festival_image_import.log'),
             'days' => 1,

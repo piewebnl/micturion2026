@@ -37,7 +37,7 @@ class SpotifyAlbumsExportCommand extends Command
         $api = (new SpotifyApiConnect)->getApi();
         if (!$api) {
             Logger::log('error', $this->channel, 'No valid spotify API connection');
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
 
             return;
         }
@@ -50,7 +50,7 @@ class SpotifyAlbumsExportCommand extends Command
         $this->export();
         $this->deleteUnwanted();
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 
     private function export()

@@ -40,7 +40,7 @@ class DiscogsCollectionImporter
 
         if (!config('discogs.discogs_personal_access_token')) {
             Logger::log('error', 'discogs_collection_importer', 'No personal access token found in config');
-            Logger::echo('discogs_collection_importer');
+            // Logger::echo('discogs_collection_importer');
 
             return;
         }

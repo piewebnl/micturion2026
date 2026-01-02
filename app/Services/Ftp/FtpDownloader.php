@@ -3,11 +3,12 @@
 namespace App\Services\Ftp;
 
 use App\Traits\Logger\Logger;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
 class FtpDownloader
 {
-    public function download(string $source, string $destination, string $channel, string $message = 'Download from FTP')
+    public function download(string $source, string $destination, string $channel, string $message = 'Download from FTP', Command $command = null)
     {
 
         $resource = [
@@ -26,7 +27,8 @@ class FtpDownloader
                 'notice',
                 $channel,
                 $message,
-                $resource
+                $resource,
+                $command
             );
 
             return;
@@ -35,7 +37,8 @@ class FtpDownloader
                 'error',
                 $channel,
                 'Failed to ' . $message,
-                $resource
+                $resource,
+                $command
             );
         }
     }

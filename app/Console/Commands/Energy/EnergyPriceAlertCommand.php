@@ -52,6 +52,6 @@ class EnergyPriceAlertCommand extends Command
             // Mail::to('pie@micturion.com')->send(new EnergyPriceAlertMail($results));
         }
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

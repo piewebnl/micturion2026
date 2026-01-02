@@ -27,7 +27,7 @@ class ItunesLibraryImportCommand extends Command
 
         if (!$itunesLibrary->hasChanged()) {
             Logger::log('info', $this->channel, 'iTunes Library has not changed: DB: ' . $itunesLibrary->getDateDb() . ' and XML: ' . $itunesLibrary->getDateXml());
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
 
             return;
         }
@@ -44,6 +44,6 @@ class ItunesLibraryImportCommand extends Command
         $itunesLibrary->addCsvDateExtraTracksSettings();
         $itunesLibrary->addXmlDateSettings();
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

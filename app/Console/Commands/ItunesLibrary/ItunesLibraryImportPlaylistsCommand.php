@@ -35,7 +35,7 @@ class ItunesLibraryImportPlaylistsCommand extends Command
         $lastPage = $playlistsImporter->getLastPage();
 
         if (App::environment() == 'local') {
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
             Logger::log('info', $this->channel, 'Trying');
         }
 
@@ -54,6 +54,6 @@ class ItunesLibraryImportPlaylistsCommand extends Command
 
         $this->output->progressFinish();
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

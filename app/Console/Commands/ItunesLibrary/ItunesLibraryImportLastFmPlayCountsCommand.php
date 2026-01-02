@@ -33,7 +33,7 @@ class ItunesLibraryImportLastFmPlayCountsCommand extends Command
         /*
         if (! $importDate) {
             Logger::log('info', $this->channel, 'No previous import date found in settings, skipping Last FM PlayCount import.');
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
             return;
         }
         */
@@ -83,7 +83,7 @@ class ItunesLibraryImportLastFmPlayCountsCommand extends Command
                 $tracks = [$tracks];
             }
 
-            $tracks = array_filter($tracks, fn ($t) => isset($t['date']['uts']));
+            $tracks = array_filter($tracks, fn($t) => isset($t['date']['uts']));
             $all = array_merge($all, $tracks);
 
             $got = count($tracks);
@@ -149,7 +149,7 @@ class ItunesLibraryImportLastFmPlayCountsCommand extends Command
             }
         }
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 
     private function incrementPlayCountByPID($pid)

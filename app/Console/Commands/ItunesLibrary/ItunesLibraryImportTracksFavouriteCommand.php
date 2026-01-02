@@ -41,7 +41,7 @@ class ItunesLibraryImportTracksFavouriteCommand extends Command
         $tracksFavouriteImporter = new ItunesLibraryPlaylistTracksImporter($itunesLibrary, $playlist, $this->perPage);
         if ($tracksFavouriteImporter->getTotal() == 0) {
             Logger::log('error', $this->channel, 'iTunes library playlist has no tracks: ' . $playlist->name);
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
 
             return;
         }
@@ -64,6 +64,6 @@ class ItunesLibraryImportTracksFavouriteCommand extends Command
 
         $this->output->progressFinish();
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

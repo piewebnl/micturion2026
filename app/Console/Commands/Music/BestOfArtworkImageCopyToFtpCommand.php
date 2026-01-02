@@ -49,6 +49,6 @@ class BestOfArtworkImageCopyToFtpCommand extends Command
             Logger::log('info', $this->channel, 'Nothing to copy');
         }
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

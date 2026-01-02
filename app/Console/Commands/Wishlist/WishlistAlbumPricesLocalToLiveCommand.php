@@ -126,6 +126,6 @@ class WishlistAlbumPricesLocalToLiveCommand extends Command
             $this->clearCache('get-wishlist-albums-with-prices');
         }
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

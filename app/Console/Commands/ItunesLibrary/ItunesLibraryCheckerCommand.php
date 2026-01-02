@@ -26,6 +26,6 @@ class ItunesLibraryCheckerCommand extends Command
 
         ItunesLibraryCheckerJob::dispatchSync();
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

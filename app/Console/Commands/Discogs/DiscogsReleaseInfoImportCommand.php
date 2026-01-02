@@ -38,6 +38,6 @@ class DiscogsReleaseInfoImportCommand extends Command
 
         $this->output->progressFinish();
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

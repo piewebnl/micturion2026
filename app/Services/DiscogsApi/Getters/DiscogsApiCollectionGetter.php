@@ -45,12 +45,12 @@ class DiscogsApiCollectionGetter
             $data = $response->json(); // Returns an associative array
         } else {
             Logger::log('error', $this->channel, 'Discogs API something went wrong');
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
         }
 
         if (!isset($data['releases'])) {
             Logger::log('error', $this->channel, 'Discogs API no releases found');
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
         } else {
             $this->discogsApiCollectionReleases = $data['releases'];
             $this->lastPage = $response['pagination']['pages'];

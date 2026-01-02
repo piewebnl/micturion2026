@@ -35,7 +35,7 @@ class SpotifyTracksFavouriteExportCommand extends Command
         $api = (new SpotifyApiConnect)->getApi();
         if (!$api) {
             Logger::log('error', $this->channel, 'No valid spotify API connection');
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
 
             return;
         }
@@ -46,7 +46,7 @@ class SpotifyTracksFavouriteExportCommand extends Command
 
         $this->api = (new SpotifyApiConnect)->getApi();
         if (!$this->api) {
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
 
             return;
         }
@@ -57,7 +57,7 @@ class SpotifyTracksFavouriteExportCommand extends Command
 
         $this->deleteUnwanted();
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 
     private function export()

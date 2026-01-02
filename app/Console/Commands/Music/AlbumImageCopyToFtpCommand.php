@@ -48,6 +48,6 @@ class AlbumImageCopyToFtpCommand extends Command
             Logger::log('info', $this->channel, 'No albums to copy');
         }
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

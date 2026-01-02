@@ -47,6 +47,6 @@ class WishlistAlbumLocalDbSyncCommand extends Command
             );
         }
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

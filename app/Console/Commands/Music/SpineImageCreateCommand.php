@@ -39,6 +39,6 @@ class SpineImageCreateCommand extends Command
 
         // Cache::flush();
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

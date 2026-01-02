@@ -96,16 +96,16 @@ class MusicToHibyCommand extends Command
             }
 
             if ($count % $echoEvery === 0) {
-                Logger::echo($this->channel);
+                // Logger::echo($this->channel);
             }
         }
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
 
         $this->mirrorDelete($disk, $local);
 
         Logger::log('info', $this->channel, "Uploaded: {$uploaded}, Skipped: {$skipped}, Errors: {$errors}");
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
 
         return $errors > 0 ? 2 : 0;
     }

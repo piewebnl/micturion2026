@@ -34,7 +34,7 @@ class ItunesCsvPlaylistFromSpotifyPlaylistCommand extends Command
 
         if (count($spotifyPlaylists) == 0) {
             Logger::log('info', $this->channel, 'No spotfy playlists (yet) to make iTunes csv');
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
 
             return;
         }
@@ -50,6 +50,6 @@ class ItunesCsvPlaylistFromSpotifyPlaylistCommand extends Command
 
         $this->output->progressFinish();
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

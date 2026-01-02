@@ -29,7 +29,7 @@ class SpotifySearchAndImportAlbumsCommand extends Command
         $api = (new SpotifyApiConnect)->getApi();
         if (!$api) {
             Logger::log('error', $this->channel, 'No valid spotify API connection');
-            Logger::echo($this->channel);
+            // Logger::echo($this->channel);
 
             return;
         }
@@ -68,6 +68,6 @@ class SpotifySearchAndImportAlbumsCommand extends Command
 
         $this->output->progressFinish();
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }

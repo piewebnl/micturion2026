@@ -42,7 +42,7 @@ class MusicToPlexAmpCommand extends Command
         }
 
         Logger::log('info', $this->channel, 'Copy to Plex Amp');
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
 
         $excludePatterns = ['.DS_Store', '._*'];
         $mirror = new MirrorDirectory($sourcePath, $destinationPath, $excludePatterns);
@@ -57,6 +57,6 @@ class MusicToPlexAmpCommand extends Command
             $this->error('Mirror failed to complete');
         }
 
-        Logger::echo($this->channel);
+        // Logger::echo($this->channel);
     }
 }
