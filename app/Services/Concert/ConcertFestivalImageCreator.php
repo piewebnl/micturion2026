@@ -13,10 +13,12 @@ class ConcertFestivalImageCreator
 
         $concertFestival = ConcertFestival::with('Concert')->find($id);
 
+        $status = false;
         if ($concertFestival) {
 
             $concertImage = new ConcertFestivalImage;
-            $concertImage->create($concertFestival);
+            $status = $concertImage->create($concertFestival);
         }
+        return $status;
     }
 }

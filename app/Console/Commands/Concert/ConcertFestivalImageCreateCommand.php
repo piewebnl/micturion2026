@@ -12,6 +12,9 @@ use Illuminate\Console\Command;
 // php artisan command:ConcertFestivalImageCreate
 class ConcertFestivalImageCreateCommand extends Command
 {
+
+    use QueryCache;
+
     protected $signature = 'command:ConcertFestivalImageCreate';
 
     protected $description = 'Creates concerts festival images';
@@ -38,11 +41,21 @@ class ConcertFestivalImageCreateCommand extends Command
 
         $this->output->progressStart(count($ids));
 
+        $clearCache = false;
+
         foreach ($ids as $id) {
             $concertImageCreator = new ConcertFestivalImageCreator;
-            $concertImageCreator->createConcertFestivalImage($id);
+            $status = $concertImageCreator->createConcertFestivalImage($id);
+            if ($status) {
+                $clearCache = true;
+            }
+
             $this->output->progressAdvance();
         }
         $this->output->progressFinish();
+
+        if ($clearCache) {
+            $this->clearCache('concerts', $this->channel, $this);
+        }
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Traits\QueryCache;
 
+use App\Traits\Logger\Logger;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 
 trait QueryCache
@@ -20,8 +22,15 @@ trait QueryCache
         }
     }
 
-    public function clearCache(string $key)
+    public function clearCache(string $key, string $channel, ?Command $command)
     {
+        Logger::log(
+            'notice',
+            $this->channel,
+            'Cache cleared : ' . $this->channel,
+            [],
+            $command
+        );
         Cache::forget($key);
     }
 

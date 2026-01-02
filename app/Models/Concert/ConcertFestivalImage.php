@@ -16,6 +16,10 @@ class ConcertFestivalImage extends Model
 
     private string $channel = 'concert_festival_create_images';
 
+    private $concertFestival;
+
+    private $slug;
+
     public function concertFestival()
     {
         return $this->hasOne(ConcertFestival::class);
@@ -42,10 +46,15 @@ class ConcertFestivalImage extends Model
         if ($uploadFile) {
             $create = true;
         }
-        if (!$uploadFile && $concertImageSourceFinder->isSourceModified($this->concertFestival->concertImage?->hash)) {
+        if (!$uploadFile && $concertImageSourceFinder->isSourceModified($this->concertFestival->concertFestivalImage?->hash)) {
             $create = true;
         }
         if (!$create and $this->existsInDb()) {
+            Logger::log(
+                'info',
+                $this->channel,
+                'Concert festival image not chagned: ' . $this->concertFestival->name . ' [' . $this->concertFestival->concert->date . ']'
+            );
             return;
         }
 
@@ -69,12 +78,14 @@ class ConcertFestivalImage extends Model
             $this->channel,
             'Concert festival image created: ' . $this->concertFestival->name . ' [' . $this->concertFestival->concert->date . ']'
         );
+
+        return true;
     }
 
     public function existsInDb()
     {
 
-        if ($this->concertFestival->concertImage !== null) {
+        if ($this->concertFestival->concertFestivalImage !== null) {
             return true;
         }
 
