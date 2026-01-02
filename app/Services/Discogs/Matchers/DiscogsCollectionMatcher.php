@@ -59,9 +59,8 @@ class DiscogsCollectionMatcher
                 [],
                 $this->command
             );
-
             $release['album_id'] = $album->id;
-            $release['status'] = 'skipped';
+            $release['status'] = 'custom';
             $release['score'] = 100;
             return $release->toArray();
         }

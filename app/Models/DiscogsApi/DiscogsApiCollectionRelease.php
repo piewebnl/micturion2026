@@ -16,8 +16,6 @@ class DiscogsApiCollectionRelease extends Model
     public function storeFromDiscogApiCollectionRelease(array $discogsApiCollectionRelease)
     {
 
-        echo $discogsApiCollectionRelease['basic_information']['artists'][0]['name'] . "\r\n";
-
         $discogsRelease = DiscogsRelease::updateOrCreate(
 
             [
@@ -34,7 +32,7 @@ class DiscogsApiCollectionRelease extends Model
                 'artwork_url' => $discogsApiCollectionRelease['basic_information']['thumb'],
                 'comments' => $discogsApiCollectionRelease['comments'] ?? null,
                 'hash' => $discogsApiCollectionRelease['hash'] ?? null,
-                'status' => 'imported',
+                'status' => 'unmatched',
             ]
         );
 

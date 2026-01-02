@@ -49,15 +49,11 @@ class DiscogsRelease extends Model
     public function storeFromDiscogsApiRelease($discogsApiRelease): void
     {
 
-        dd($discogsApiRelease);
         self::updateOrCreate(
             [
                 'release_id' => $discogsApiRelease['id'],
-
             ],
             [
-                'artist' => $discogsApiRelease['artist'],
-                'title' => $discogsApiRelease['title'],
                 'url' => $discogsApiRelease['uri'],
                 'notes' => $discogsApiRelease['notes'] ?? null,
                 'country' => $discogsApiRelease['country'] ?? null,
@@ -65,7 +61,7 @@ class DiscogsRelease extends Model
                 'url' => $discogsApiRelease['uri'] ?? null,
                 'artwork_other_urls' => $discogsApiRelease['artwork_other_urls'],
                 'lowest_price' => $discogsApiRelease['lowest_price'] ?? 0,
-                'status' => 'scraped',
+                'status_info' => 'scraped',
             ]
         );
     }

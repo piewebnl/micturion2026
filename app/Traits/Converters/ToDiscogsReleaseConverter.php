@@ -8,6 +8,8 @@ trait ToDiscogsReleaseConverter
 {
     public function convertDiscogsApiCollectionReleaseToDiscogsRelease($discogsApiCollectionRelease): DiscogsRelease
     {
+
+        dd('DEAD');
         $discogsRelease = new DiscogsRelease;
 
         return $discogsRelease->fill(
