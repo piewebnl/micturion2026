@@ -39,6 +39,6 @@ class EditConcertVenue extends EditRecord
             }
         }
 
-        $this->clearCache('get-concerts');
+        // $this->clearCache('get-concerts');
     }
 }

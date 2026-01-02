@@ -4,9 +4,9 @@ namespace App\Services\Concert;
 
 use App\Services\Ftp\FtpDownloader;
 
-class ConcertImageCopyFromFtp
+class ConcertImageDownloadFromFtp
 {
-    private string $channel = 'concert_image_copy_from_ftp';
+    private string $channel = 'concert_image_download_from_ftp';
 
     public function copyConcertImageFromFtp(string $source)
     {

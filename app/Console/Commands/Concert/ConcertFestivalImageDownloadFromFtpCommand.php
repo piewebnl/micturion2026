@@ -10,18 +10,17 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
-// php artisan command:ConcertFestivalImageCopyFromFtp
-class ConcertFestivalImageCopyFromFtpCommand extends Command
+// php artisan command:ConcertFestivalImageDownloadFromFtp
+class ConcertFestivalImageDownloadFromFtpCommand extends Command
 {
     use QueryCache;
 
-    protected $signature = 'command:ConcertFestivalImageCopyFromFtp';
+    protected $signature = 'command:ConcertFestivalImageDownloadFromFtp';
 
     protected $description = 'Download concert festival images from FTP to local storage';
 
-    private string $channel = 'concert_festival_images_import';
+    private string $channel = 'concert_festival_image_download_from_ftp';
 
-    private array $remoteImages;
 
     public function handle()
     {
@@ -36,24 +35,24 @@ class ConcertFestivalImageCopyFromFtpCommand extends Command
         Logger::deleteChannel($this->channel);
         Logger::echoChannel($this->channel, $this);
 
-        $this->remoteImages = Storage::disk('ftp')->files(config('concerts.ftp_concert_festival_images_path'));
+        $remoteImages = Storage::disk('ftp')->files(config('concerts.ftp_concert_festival_images_path'));
 
-        if (empty($this->remoteImages)) {
+        if (empty($remoteImages)) {
             Logger::log('warning', $this->channel, 'No concert festivals found', [], $this);
             return;
         }
 
-        $this->output->progressStart(count($this->remoteImages));
+        $this->output->progressStart(count($remoteImages));
 
         $ftpDownloader = new FtpDownloader;
 
-        foreach ($this->remoteImages as $remoteImage) {
+        foreach ($remoteImages as $remoteImage) {
             $dest = config('concerts.concert_festival_images_path') . '/' . basename($remoteImage);
             $ftpDownloader->download($remoteImage, $dest, $this->channel, 'Downloaded from FTP: ' . basename($remoteImage), $this);
             $this->output->progressAdvance();
         }
 
-        $this->clearCache('concerts');
+        // $this->clearCache('concerts');
 
         $this->output->progressFinish();
     }

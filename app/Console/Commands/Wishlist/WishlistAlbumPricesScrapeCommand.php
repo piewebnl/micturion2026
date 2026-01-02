@@ -56,7 +56,7 @@ class WishlistAlbumPricesScrapeCommand extends Command
             Logger::log('info', $this->channel, 'No wishlist albums or iTunes library not imported');
         }
 
-        $this->clearCache('get-wishlist-albums-with-prices');
+        // $this->clearCache('get-wishlist-albums-with-prices');
 
         // Logger::echo($this->channel);
     }

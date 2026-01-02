@@ -181,21 +181,21 @@ return [
             'days' => 1,
         ],
 
-        'album_image_copy_to_ftp' => [
+        'album_image_upload_to_ftp' => [
             'driver' => 'single',
-            'path' => storage_path('logs/album_image_copy_to_ftp.log'),
+            'path' => storage_path('logs/album_image_upload_to_ftp.log'),
             'days' => 1,
         ],
 
-        'album_image_others_copy_to_ftp' => [
+        'album_image_others_upload_to_ftp' => [
             'driver' => 'single',
-            'path' => storage_path('logs/album_image_others_copy_to_ftp.log'),
+            'path' => storage_path('logs/album_image_others_upload_to_ftp.log'),
             'days' => 1,
         ],
 
-        'best_of_artwork_image_copy_to_ftp' => [
+        'best_of_artwork_image_upload_to_ftp' => [
             'driver' => 'single',
-            'path' => storage_path('logs/best_of_artwork_image_copy_to_ftp.log'),
+            'path' => storage_path('logs/best_of_artwork_image_upload_to_ftp.log'),
             'days' => 1,
         ],
 
@@ -211,9 +211,9 @@ return [
             'days' => 1,
         ],
 
-        'itunes_library_xml_copy_to_ftp' => [
+        'itunes_library_xml_upload_to_ftp' => [
             'driver' => 'single',
-            'path' => storage_path('logs/itunes_library_xml_copy_to_ftp.log'),
+            'path' => storage_path('logs/itunes_library_xml_upload_to_ftp.log'),
             'days' => 1,
         ],
 
@@ -292,16 +292,16 @@ return [
             'path' => storage_path('logs/concert_import_csv.log'),
             'days' => 1,
         ],
-        'concert_image_copy_from_ftp' => [
+        'concert_image_download_from_ftp' => [
 
             'driver' => 'single',
-            'path' => storage_path('logs/concert_image_copy_from_ftp.log'),
+            'path' => storage_path('logs/concert_image_download_from_ftp.log'),
             'days' => 1,
         ],
-        'concert_festival_image_import' => [
+        'concert_festival_image_download_from_ftp' => [
 
             'driver' => 'single',
-            'path' => storage_path('logs/concert_festival_image_import.log'),
+            'path' => storage_path('logs/concert_festival_image_download_from_ftp.log'),
             'days' => 1,
         ],
         'spotify_api_connect' => [

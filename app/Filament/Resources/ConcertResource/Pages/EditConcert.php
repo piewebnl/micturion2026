@@ -38,6 +38,6 @@ class EditConcert extends EditRecord
             ]);
         }
 
-        $this->clearCache('get-concerts');
+        // $this->clearCache('get-concerts');
     }
 }

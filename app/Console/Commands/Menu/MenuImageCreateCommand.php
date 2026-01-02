@@ -31,6 +31,6 @@ class MenuImageCreateCommand extends Command
         }
 
         $this->output->progressFinish();
-        $this->clearCache('get-all-menus');
+        // $this->clearCache('get-all-menus');
     }
 }

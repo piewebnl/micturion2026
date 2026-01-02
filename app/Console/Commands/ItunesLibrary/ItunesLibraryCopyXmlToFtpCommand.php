@@ -12,7 +12,7 @@ class ItunesLibraryCopyXmlToFtpCommand extends Command
 {
     protected $signature = 'command:ItunesLibraryCopyXmlToFtp';
 
-    private string $channel = 'itunes_library_xml_copy_to_ftp';
+    private string $channel = 'itunes_library_xml_upload_to_ftp';
 
     private string $dest;
 

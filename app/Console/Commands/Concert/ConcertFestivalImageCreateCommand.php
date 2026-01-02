@@ -12,8 +12,6 @@ use Illuminate\Console\Command;
 // php artisan command:ConcertFestivalImageCreate
 class ConcertFestivalImageCreateCommand extends Command
 {
-    use QueryCache;
-
     protected $signature = 'command:ConcertFestivalImageCreate';
 
     protected $description = 'Creates concerts festival images';
@@ -30,19 +28,19 @@ class ConcertFestivalImageCreateCommand extends Command
         Logger::deleteChannel($this->channel);
         Logger::echoChannel($this->channel, $this);
 
-        $concertFestivalIds = ConcertFestival::with(['ConcertItem', 'Concert', 'ConcertArtist'])->orderBy('id', 'asc')->pluck('id');
+        $ids = ConcertFestival::with(['ConcertItem', 'Concert', 'ConcertArtist'])->orderBy('id', 'asc')->pluck('id');
 
-        if (!$concertFestivalIds) {
+        if (!$ids) {
             Logger::log('error', $this->channel, 'No concert festivals found');
 
             return;
         }
 
-        $this->output->progressStart(count($concertFestivalIds));
+        $this->output->progressStart(count($ids));
 
-        foreach ($concertFestivalIds as $concertFestivalId) {
+        foreach ($ids as $id) {
             $concertImageCreator = new ConcertFestivalImageCreator;
-            $concertImageCreator->createConcertFestivalImage($concertFestivalId);
+            $concertImageCreator->createConcertFestivalImage($id);
             $this->output->progressAdvance();
         }
         $this->output->progressFinish();

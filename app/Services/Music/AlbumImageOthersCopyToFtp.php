@@ -8,9 +8,9 @@ use App\Traits\Logger\Logger;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class AlbumImageOthersCopyToFtp
+class AlbumImageOthersUploadToFtp
 {
-    private string $channel = 'album_image_others_copy_to_ftp';
+    private string $channel = 'album_image_others_upload_to_ftp';
 
     public function copyAlbumImageOthersToFtp(int $id)
     {

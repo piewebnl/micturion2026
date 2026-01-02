@@ -123,7 +123,7 @@ class WishlistAlbumPricesLocalToLiveCommand extends Command
                 dd('nothing to sync...');
             }
 
-            $this->clearCache('get-wishlist-albums-with-prices');
+            // $this->clearCache('get-wishlist-albums-with-prices');
         }
 
         // Logger::echo($this->channel);

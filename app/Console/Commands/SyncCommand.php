@@ -24,9 +24,9 @@ class SyncCommand extends Command
 
         // To FTP [Local Only]
         $this->call('command:ItunesLibraryCopyXmlToFtp');
-        $this->call('command:AlbumImageCopyToFtp');
-        $this->call('command:AlbumImageOthersCopyToFtp');
-        $this->call('command:BestOfArtworkImageCopyToFtp');
+        $this->call('command:AlbumImageUploadToFtp');
+        $this->call('command:AlbumImageOthersUploadToFtp');
+        $this->call('command:BestOfArtworkImageUploadToFtp');
 
         // Backup online CSV [Local Only]
         $this->call('command:DatabaseDumper');
@@ -35,8 +35,8 @@ class SyncCommand extends Command
         $this->call('command:WishlistAlbumLocalDbSync');
 
         // Images from production [Local Only]
-        $this->call('command:ConcertImageCopyFromFtp');
-        $this->call('command:ConcertFestivalImageCopyFromFtp');
+        $this->call('command:ConcertImageDownloadFromFtp');
+        $this->call('command:ConcertFestivalImageDownloadFromFtp');
 
         // Concert images [Local Only]
         $this->call('command:ConcertImageCreate');

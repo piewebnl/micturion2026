@@ -6,9 +6,9 @@ use App\Services\Ftp\FtpUploader;
 use App\Traits\Logger\Logger;
 use Illuminate\Support\Facades\Storage;
 
-class BestOfArtworkImageCopyToFtp
+class BestOfArtworkImageUploadToFtp
 {
-    private $channel = 'best_of_artwork_image_copy_to_ftp';
+    private $channel = 'best_of_artwork_image_upload_to_ftp';
 
     public function __construct() {}
 

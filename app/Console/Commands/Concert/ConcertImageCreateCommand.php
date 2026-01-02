@@ -21,17 +21,18 @@ class ConcertImageCreateCommand extends Command
     public function handle()
     {
 
-        if (!VolumeMountedCheck::check('/Volumes/iTunes', $this->channel)) {
+        if (!VolumeMountedCheck::check('/Volumes/iTunes', $this->channel, $this)) {
             return;
         }
 
         Logger::deleteChannel($this->channel);
+        Logger::echoChannel($this->channel, $this);
 
         $ids = ConcertItem::with(['Concert', 'ConcertArtist'])->orderBy('id', 'asc')->pluck('id');
 
-        if (!$ids) {
-            Logger::log('error', $this->channel, 'No concert items found');
 
+        if ($ids->isEmpty()) {
+            Logger::log('error', $this->channel, 'No concert items found', [], $this);
             return;
         }
 
@@ -43,7 +44,5 @@ class ConcertImageCreateCommand extends Command
             $this->output->progressAdvance();
         }
         $this->output->progressFinish();
-
-        // Logger::echo($this->channel);
     }
 }

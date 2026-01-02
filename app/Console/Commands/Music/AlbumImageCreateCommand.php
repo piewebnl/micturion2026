@@ -12,8 +12,6 @@ use Illuminate\Console\Command;
 // php artisan command:AlbumImageCreate
 class AlbumImageCreateCommand extends Command
 {
-    use QueryCache;
-
     protected $signature = 'command:AlbumImageCreate';
 
     private string $channel = 'album_create_images';
@@ -21,11 +19,12 @@ class AlbumImageCreateCommand extends Command
     public function handle()
     {
 
-        if (!VolumeMountedCheck::check('/Volumes/iTunes', $this->channel)) {
+        if (!VolumeMountedCheck::check('/Volumes/iTunes', $this->channel, $this)) {
             return;
         }
 
         Logger::deleteChannel($this->channel);
+        Logger::echoChannel($this->channel, $this);
 
         $ids = Album::with(['Album', 'AlbumArtist'])->orderBy('id', 'asc')->pluck('id');
 
@@ -43,7 +42,5 @@ class AlbumImageCreateCommand extends Command
             $this->output->progressAdvance();
         }
         $this->output->progressFinish();
-
-        // Logger::echo($this->channel);
     }
 }

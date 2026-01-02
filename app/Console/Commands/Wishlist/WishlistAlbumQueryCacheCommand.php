@@ -22,7 +22,7 @@ class WishlistAlbumQueryCacheCommand extends Command
     public function handle()
     {
 
-        $this->clearCache('get-wishlist-albums-with-prices');
+        // $this->clearCache('get-wishlist-albums-with-prices');
 
         $this->wishlistAlbum = new WishlistAlbum;
 

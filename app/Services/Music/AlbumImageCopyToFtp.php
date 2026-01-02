@@ -7,9 +7,9 @@ use App\Services\Ftp\FtpUploader;
 use App\Traits\Logger\Logger;
 use Illuminate\Support\Facades\Storage;
 
-class AlbumImageCopyToFtp
+class AlbumImageUploadToFtp
 {
-    private string $channel = 'album_image_copy_to_ftp';
+    private string $channel = 'album_image_upload_to_ftp';
 
     public function copyAlbumImagetoFtp(int $id)
     {

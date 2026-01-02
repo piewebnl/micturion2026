@@ -4,17 +4,17 @@ namespace App\Console\Commands\Music;
 
 use App\Helpers\VolumeMountedCheck;
 use App\Models\Music\Album;
-use App\Services\Music\AlbumImageCopyToFtp;
+use App\Services\Music\AlbumImageUploadToFtp;
 use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 
-// php artisan command:AlbumImageCopyToFtp
-class AlbumImageCopyToFtpCommand extends Command
+// php artisan command:AlbumImageUploadToFtp
+class AlbumImageUploadToFtpCommand extends Command
 {
-    protected $signature = 'command:AlbumImageCopyToFtp';
+    protected $signature = 'command:AlbumImageUploadToFtp';
 
-    private string $channel = 'album_image_copy_to_ftp';
+    private string $channel = 'album_image_upload_to_ftp';
 
     public function handle()
     {
@@ -37,8 +37,8 @@ class AlbumImageCopyToFtpCommand extends Command
             $this->output->progressStart(count($ids));
 
             foreach ($ids as $id) {
-                $albumImageCopyToFtp = new AlbumImageCopyToFtp;
-                $albumImageCopyToFtp->copyAlbumImagetoFtp($id);
+                $albumImageUploadToFtp = new AlbumImageUploadToFtp;
+                $albumImageUploadToFtp->copyAlbumImagetoFtp($id);
                 $this->output->progressAdvance();
             }
 

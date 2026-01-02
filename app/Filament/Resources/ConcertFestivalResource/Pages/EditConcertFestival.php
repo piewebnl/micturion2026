@@ -38,6 +38,6 @@ class EditConcertFestival extends EditRecord
             'image_url' => '/images/festivals/' . $slug . '.jpg',
         ]);
 
-        $this->clearCache('get-concerts');
+        // $this->clearCache('get-concerts');
     }
 }

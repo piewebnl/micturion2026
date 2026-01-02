@@ -33,7 +33,7 @@ class ItunesLibraryImportCommand extends Command
         }
         unset($itunesLibrary);
 
-        $this->clearCache('music');
+        // $this->clearCache('music');
 
         $this->call('command:ItunesLibraryImportTracks');
         $this->call('command:ItunesLibraryImportPlaylists');
