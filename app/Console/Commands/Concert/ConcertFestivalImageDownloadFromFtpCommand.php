@@ -21,7 +21,6 @@ class ConcertFestivalImageDownloadFromFtpCommand extends Command
 
     private string $channel = 'concert_festival_image_download_from_ftp';
 
-
     public function handle()
     {
         if (!App::environment('local')) {
@@ -39,6 +38,7 @@ class ConcertFestivalImageDownloadFromFtpCommand extends Command
 
         if (empty($remoteImages)) {
             Logger::log('warning', $this->channel, 'No concert festivals found', [], $this);
+
             return;
         }
 

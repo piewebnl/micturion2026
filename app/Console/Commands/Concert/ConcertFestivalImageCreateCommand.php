@@ -12,7 +12,6 @@ use Illuminate\Console\Command;
 // php artisan command:ConcertFestivalImageCreate
 class ConcertFestivalImageCreateCommand extends Command
 {
-
     use QueryCache;
 
     protected $signature = 'command:ConcertFestivalImageCreate';

@@ -6,7 +6,6 @@ use App\Helpers\VolumeMountedCheck;
 use App\Models\Music\Album;
 use App\Services\Music\AlbumImageCreator;
 use App\Traits\Logger\Logger;
-use App\Traits\QueryCache\QueryCache;
 use Illuminate\Console\Command;
 
 // php artisan command:AlbumImageCreate

@@ -28,6 +28,7 @@ class FtpDownloader
                     $resource,
                     $command
                 );
+
                 return;
             }
         }

@@ -59,6 +59,7 @@ class DiscogsApiCollectionRelease extends Model
             ]
 
         );
+
         return $discogsRelease;
     }
 

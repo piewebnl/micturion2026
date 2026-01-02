@@ -4,7 +4,6 @@ namespace App\Models\Concert;
 
 use App\Services\Concert\ConcertImageSourceFinder;
 use App\Services\Images\ImageCreator;
-use App\Services\Images\ImageDeleter;
 use App\Traits\Logger\Logger;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -16,6 +15,8 @@ class ConcertImage extends Model
     protected $type = 'concert';
 
     private $slug;
+
+    private $concertItem;
 
     private string $channel = 'concert_create_images';
 
@@ -49,6 +50,12 @@ class ConcertImage extends Model
             $create = true;
         }
         if (!$create and $this->existsInDb()) {
+            Logger::log(
+                'info',
+                $this->channel,
+                'Concert image not chagned: ' . $this->concertItem->name . ' [' . $this->concertItem->concert->date . ']'
+            );
+
             return;
         }
 
@@ -72,24 +79,9 @@ class ConcertImage extends Model
             $this->channel,
             'Concert image created: ' . $this->concertItem->name . ' [' . $this->concertItem->concert->date . ']'
         );
+
+        return true;
     }
-
-    /*
-    public function remove(ConcertItem $concertItem, $slug)
-    {
-        $imageDeleter = new ImageDeleter($this->type);
-        $imageDeleter->delete($concertImage->slug);
-
-        // Delete in db
-        $concertItemImage = ConcertImage::destroy($concertItem->id);
-
-        $this->response = response()->success('Concert image deleted ' . $this->concertItem->name);
-
-        Logger::log('info', $this->channel, 'Concert image deleted  ' . $this->concertItem->name);
-
-        return $concertItemImage;
-    }
-        */
 
     public function existsInDb()
     {

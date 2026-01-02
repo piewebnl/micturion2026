@@ -193,7 +193,6 @@ class MirrorDirectory
         }
     }
 
-
     public function getProcessedFiles(): int
     {
         return $this->processedFiles;

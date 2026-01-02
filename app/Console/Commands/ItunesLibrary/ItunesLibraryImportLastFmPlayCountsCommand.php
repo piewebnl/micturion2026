@@ -83,7 +83,7 @@ class ItunesLibraryImportLastFmPlayCountsCommand extends Command
                 $tracks = [$tracks];
             }
 
-            $tracks = array_filter($tracks, fn($t) => isset($t['date']['uts']));
+            $tracks = array_filter($tracks, fn ($t) => isset($t['date']['uts']));
             $all = array_merge($all, $tracks);
 
             $got = count($tracks);

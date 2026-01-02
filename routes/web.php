@@ -1,8 +1,8 @@
 <?php
 
-use Livewire\Volt\Volt;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
 Route::get('/', function () {
     return view('home');
@@ -10,7 +10,6 @@ Route::get('/', function () {
 
 Volt::route('/login', 'pages.auth.login')
     ->name('login');
-
 
 Route::middleware('auth')->group(function () {
 

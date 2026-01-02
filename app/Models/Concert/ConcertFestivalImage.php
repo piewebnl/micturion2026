@@ -55,6 +55,7 @@ class ConcertFestivalImage extends Model
                 $this->channel,
                 'Concert festival image not chagned: ' . $this->concertFestival->name . ' [' . $this->concertFestival->concert->date . ']'
             );
+
             return;
         }
 

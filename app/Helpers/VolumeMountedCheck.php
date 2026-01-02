@@ -3,8 +3,8 @@
 namespace App\Helpers;
 
 use App\Traits\Logger\Logger;
-use Illuminate\Support\Facades\App;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\App;
 
 class VolumeMountedCheck
 {
@@ -15,6 +15,7 @@ class VolumeMountedCheck
             Logger::log('error', $channel, $path . ' not mounted');
             $command->info($channel);
             $command->error($path . ' not mounted');
+
             return false;
         }
 

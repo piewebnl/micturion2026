@@ -30,19 +30,29 @@ class ConcertImageCreateCommand extends Command
 
         $ids = ConcertItem::with(['Concert', 'ConcertArtist'])->orderBy('id', 'asc')->pluck('id');
 
-
         if ($ids->isEmpty()) {
             Logger::log('error', $this->channel, 'No concert items found', [], $this);
+
             return;
         }
 
         $this->output->progressStart(count($ids));
 
+        $clearCache = false;
+
         foreach ($ids as $id) {
             $concertImageCreator = new ConcertImageCreator;
-            $concertImageCreator->createConcertImage($id);
+            $status = $concertImageCreator->createConcertImage($id);
+            if ($status) {
+                $clearCache = true;
+            }
             $this->output->progressAdvance();
         }
+
+        if ($clearCache) {
+            $this->clearCache('concerts', $this->channel, $this);
+        }
+
         $this->output->progressFinish();
     }
 }

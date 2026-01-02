@@ -37,7 +37,6 @@ class ConcertImageDownloadFromFtpCommand extends Command
         Logger::deleteChannel($this->channel);
         Logger::echoChannel($this->channel, $this);
 
-
         $this->remoteImages = Storage::disk('ftp')->files(config('concerts')['ftp_concert_images_path']);
 
         $this->output->progressStart(count($this->remoteImages));

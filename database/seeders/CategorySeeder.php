@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use DB;
 use JeroenZwart\CsvSeeder\CsvSeeder;
 
-
 class CategorySeeder extends CsvSeeder
 {
     public function __construct()

@@ -19,6 +19,7 @@ class ConcertFestivalImageCreator
             $concertImage = new ConcertFestivalImage;
             $status = $concertImage->create($concertFestival);
         }
+
         return $status;
     }
 }

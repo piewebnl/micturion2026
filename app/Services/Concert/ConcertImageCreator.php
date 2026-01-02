@@ -9,19 +9,19 @@ use App\Models\Concert\ConcertItem;
 // Create concert image (via upload or found on disk)
 class ConcertImageCreator
 {
-    private $response;
-
-    private string $channel = 'concert_create_images';
-
     public function createConcertImage(int $id)
     {
 
         $concertItem = ConcertItem::with('Concert', 'ConcertArtist')->find($id);
 
+        $status = false;
+
         if ($concertItem) {
 
             $concertImage = new ConcertImage;
-            $concertImage->create($concertItem);
+            $status = $concertImage->create($concertItem);
         }
+
+        return $status;
     }
 }
