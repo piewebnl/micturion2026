@@ -13,8 +13,6 @@ class AlbumImageOthersUploadToFtp
 {
     private string $channel = 'album_image_others_upload_to_ftp';
 
-    private Command $command;
-
     public function uploadAlbumImageOthersToFtp(int $id, ?Command $command)
     {
 

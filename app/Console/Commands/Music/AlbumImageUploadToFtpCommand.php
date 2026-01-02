@@ -18,27 +18,26 @@ class AlbumImageUploadToFtpCommand extends Command
 
     public function handle()
     {
-        if (App::environment() != 'local') {
+        if (!App::environment('local')) {
             return;
         }
 
-        if (!VolumeMountedCheck::check('/Volumes/iTunes', $this->channel)) {
+        if (!VolumeMountedCheck::check('/Volumes/iTunes', $this->channel, $this)) {
             return;
         }
 
         Logger::deleteChannel($this->channel);
+        Logger::echoChannel($this->channel, $this);
 
         $ids = Album::whereNotNull('location')->pluck('id')->toArray();
 
-        Logger::echoChannel($this->channel);
-
-        if (count($ids) > 0) {
+        if ($ids) {
 
             $this->output->progressStart(count($ids));
 
             foreach ($ids as $id) {
                 $albumImageUploadToFtp = new AlbumImageUploadToFtp;
-                $albumImageUploadToFtp->copyAlbumImagetoFtp($id);
+                $albumImageUploadToFtp->uploadAlbumImagetoFtp($id, $this);
                 $this->output->progressAdvance();
             }
 
@@ -47,7 +46,5 @@ class AlbumImageUploadToFtpCommand extends Command
 
             Logger::log('info', $this->channel, 'No albums to copy');
         }
-
-        // Logger::echo($this->channel);
     }
 }
