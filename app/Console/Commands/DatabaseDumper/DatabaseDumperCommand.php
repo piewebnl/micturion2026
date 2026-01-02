@@ -16,7 +16,7 @@ class DatabaseDumperCommand extends Command
 
     protected $signature = 'command:DatabaseDumper';
 
-    private string $channel;
+    private string $channel = 'database_dumber';
 
     private array $filesToImport;
 
@@ -26,11 +26,11 @@ class DatabaseDumperCommand extends Command
             return;
         }
 
-        $this->channel = 'database_dumber';
         $this->filesToImport = config('csv-import');
 
         Logger::deleteChannel($this->channel);
-        Logger::echoChannel($this->channel);
+        Logger::echoChannel($this->channel, $this);
+
         $this->output->progressStart(count($this->filesToImport));
 
         foreach ($this->filesToImport as $filesToImport) {
@@ -43,9 +43,7 @@ class DatabaseDumperCommand extends Command
             $jsonToCsvSeedImporter->import();
             $this->output->progressAdvance();
         }
-        Cache::flush();
 
         $this->output->progressFinish();
-        // Logger::echo($this->channel);
     }
 }
