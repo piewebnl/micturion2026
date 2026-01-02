@@ -16,7 +16,11 @@ return [
 
     'ftp_playlist_best_of_artwork_images_path' => env('FTP_PLAYLIST_BEST_OF_ARTWORK_IMAGES_PATH'),
 
+    'spine_images_storage_path' => env('SPINE_IMAGES_PATH'),
+
     'spine_images_path' => env('SPINE_IMAGES_PATH'),
+
+    'spine_images_extracted_path' => env('SPINE_IMAGES_EXTRACTED_PATH'),
 
     'plex_amp_path' => env('PLEX_AMP_PATH'),
 

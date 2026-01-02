@@ -26,6 +26,7 @@ class SpineImageSourceFinder
     public function isSourceModified($hashFromDb): bool
     {
         $fileHash = ImageHelper::createHash($this->filename);
+
         if ($hashFromDb != $fileHash) {
             return true;
         }
