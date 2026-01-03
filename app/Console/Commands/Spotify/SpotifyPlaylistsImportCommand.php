@@ -29,14 +29,24 @@ class SpotifyPlaylistsImportCommand extends Command
             return self::FAILURE;
         }
         $lastPage = (new SpotifyPlaylistsImporter($api, $this->perPage))->getLastPage();
+        if (!$lastPage) {
+            return self::SUCCESS;
+        }
         $this->output->progressStart($lastPage);
 
+        $spotifyPlaylistImporter = new SpotifyPlaylistsImporter($api, $this->perPage);
+
+        $total = 0;
+
         for ($page = 1; $page <= $lastPage; $page++) {
-            SpotifyPlaylistImportJob::dispatchSync($page, $this->perPage);
+            $spotifyPlaylistImporter->import($page);
+            $total = $total + $spotifyPlaylistImporter->getResource()['total_playlists_imported'];
             $this->output->progressAdvance();
         }
 
         (new SpotifyPlaylist)->deleteAllHasChanged();
+
+        Logger::log('info', $this->channel, 'Spotify playlists imported: ' . $total, [], $this);
 
         $this->output->progressFinish();
 

@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Traits\Converters;
+namespace App\Services\SpotifyApi\Playlists;
 
-use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 
-trait ToSpotifyPlaylistConverter
+class SpotifyApiPlaylistMapper
 {
-    public function convertSpotifyApiPlaylistToSpotifyPlaylist(object $spotifyApiPlaylist): array
+
+    public function toSpotifyPlaylist(object $spotifyApiPlaylist, bool $snapshotChanged): array
     {
+        $spotifyApiPlaylist->snapshot_id_has_changed = $snapshotChanged;
+
         return [
             'spotify_api_playlist_id' => $spotifyApiPlaylist->id,
             'name' => $spotifyApiPlaylist->name,
@@ -22,7 +25,6 @@ trait ToSpotifyPlaylistConverter
         ];
     }
 
-    // Playlist 2021 - 02 Feb
     private function getDateFromName(string $name)
     {
         if (Str::startsWith($name, 'Playlist 20')) {

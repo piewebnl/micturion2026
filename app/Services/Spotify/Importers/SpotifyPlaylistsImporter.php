@@ -2,10 +2,10 @@
 
 namespace App\Services\Spotify\Importers;
 
-use App\Models\SpotifyApi\SpotifyApiPlaylist;
+use App\Models\Spotify\SpotifyPlaylist;
 use App\Services\SpotifyApi\Getters\SpotifyApiUserPlaylistGetter;
+use App\Services\SpotifyApi\Playlists\SpotifyApiPlaylistMapper;
 use App\Services\Logger\Logger;
-use Illuminate\Http\JsonResponse;
 
 // Import spotify playlists to db
 class SpotifyPlaylistsImporter
@@ -14,7 +14,7 @@ class SpotifyPlaylistsImporter
 
     private $spotifyPlaylistGetter;
 
-    private $spotifyApiPlaylist;
+    private $spotifyApiPlaylistMapper;
 
     private $spotifyApiPlaylists;
 
@@ -26,9 +26,7 @@ class SpotifyPlaylistsImporter
 
     private $lastPage = null;
 
-    private $channel = '';
-
-    private $response;
+    private $channel = 'spotify_playlists_import';
 
     private $resource = [];
 
@@ -36,10 +34,9 @@ class SpotifyPlaylistsImporter
     {
         $this->api = $api;
         $this->perPage = $perPage;
-        $this->channel = 'spotify_playlists_import';
         $this->spotifyPlaylistGetter = new SpotifyApiUserPlaylistGetter($this->api, $this->perPage);
         $this->lastPage = $this->spotifyPlaylistGetter->getLastPage();
-        $this->spotifyApiPlaylist = new SpotifyApiPlaylist;
+        $this->spotifyApiPlaylistMapper = new SpotifyApiPlaylistMapper;
     }
 
     public function import(int $page)
@@ -51,17 +48,24 @@ class SpotifyPlaylistsImporter
 
         $this->totalPlaylists = $this->spotifyPlaylistGetter->getTotal();
 
-        $importedPlaylists = $this->spotifyApiPlaylist->haveSnapshotIdsChanged($this->spotifyApiPlaylists);
-        $this->spotifyApiPlaylist->updateOrCreateAll($importedPlaylists);
+        $importedPlaylists = $this->markSnapshotIdChanges($this->spotifyApiPlaylists) ?? [];
 
-        if ($importedPlaylists) {
+        foreach ($importedPlaylists as $spotifyApiPlaylist) {
+
+            $playlists = $this->spotifyApiPlaylistMapper->toSpotifyPlaylist(
+                $spotifyApiPlaylist,
+                $spotifyApiPlaylist->snapshot_id_has_changed
+            );
+
+            SpotifyPlaylist::updateOrCreate(
+                ['spotify_api_playlist_id' => $spotifyApiPlaylist->id],
+                $playlists
+            );
+        }
+
+        if (!empty($importedPlaylists)) {
             foreach ($importedPlaylists as $playlist) {
-                $resourcePlaylists[] = [
-                    'status' => 'success',
-                    'name' => $playlist->name,
-                    'total_tracks' => $playlist->tracks->total,
-                ];
-                Logger::log('info', $this->channel, 'Spotify playlists imported: ' . $playlist->name . ' [' . $playlist->tracks->total . ' tracks]');
+                Logger::log('notice', $this->channel, 'Spotify playlists imported: ' . $playlist->name . ' [' . $playlist->tracks->total . ' tracks]');
             }
         }
 
@@ -70,18 +74,38 @@ class SpotifyPlaylistsImporter
             'total_playlists' => $this->totalPlaylists,
             'total_playlists_imported' => count($importedPlaylists),
         ];
-
-        $this->response = response()->success('Spotify playlists importedPlaylists', $this->resource);
     }
+
+    private function markSnapshotIdChanges(array $spotifyApiPlaylists): array
+    {
+        foreach ($spotifyApiPlaylists as $key => $spotifyApiPlaylist) {
+            $spotifyApiPlaylists[$key]->snapshot_id_has_changed = $this->hasSnapshotIdChanged(
+                $spotifyApiPlaylist->id,
+                $spotifyApiPlaylist->snapshot_id
+            );
+        }
+
+        return $spotifyApiPlaylists;
+    }
+
+    private function hasSnapshotIdChanged(string $spotifyApiPlaylistId, string $snapshotId): bool
+    {
+        $storedSnapshotId = SpotifyPlaylist::where('spotify_api_playlist_id', $spotifyApiPlaylistId)
+            ->pluck('snapshot_id')
+            ->first();
+
+        return $snapshotId !== $storedSnapshotId;
+    }
+
+
 
     public function getLastPage(): ?int
     {
         return $this->lastPage;
     }
 
-    public function getResponse(): JsonResponse
+    public function getResource()
     {
-
-        return $this->response;
+        return $this->resource;
     }
 }
