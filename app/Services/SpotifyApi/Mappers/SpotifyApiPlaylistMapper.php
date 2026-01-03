@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\SpotifyApi\Playlists;
+namespace App\Services\SpotifyApi\Mappers;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;

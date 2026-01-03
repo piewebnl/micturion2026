@@ -10,13 +10,6 @@ class SpotifyPlaylistTrack extends Model
 {
     protected $guarded = [];
 
-    /*
-    public function spotifyTracks()
-    {
-        return $this->hasMany(SpotifyTrack::class, 'spotify_api_track_id', 'track_id');
-    }
-    */
-
     public function spotifyTrack()
     {
         return $this->belongsTo(SpotifyTrack::class);

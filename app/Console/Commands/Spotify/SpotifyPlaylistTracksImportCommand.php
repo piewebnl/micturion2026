@@ -17,40 +17,25 @@ class SpotifyPlaylistTracksImportCommand extends Command
 {
     protected $signature = 'command:SpotifyPlaylistTracksImport';
 
-    private string $channel;
+    private string $channel = 'spotify_playlist_tracks_import';
 
     private int $perPage = 50;
 
     public function handle()
     {
-        $this->channel = 'spotify_playlist_tracks_import';
 
         Logger::deleteChannel($this->channel);
+        Logger::echoChannel($this->channel, $this);
 
-        $api = (new SpotifyApiConnect)->getApi();
+        $api = (new SpotifyApiConnect($this))->getApi();
+
         if (!$api) {
-            Logger::log('error', $this->channel, 'No valid spotify API connection');
-            // Logger::echo($this->channel);
-
-            return;
-        }
-
-        if (App::environment() == 'local') {
-            Logger::echoChannel($this->channel);
+            return self::FAILURE;
         }
 
         if (!(new SpotifyPlaylist)->areSpotifyPlaylistsImported()) {
-            Logger::log('warning', $this->channel, 'No spotify playlists imported yet.');
-            // Logger::echo($this->channel);
-
-            return;
-        }
-
-        $api = (new SpotifyApiConnect)->getApi();
-        if (!$api) {
-            // Logger::echo($this->channel);
-
-            return;
+            Logger::log('error', $this->channel, 'No spotify playlists imported yet.', [], $this);
+            return self::FAILURE;
         }
 
         $playlistsToImport = config('spotify.playlist_tracks_to_import_from_spotify');
@@ -66,33 +51,28 @@ class SpotifyPlaylistTracksImportCommand extends Command
         foreach ($spotifyPlaylists as $spotifyPlaylist) {
 
             // Skip if the playlist snapshot id hasn't changed
-            if ($spotifyPlaylist->snapshot_id_has_changed) {
+            $test = true;
+            if ($spotifyPlaylist->snapshot_id_has_changed or $test = true) {
 
                 $spotifyPlaylistImporter = new SpotifyPlaylistTracksImporter($api, $spotifyPlaylist, $this->perPage);
                 $lastPage = $spotifyPlaylistImporter->getLastPage();
                 $total = $spotifyPlaylistImporter->getTotal();
 
                 for ($page = 1; $page <= $lastPage; $page++) {
-                    SpotifyPlaylistTracksImportJob::dispatchSync(
-                        $spotifyPlaylist,
-                        $page,
-                        $this->perPage
-                    );
+                    $spotifyPlaylistImporter = new SpotifyPlaylistTracksImporter($api, $spotifyPlaylist, $this->perPage);
+                    $spotifyPlaylistImporter->import($page);
                 }
 
                 // Cleanup
                 (new SpotifyPlaylistTrack)->deleteNotChanged($spotifyPlaylist);
-                Logger::log('info', $this->channel, 'Spotify playlist tracks imported: ' . $spotifyPlaylist->name . ' [' . $total . ' tracks]');
+                Logger::log('notice', $this->channel, 'Spotify playlist tracks imported: ' . $spotifyPlaylist->name . ' [' . $total . ' tracks]');
             } else {
-                Logger::log('info', $this->channel, 'Spotify playlists tracks (unchanged) ' . $spotifyPlaylist->name);
+                Logger::log('info', $this->channel, 'Spotify playlists tracks (playlist hasn\'t changed) ' . $spotifyPlaylist->name);
             }
 
             $this->output->progressAdvance();
         }
 
-        Cache::flush();
-
         $this->output->progressFinish();
-        // Logger::echo($this->channel);
     }
 }

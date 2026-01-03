@@ -72,7 +72,7 @@ class SpotifyPlaylistTracksExportCommand extends Command
             $this->output->progressAdvance();
         }
 
-        // (new SpotifyPlaylist())->deleteAllHasChanged();
+        // (new SpotifyPlaylist())->deleteNotChanged();
 
         $this->output->progressFinish();
 

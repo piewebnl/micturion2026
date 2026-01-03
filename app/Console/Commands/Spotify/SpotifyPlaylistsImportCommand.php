@@ -44,7 +44,7 @@ class SpotifyPlaylistsImportCommand extends Command
             $this->output->progressAdvance();
         }
 
-        (new SpotifyPlaylist)->deleteAllHasChanged();
+        (new SpotifyPlaylist)->deleteNotChanged();
 
         Logger::log('info', $this->channel, 'Spotify playlists imported: ' . $total, [], $this);
 

@@ -2,10 +2,10 @@
 
 namespace App\Services\Spotify\Importers;
 
-use App\Models\Spotify\SpotifyPlaylist;
-use App\Services\SpotifyApi\Getters\SpotifyApiUserPlaylistGetter;
-use App\Services\SpotifyApi\Playlists\SpotifyApiPlaylistMapper;
 use App\Services\Logger\Logger;
+use App\Models\Spotify\SpotifyPlaylist;
+use App\Services\SpotifyApi\Mappers\SpotifyApiPlaylistMapper;
+use App\Services\SpotifyApi\Getters\SpotifyApiUserPlaylistGetter;
 
 // Import spotify playlists to db
 class SpotifyPlaylistsImporter

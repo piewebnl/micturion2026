@@ -67,8 +67,8 @@ class SyncCommand extends Command
         // Spotify
 
         $this->call('command:SpotifyPlaylistsImport');
-        /*
         $this->call('command:SpotifyPlaylistTracksImport');
+        /*
         $this->call('command:SpotifyPlaylistTracksExport');
         $this->call('command:SpotifyTracksFavouriteExport');
         $this->call('command:SpotifyAlbumsExport');

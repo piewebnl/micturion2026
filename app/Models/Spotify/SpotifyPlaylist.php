@@ -68,7 +68,7 @@ class SpotifyPlaylist extends Model
         SpotifyPlaylistTrack::where('spotify_playlist_id', $spotifyPlaylistId)->delete();
     }
 
-    public function deleteAllHasChanged()
+    public function deleteNotChanged()
     {
         SpotifyPlaylist::where('has_changed', 0)->delete();
         DB::table('spotify_playlists')->update(['has_changed' => 0]);
