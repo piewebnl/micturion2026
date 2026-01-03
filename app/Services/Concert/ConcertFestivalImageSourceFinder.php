@@ -5,7 +5,7 @@ namespace App\Services\Concert;
 use App\Helpers\ImageHelper;
 use App\Models\Concert\ConcertFestival;
 use App\Models\Concert\ConcertFestivalImage;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 
 class ConcertFestivalImageSourceFinder
 {

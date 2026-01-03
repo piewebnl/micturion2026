@@ -8,7 +8,7 @@ use App\Models\ItunesLibrary\ItunesLibraryPlaylistTrack;
 use App\Models\Music\Song;
 use App\Models\Playlist\Playlist;
 use App\Models\Playlist\PlaylistTrack;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 

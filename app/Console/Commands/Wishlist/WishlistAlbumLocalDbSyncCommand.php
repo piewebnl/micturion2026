@@ -4,7 +4,7 @@ namespace App\Console\Commands\Wishlist;
 
 use App\Models\Wishlist\WishlistAlbum;
 use App\Services\CsvImport\CsvReader;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;

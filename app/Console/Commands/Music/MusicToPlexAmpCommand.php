@@ -4,7 +4,7 @@ namespace App\Console\Commands\Music;
 
 use App\Helpers\VolumeMountedCheck;
 use App\Services\Disk\MirrorDirectory;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 
 // php artisan command:MusicToPlexAmp

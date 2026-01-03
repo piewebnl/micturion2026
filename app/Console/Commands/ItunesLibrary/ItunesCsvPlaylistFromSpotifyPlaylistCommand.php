@@ -4,7 +4,7 @@ namespace App\Console\Commands\ItunesLibrary;
 
 use App\Models\Spotify\SpotifyPlaylist;
 use App\Services\ItunesLibrary\ItunesLibraryCsvPlaylistFromSpotifyPlaylist;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 

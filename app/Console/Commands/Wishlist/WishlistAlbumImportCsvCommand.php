@@ -3,7 +3,7 @@
 namespace App\Console\Commands\Wishlist;
 
 use App\Services\CsvImport\JsonToCsvSeedImporter;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 

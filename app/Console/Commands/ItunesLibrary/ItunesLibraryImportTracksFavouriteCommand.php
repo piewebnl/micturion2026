@@ -6,7 +6,7 @@ use App\Jobs\ItunesLibrary\ItunesLibraryImportPlaylistTracksJob;
 use App\Models\ItunesLibrary\ItunesLibrary;
 use App\Models\Playlist\Playlist;
 use App\Services\ItunesLibrary\ItunesLibraryPlaylistTracksImporter;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 

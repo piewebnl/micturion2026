@@ -5,7 +5,7 @@ namespace App\Services\Music;
 use App\Helpers\ImageHelper;
 use App\Models\Music\Album;
 use App\Models\Music\AlbumImage;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Support\Str;
 
 class SpineImageSourceFinder

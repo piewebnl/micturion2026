@@ -5,7 +5,7 @@ namespace App\Console\Commands\Wishlist;
 use App\Jobs\Wishlist\WishlistAlbumPricesScrapeJob;
 use App\Models\Wishlist\MusicStore;
 use App\Models\Wishlist\WishlistAlbum;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use App\Traits\QueryCache\QueryCache;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;

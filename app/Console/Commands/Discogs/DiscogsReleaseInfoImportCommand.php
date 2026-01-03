@@ -4,7 +4,7 @@ namespace App\Console\Commands\Discogs;
 
 use App\Models\Discogs\DiscogsRelease;
 use App\Services\Discogs\Importers\DiscogsReleaseInfoImporter;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 

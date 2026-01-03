@@ -5,7 +5,7 @@ namespace App\Services\ItunesLibrary;
 use App\Helpers\PaginationHelper;
 use App\Models\ItunesLibrary\ItunesLibrary;
 use App\Models\ItunesLibrary\ItunesLibraryTrack;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Support\Facades\DB;
 
 // Import iTunes library tracks (songs) to db

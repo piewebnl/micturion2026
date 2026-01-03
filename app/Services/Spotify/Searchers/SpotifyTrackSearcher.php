@@ -6,7 +6,7 @@ use App\Models\Spotify\SpotifySearchResultTrack;
 use App\Models\Spotify\SpotifySearchTrack;
 use App\Services\Spotify\Helpers\SpotifyNameHelper;
 use App\Traits\Converters\ToSpotifySearchResultTrackConverter;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Exception;
 
 // Search spotify api for tracks

@@ -4,7 +4,7 @@ namespace App\Models\ItunesLibrary;
 
 use App\Models\Setting;
 use App\Services\ItunesLibrary\ItunesLibraryParser;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;

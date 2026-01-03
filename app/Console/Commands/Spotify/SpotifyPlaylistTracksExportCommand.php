@@ -6,7 +6,7 @@ use App\Models\Playlist\Playlist;
 use App\Services\Spotify\Exporters\SpotifyPlaylistImageExporter;
 use App\Services\Spotify\Exporters\SpotifyPlaylistTracksExporter;
 use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 

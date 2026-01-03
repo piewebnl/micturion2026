@@ -7,7 +7,7 @@ use App\Models\Discogs\DiscogsRelease;
 use App\Models\DiscogsApi\DiscogsApiCollectionRelease;
 use App\Models\Music\Album;
 use App\Services\DiscogsApi\Getters\DiscogsApiCollectionGetter;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 
 class DiscogsCollectionImporter

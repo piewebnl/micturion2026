@@ -6,7 +6,7 @@ use App\Models\Spotify\SpotifySearchAlbum;
 use App\Models\Spotify\SpotifySearchResultAlbum;
 use App\Services\Spotify\Helpers\SpotifyNameHelper;
 use App\Traits\Converters\ToSpotifySearchResultAlbumConverter;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Exception;
 
 // Search spotify api for albums

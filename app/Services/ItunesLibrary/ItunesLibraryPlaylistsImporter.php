@@ -5,7 +5,7 @@ namespace App\Services\ItunesLibrary;
 use App\Helpers\PaginationHelper;
 use App\Models\ItunesLibrary\ItunesLibrary;
 use App\Models\ItunesLibrary\ItunesLibraryPlaylist;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Http\JsonResponse;
 
 // Imports itunes library playlists (no tracks) to db

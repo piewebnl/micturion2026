@@ -5,7 +5,7 @@ namespace App\Console\Commands\Discogs;
 use App\Models\Discogs\DiscogsRelease;
 use App\Models\Music\Album;
 use App\Services\Discogs\Matchers\DiscogsCollectionMatcher;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 
 // php artisan command:DiscogsCollectionMatcher

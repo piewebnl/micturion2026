@@ -9,7 +9,7 @@ use App\Models\Music\Song;
 use App\Services\ItunesLibrary\ItunesLibraryExtraTracksImporter;
 use App\Services\ItunesLibrary\ItunesLibraryTracksImporter;
 use App\Services\Music\AlbumCalculatePlayCount;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Session;
 

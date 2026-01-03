@@ -4,7 +4,7 @@ namespace App\Models\Music;
 
 use App\Services\Images\ImageCreator;
 use App\Services\Music\AlbumImageSourceFinder;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 

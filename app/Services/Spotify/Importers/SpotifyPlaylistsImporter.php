@@ -4,7 +4,7 @@ namespace App\Services\Spotify\Importers;
 
 use App\Models\SpotifyApi\SpotifyApiPlaylist;
 use App\Services\SpotifyApi\Getters\SpotifyApiUserPlaylistGetter;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Http\JsonResponse;
 
 // Import spotify playlists to db

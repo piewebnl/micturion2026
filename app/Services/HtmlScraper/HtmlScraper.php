@@ -2,7 +2,7 @@
 
 namespace App\Services\HtmlScraper;
 
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 
 class HtmlScraper
 {

@@ -2,7 +2,7 @@
 
 namespace App\Services\DiscogsApi\Getters;
 
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Support\Facades\Http;
 
 class DiscogsApiCollectionGetter

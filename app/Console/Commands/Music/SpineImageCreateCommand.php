@@ -4,7 +4,7 @@ namespace App\Console\Commands\Music;
 
 use App\Models\Music\Album;
 use App\Services\Music\SpineImageCreator;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 
 // php artisan command:SpineImageCreate

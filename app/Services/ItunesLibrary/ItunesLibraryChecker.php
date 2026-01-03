@@ -6,7 +6,7 @@ use App\Models\Music\Album;
 use App\Models\Music\Artist;
 use App\Models\Music\SkippedSong;
 use App\Models\Music\Song;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
@@ -231,7 +231,7 @@ class ItunesLibraryChecker
 
         $dbPaths = $songPaths
             ->merge($skippedPaths)
-            ->map(fn ($path) => strtolower($path))
+            ->map(fn($path) => strtolower($path))
             ->filter()
             ->sort()
             ->toArray();

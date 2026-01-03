@@ -3,7 +3,7 @@
 namespace App\Services\SpotifyApi\Connect;
 
 use App\Models\Setting;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use RuntimeException;
 

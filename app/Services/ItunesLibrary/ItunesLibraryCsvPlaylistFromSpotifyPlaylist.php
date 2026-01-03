@@ -3,7 +3,7 @@
 namespace App\Services\ItunesLibrary;
 
 use App\Models\Spotify\SpotifyPlaylist;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 

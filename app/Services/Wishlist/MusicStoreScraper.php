@@ -7,7 +7,7 @@ use App\Models\Wishlist\MusicStore;
 use App\Models\Wishlist\WishlistAlbum;
 use App\Models\Wishlist\WishlistAlbumPrice;
 use App\Services\HtmlScraper\HtmlScraper;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Support\Str;
 
 class MusicStoreScraper

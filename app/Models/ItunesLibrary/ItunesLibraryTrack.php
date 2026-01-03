@@ -10,8 +10,7 @@ use App\Models\Music\Genre;
 use App\Models\Music\SkippedSong;
 use App\Models\Music\Song;
 use App\Services\ItunesLibrary\ItunesLibraryTrackMutator;
-use App\Traits\Logger\Logger;
-use Exception;
+use App\Services\Logger\Logger;
 use Illuminate\Database\Eloquent\Model;
 
 // Pseudo model of iTunes Track

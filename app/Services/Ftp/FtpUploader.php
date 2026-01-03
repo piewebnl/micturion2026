@@ -2,7 +2,7 @@
 
 namespace App\Services\Ftp;
 
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Support\Facades\Storage;
 
 class FtpUploader

@@ -3,7 +3,7 @@
 namespace App\Console\Commands\ItunesLibrary;
 
 use App\Models\ItunesLibrary\ItunesLibrary;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use App\Traits\QueryCache\QueryCache;
 use Illuminate\Console\Command;
 

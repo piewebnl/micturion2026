@@ -7,7 +7,7 @@ use App\Services\Spotify\Deleters\SpotifyAlbumsDeleter;
 use App\Services\Spotify\Exporters\SpotifyAlbumsExporter;
 use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
 use App\Services\SpotifyApi\Getters\SpotifyApiUserAlbumsGetter;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 

@@ -5,7 +5,7 @@ namespace App\Console\Commands\Music;
 use App\Helpers\VolumeMountedCheck;
 use App\Models\Music\Album;
 use App\Services\Music\AlbumImageUploadToFtp;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 

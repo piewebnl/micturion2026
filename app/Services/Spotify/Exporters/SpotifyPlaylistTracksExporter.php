@@ -9,7 +9,7 @@ use App\Models\Spotify\SpotifyPlaylist;
 use App\Services\Spotify\Creators\SpotifyPlaylistCreator;
 use App\Services\SpotifyApi\Deleters\SpotifyApiPlaylistEmptier;
 use App\Services\SpotifyApi\Posters\SpotifyApiPlaylistTracksPoster;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Http\JsonResponse;
 
 // Export playlist with tracks to spotify

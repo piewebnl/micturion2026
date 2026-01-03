@@ -9,7 +9,7 @@ use App\Models\Wishlist\WishlistAlbumPrice;
 use App\Services\CsvImport\CsvCreator;
 use App\Services\CsvImport\CsvReader;
 use App\Services\Ftp\FtpUploader;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use App\Traits\QueryCache\QueryCache;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;

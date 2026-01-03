@@ -6,7 +6,7 @@ use App\Jobs\Spotify\SpotifyPlaylistImportJob;
 use App\Models\Spotify\SpotifyPlaylist;
 use App\Services\Spotify\Importers\SpotifyPlaylistsImporter;
 use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 
 // php artisan command:SpotifyPlaylistsImport

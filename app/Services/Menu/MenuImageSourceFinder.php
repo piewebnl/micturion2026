@@ -5,7 +5,7 @@ namespace App\Services\Menu;
 use App\Helpers\ImageHelper;
 use App\Models\Menu\Menu;
 use App\Models\Menu\MenuImage;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 
 // Find menu image on disk
 class MenuImageSourceFinder

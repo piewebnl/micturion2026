@@ -3,7 +3,7 @@
 namespace App\Services\ItunesLibrary;
 
 use App\Models\ItunesLibrary\ItunesLibraryTrack;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 

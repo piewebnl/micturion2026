@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\Logger;
+namespace App\Services\Logger;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;

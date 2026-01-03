@@ -4,7 +4,7 @@ namespace App\Services\ItunesLibrary;
 
 use App\Models\Music\Category;
 use App\Models\Music\Format;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use App\Traits\Messages\ItunesLibraryTrackMessage;
 use Exception;
 use Illuminate\Support\Carbon;

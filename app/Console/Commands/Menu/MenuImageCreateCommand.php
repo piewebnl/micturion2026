@@ -4,7 +4,7 @@ namespace App\Console\Commands\Menu;
 
 use App\Models\Menu\Menu;
 use App\Services\Menu\MenuImageCreator;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use App\Traits\QueryCache\QueryCache;
 use Illuminate\Console\Command;
 

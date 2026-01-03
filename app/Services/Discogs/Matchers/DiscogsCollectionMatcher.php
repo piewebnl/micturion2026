@@ -6,7 +6,7 @@ use App\Models\Discogs\DiscogsRelease;
 use App\Models\Discogs\DiscogsReleaseCustomId;
 use App\Models\DiscogsApi\DiscogsApiCollectionRelease;
 use App\Models\Music\Album;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Http\JsonResponse;
 

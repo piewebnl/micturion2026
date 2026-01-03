@@ -2,7 +2,7 @@
 
 namespace App\Services\ItunesLibrary;
 
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 
 /*
 Itunes XML parser for PHP

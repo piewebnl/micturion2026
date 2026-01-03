@@ -4,7 +4,7 @@ namespace App\Models\ItunesLibrary;
 
 use App\Models\Playlist\Playlist;
 use App\Traits\Converters\ToPlaylistConverter;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use Illuminate\Database\Eloquent\Model;
 
 // Pseudo model of iTunes Playlist

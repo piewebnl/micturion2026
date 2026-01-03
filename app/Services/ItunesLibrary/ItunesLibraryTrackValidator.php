@@ -3,7 +3,7 @@
 namespace App\Services\ItunesLibrary;
 
 use App\Helpers\StringHelper;
-use App\Traits\Logger\Logger;
+use App\Services\Logger\Logger;
 use App\Traits\Messages\ItunesLibraryTrackMessage;
 
 // Do some checks on library track and determine if needs to be imported
