@@ -308,3 +308,29 @@ body {
         max-width: 48rem;
     }
 }
+
+@layer utilities {
+    .bg-tier-s {
+        background-color: var(--color-tier-s);
+    }
+
+    .bg-tier-a {
+        background-color: var(--color-tier-a);
+    }
+
+    .bg-tier-b {
+        background-color: var(--color-tier-b);
+    }
+
+    .bg-tier-c {
+        background-color: var(--color-tier-c);
+    }
+
+    .bg-tier-d {
+        background-color: var(--color-tier-d);
+    }
+
+    .bg-tier-e {
+        background-color: var(--color-tier-e);
+    }
+}

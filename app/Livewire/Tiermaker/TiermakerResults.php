@@ -59,6 +59,7 @@ class TiermakerResults extends Component
             )
             ->customPaginateOrLimit($filterValues);
 
+
         return view('livewire.tiermaker.tiermaker-results', [
             'filterValues' => $this->filterValues,
             'tiermakerArtists' => $tiermakerArtists,
