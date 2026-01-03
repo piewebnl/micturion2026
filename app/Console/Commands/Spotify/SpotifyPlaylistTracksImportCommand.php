@@ -45,21 +45,23 @@ class SpotifyPlaylistTracksImportCommand extends Command
         foreach ($spotifyPlaylists as $spotifyPlaylist) {
 
             // Skip if the playlist snapshot id hasn't changed
-            $test = true;
-            if ($spotifyPlaylist->snapshot_id_has_changed or $test = true) {
+            if ($spotifyPlaylist->snapshot_id_has_changed) {
 
-                $spotifyPlaylistImporter = new SpotifyPlaylistTracksImporter($api, $spotifyPlaylist, $this->perPage);
-                $lastPage = $spotifyPlaylistImporter->getLastPage();
-                $total = $spotifyPlaylistImporter->getTotal();
+                $spotifyPlaylistTracksImporter = new SpotifyPlaylistTracksImporter($api, $spotifyPlaylist, $this->perPage);
+                $lastPage = $spotifyPlaylistTracksImporter->getLastPage();
+                $total = $spotifyPlaylistTracksImporter->getTotal();
 
-                $oldPlaylistTrackIds = SpotifyPlaylistTrack::pluck('id')->filter()->values()->all();
+                $oldPlaylistTrackIds = SpotifyPlaylistTrack::where('spotify_playlist_id', $spotifyPlaylist->id)
+                    ->pluck('spotify_track_id')
+                    ->filter()
+                    ->values()
+                    ->all();
 
                 for ($page = 1; $page <= $lastPage; $page++) {
-                    $spotifyPlaylistImporter = new SpotifyPlaylistTracksImporter($api, $spotifyPlaylist, $this->perPage);
-                    $spotifyPlaylistImporter->import($page);
+                    $spotifyPlaylistTracksImporter->import($page);
                 }
 
-                $spotifyPlaylistTracksImporter->deleteOldPlaylistTracks($oldPlaylistIds);
+                $spotifyPlaylistTracksImporter->deleteOldPlaylistTracks($oldPlaylistTrackIds);
 
                 Logger::log('notice', $this->channel, 'Spotify playlist tracks imported: ' . $spotifyPlaylist->name . ' [' . $total . ' tracks]');
             } else {

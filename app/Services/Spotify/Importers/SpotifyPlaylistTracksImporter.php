@@ -29,6 +29,8 @@ class SpotifyPlaylistTracksImporter
 
     private $resource = [];
 
+    private array $allNewPlaylistTrackIds = [];
+
     public function __construct($api, SpotifyPlaylist $spotifyPlaylist, int $perPage)
     {
         $this->api = $api;
@@ -48,6 +50,7 @@ class SpotifyPlaylistTracksImporter
         $spotifyApiPlaylistTracks = [];
         $spotifyApiPlaylistTracks = $this->spotifyPlaylistTracksGetter->getPerPage($this->page, $this->perPage);
 
+        $newPlaylistTrackIds = [];
         foreach ($spotifyApiPlaylistTracks as $order => $spotifyApiPlaylistTrack) {
 
             // NEEDED?
@@ -74,7 +77,11 @@ class SpotifyPlaylistTracksImporter
                     'order' => $order
                 ]
             );
+
+            $newPlaylistTrackIds[] = $spotifyTrack->id;
         }
+
+        $this->addNewPlaylistTrackIds($newPlaylistTrackIds);
 
         // Update the playlist snapshot if changed
         if ($this->page == $this->lastPage) {
@@ -101,5 +108,27 @@ class SpotifyPlaylistTracksImporter
     public function getResource()
     {
         return $this->resource;
+    }
+
+    public function deleteOldPlaylistTracks(array $oldPlaylistTrackIds): void
+    {
+        if (empty($this->allNewPlaylistTrackIds)) {
+            return;
+        }
+
+        $oldPlaylistTracksNotInNew = array_diff($oldPlaylistTrackIds, $this->allNewPlaylistTrackIds);
+        if (!empty($oldPlaylistTracksNotInNew)) {
+            SpotifyPlaylistTrack::where('spotify_playlist_id', $this->spotifyPlaylist->id)
+                ->whereIn('spotify_track_id', $oldPlaylistTracksNotInNew)
+                ->delete();
+        }
+    }
+
+    private function addNewPlaylistTrackIds(array $newPlaylistTrackIds): void
+    {
+        $this->allNewPlaylistTrackIds = array_values(array_unique(array_merge(
+            $this->allNewPlaylistTrackIds,
+            $newPlaylistTrackIds
+        )));
     }
 }
