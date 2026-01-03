@@ -64,19 +64,15 @@ class SpotifyPlaylistTracksImporter
                 $spotifyTrackData
             );
 
-            // Save Spotify Playlist Track
-            $spotifyPlaylistTrackData = $this->spotifyApiPlaylistTrackMapper->toSpotifyPlaylistTrackData(
-                $this->spotifyPlaylist,
-                $order
-            );
 
             SpotifyPlaylistTrack::updateOrCreate(
                 [
                     'spotify_playlist_id' => $this->spotifyPlaylist->id,
                     'spotify_track_id' => $spotifyTrack->id,
                 ],
-
-                $spotifyPlaylistTrackData
+                [
+                    'order' => $order
+                ]
             );
         }
 

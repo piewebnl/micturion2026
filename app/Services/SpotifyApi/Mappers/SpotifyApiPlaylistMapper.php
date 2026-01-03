@@ -21,7 +21,6 @@ class SpotifyApiPlaylistMapper
             'snapshot_id_has_changed' => $spotifyApiPlaylist->snapshot_id_has_changed,
             'total_tracks' => $spotifyApiPlaylist->tracks->total,
             'date' => $this->getDateFromName($spotifyApiPlaylist->name),
-            'has_changed' => true,
         ];
     }
 

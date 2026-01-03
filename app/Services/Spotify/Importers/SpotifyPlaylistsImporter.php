@@ -30,6 +30,8 @@ class SpotifyPlaylistsImporter
 
     private $resource = [];
 
+    private array $allNewPlaylistIds = [];
+
     public function __construct($api, int $perPage)
     {
         $this->api = $api;
@@ -48,35 +50,42 @@ class SpotifyPlaylistsImporter
 
         $this->totalPlaylists = $this->spotifyPlaylistGetter->getTotal();
 
-        $importedPlaylists = $this->markSnapshotIdChanges($this->spotifyApiPlaylists) ?? [];
+        $playlistsToImport = $this->determineSnapshotIdChanges($this->spotifyApiPlaylists) ?? [];
 
-        foreach ($importedPlaylists as $spotifyApiPlaylist) {
+        foreach ($playlistsToImport as $spotifyApiPlaylist) {
 
-            $playlists = $this->spotifyApiPlaylistMapper->toSpotifyPlaylist(
-                $spotifyApiPlaylist,
-                $spotifyApiPlaylist->snapshot_id_has_changed
-            );
 
-            SpotifyPlaylist::updateOrCreate(
-                ['spotify_api_playlist_id' => $spotifyApiPlaylist->id],
-                $playlists
-            );
-        }
+            if ($spotifyApiPlaylist->snapshot_id_has_changed) {
 
-        if (!empty($importedPlaylists)) {
-            foreach ($importedPlaylists as $playlist) {
-                Logger::log('notice', $this->channel, 'Spotify playlists imported: ' . $playlist->name . ' [' . $playlist->tracks->total . ' tracks]');
+                $playlists = $this->spotifyApiPlaylistMapper->toSpotifyPlaylist(
+                    $spotifyApiPlaylist,
+                    $spotifyApiPlaylist->snapshot_id_has_changed
+                );
+
+                SpotifyPlaylist::updateOrCreate(
+                    ['spotify_api_playlist_id' => $spotifyApiPlaylist->id],
+                    $playlists
+                );
+
+                Logger::log('notice', $this->channel, 'Spotify playlist imported: ' . $spotifyApiPlaylist->name . ' [' . $spotifyApiPlaylist->tracks->total . ' tracks]');
+            } else {
+                Logger::log('info', $this->channel, 'Spotify playlist not imported (no change): ' . $spotifyApiPlaylist->name . ' [' . $spotifyApiPlaylist->tracks->total . ' tracks]');
             }
         }
 
+
+        $newPlaylistIds = collect($playlistsToImport)->pluck('id')->filter()->values()->all();
+        $this->addNewPlaylistIds($newPlaylistIds);
+
         $this->resource = [
             'page' => $this->page,
+            'new_playlist_ids' => $newPlaylistIds,
             'total_playlists' => $this->totalPlaylists,
-            'total_playlists_imported' => count($importedPlaylists),
         ];
     }
 
-    private function markSnapshotIdChanges(array $spotifyApiPlaylists): array
+    // Add to the api playlists if the snapshot ids have changed
+    private function determineSnapshotIdChanges(array $spotifyApiPlaylists): array
     {
         foreach ($spotifyApiPlaylists as $key => $spotifyApiPlaylist) {
             $spotifyApiPlaylists[$key]->snapshot_id_has_changed = $this->hasSnapshotIdChanged(
@@ -88,16 +97,39 @@ class SpotifyPlaylistsImporter
         return $spotifyApiPlaylists;
     }
 
+
+    public function deleteOldPlaylists(array $oldPlaylistIds): void
+    {
+        if (empty($this->allNewPlaylistIds)) {
+            return;
+        }
+
+        $oldPlaylistsNotInNew = array_diff($oldPlaylistIds, $this->allNewPlaylistIds);
+        if (!empty($oldPlaylistsNotInNew)) {
+            SpotifyPlaylist::whereIn('spotify_api_playlist_id', $oldPlaylistsNotInNew)->delete();
+        }
+    }
+
+    private function addNewPlaylistIds(array $newPlaylistIds): void
+    {
+        $this->allNewPlaylistIds = array_values(array_unique(array_merge(
+            $this->allNewPlaylistIds,
+            $newPlaylistIds
+        )));
+    }
+
+
     private function hasSnapshotIdChanged(string $spotifyApiPlaylistId, string $snapshotId): bool
     {
         $storedSnapshotId = SpotifyPlaylist::where('spotify_api_playlist_id', $spotifyApiPlaylistId)
             ->pluck('snapshot_id')
             ->first();
 
-        return $snapshotId !== $storedSnapshotId;
+        if ($snapshotId !== $storedSnapshotId) {
+            return true;
+        };
+        return false;
     }
-
-
 
     public function getLastPage(): ?int
     {

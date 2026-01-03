@@ -28,25 +28,25 @@ class SpotifyPlaylistsImportCommand extends Command
         if (!$api) {
             return self::FAILURE;
         }
+
         $lastPage = (new SpotifyPlaylistsImporter($api, $this->perPage))->getLastPage();
         if (!$lastPage) {
             return self::SUCCESS;
         }
-        $this->output->progressStart($lastPage);
+
+        $oldPlaylistIds = SpotifyPlaylist::pluck('spotify_api_playlist_id')->filter()->values()->all();
 
         $spotifyPlaylistImporter = new SpotifyPlaylistsImporter($api, $this->perPage);
 
-        $total = 0;
+        $this->output->progressStart($lastPage);
 
         for ($page = 1; $page <= $lastPage; $page++) {
             $spotifyPlaylistImporter->import($page);
-            $total = $total + $spotifyPlaylistImporter->getResource()['total_playlists_imported'];
             $this->output->progressAdvance();
         }
 
-        (new SpotifyPlaylist)->deleteNotChanged();
+        $spotifyPlaylistImporter->deleteOldPlaylists($oldPlaylistIds);
 
-        Logger::log('info', $this->channel, 'Spotify playlists imported: ' . $total, [], $this);
 
         $this->output->progressFinish();
 

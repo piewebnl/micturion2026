@@ -22,18 +22,10 @@ class SpotifyApiPlaylistTrackMapper
             'disc_number' => $spotifyApiPlaylistTrack->disc_number,
             'spotify_api_album_id' => $spotifyApiPlaylistTrack->album->id,
             'artwork_url' => $spotifyApiPlaylistTrack?->album?->images[0]?->url ?? null,
-            'has_changed' => true,
         ];
     }
 
-    public function toSpotifyPlaylistTrackData(SpotifyPlaylist $spotifyPlaylist, int $order): array
-    {
-        return
-            [
-                'has_changed' => true,
-                'order' => $order
-            ];
-    }
+
 
     /*
     public function normalizePlaylistTrack(object $spotifyApiPlaylistTrack): object

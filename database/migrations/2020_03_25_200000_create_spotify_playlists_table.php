@@ -20,7 +20,6 @@ return new class extends Migration
             $table->datetime('date')->nullable();
             $table->string('snapshot_id')->nullable();
             $table->unsignedInteger('snapshot_id_has_changed')->nullable();
-            $table->unsignedInteger('has_changed')->nullable();
             $table->timestamps();
         });
     }
