@@ -139,11 +139,6 @@ return [
             'days' => 1,
         ],
 
-        'menu_create_images' => [
-            'driver' => 'single',
-            'path' => storage_path('logs/menu_create_images.log'),
-            'days' => 1,
-        ],
 
         'energy_prices' => [
             'driver' => 'single',

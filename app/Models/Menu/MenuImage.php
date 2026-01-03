@@ -52,6 +52,11 @@ class MenuImage extends Model
             $create = true;
         }
         if (!$create and $this->existsInDb()) {
+            Logger::log(
+                'info',
+                $this->channel,
+                'Menu image not chagned: ' . $this->menu->name . ' [' . $this->menu->concert->date . ']'
+            );
             return;
         }
 
@@ -75,6 +80,9 @@ class MenuImage extends Model
             $this->channel,
             'Menu image created: ' . $this->menu->name
         );
+
+
+        return true;
     }
 
     public function existsInDb()

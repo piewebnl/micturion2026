@@ -52,7 +52,6 @@ class MenuImageSourceFinder
         if (file_exists($this->filename)) {
             $this->isFound = true;
         } else {
-
             Logger::log(
                 'error',
                 $this->channel,

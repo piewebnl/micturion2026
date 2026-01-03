@@ -8,19 +8,21 @@ use App\Models\Menu\MenuImage;
 // Create menu image (via upload or found on disk)
 class MenuImageCreator
 {
-    private string $channel = 'menu_create_images';
 
     public function createMenuImage(int $id)
     {
 
         $menu = Menu::find($id);
 
+        $status = false;
         if ($menu) {
 
             $menuImageFinder = new MenuImageSourceFinder($menu);
             $sourceFilename = $menuImageFinder->findFilename();
             $menuImage = new MenuImage;
-            $menuImage->create($menu, $sourceFilename);
+            $status = $menuImage->create($menu, $sourceFilename);
         }
+
+        return $status;
     }
 }

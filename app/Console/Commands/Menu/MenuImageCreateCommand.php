@@ -3,9 +3,10 @@
 namespace App\Console\Commands\Menu;
 
 use App\Models\Menu\Menu;
-use App\Services\Menu\MenuImageCreator;
-use App\Traits\QueryCache\QueryCache;
+use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
+use App\Traits\QueryCache\QueryCache;
+use App\Services\Menu\MenuImageCreator;
 
 class MenuImageCreateCommand extends Command
 {
@@ -13,24 +14,39 @@ class MenuImageCreateCommand extends Command
 
     protected $signature = 'command:MenuImageCreate';
 
+    private string $channel = 'menu_create_images';
+
     public function handle(): void
     {
+
+        Logger::deleteChannel($this->channel);
+        Logger::echoChannel($this->channel, $this);
+
         $ids = Menu::orderBy('order', 'asc')->pluck('id');
+
+        if ($ids->isEmpty()) {
+            Logger::log('error', $this->channel, 'No Menu items found', [], $this);
+
+            return;
+        }
 
         $this->output->progressStart(count($ids));
 
-        $menuImageCreator = new MenuImageCreator;
+        $clearCache = false;
 
         foreach ($ids as $id) {
-            try {
-                $menuImageCreator->createMenuImage($id);
-                $this->output->progressAdvance();
-            } catch (\Exception $e) {
-                $this->error("Failed to create image for menu ID {$id}: {$e->getMessage()}");
+            $MenuImageCreator = new MenuImageCreator;
+            $status = $MenuImageCreator->createMenuImage($id);
+            if ($status) {
+                $clearCache = true;
             }
+            $this->output->progressAdvance();
+        }
+
+        if ($clearCache) {
+            $this->clearCache('menus', $this->channel, $this);
         }
 
         $this->output->progressFinish();
-        // $this->clearCache('get-all-menus');
     }
 }
