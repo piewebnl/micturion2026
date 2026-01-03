@@ -8,7 +8,6 @@ use App\Services\Spotify\Importers\SpotifyPlaylistsImporter;
 use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
 use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\App;
 
 // php artisan command:SpotifyPlaylistsImport
 class SpotifyPlaylistsImportCommand extends Command

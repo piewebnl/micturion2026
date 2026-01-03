@@ -139,7 +139,6 @@ return [
             'days' => 1,
         ],
 
-
         'energy_prices' => [
             'driver' => 'single',
             'path' => storage_path('logs/energy_prices.log'),

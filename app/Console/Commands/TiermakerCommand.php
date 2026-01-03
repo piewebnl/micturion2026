@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use Database\Seeders\TiermakerAlbumSeeder;
 use Database\Seeders\TiermakerArtistSeeder;
+use Illuminate\Console\Command;
 
 // php artisan command:Tiermaker
 class TiermakerCommand extends Command

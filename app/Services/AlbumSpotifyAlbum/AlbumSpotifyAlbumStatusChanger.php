@@ -2,12 +2,12 @@
 
 namespace App\Services\AlbumSpotifyAlbum;
 
+use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 use App\Models\Music\Album;
-use Illuminate\Http\JsonResponse;
 use App\Models\Spotify\SpotifyAlbumCustomId;
 use App\Models\Spotify\SpotifyAlbumUnavailable;
-use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 use App\Traits\Converters\ToSpotifyAlbumCustomIdConverter;
+use Illuminate\Http\JsonResponse;
 
 class AlbumSpotifyAlbumStatusChanger
 {

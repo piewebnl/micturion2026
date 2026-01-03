@@ -10,10 +10,9 @@ class SpotifyController extends Controller
 {
     public function index()
     {
-        $spotifyConnect = new SpotifyApiConnect();
+        $spotifyConnect = new SpotifyApiConnect;
 
         $api = $spotifyConnect->getApi();
-
 
         if ($api) {
             session()->flash('success', 'Spotify connection successfull!');
@@ -25,6 +24,7 @@ class SpotifyController extends Controller
         } else {
 
             $authUrl = $spotifyConnect->getAuthorizeUrl();
+
             return view('spotify.spotify-connect', ['authUrl' => $authUrl]);
         }
     }

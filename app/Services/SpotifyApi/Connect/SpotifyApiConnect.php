@@ -5,7 +5,6 @@ namespace App\Services\SpotifyApi\Connect;
 use App\Models\Setting;
 use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
-use Illuminate\Http\JsonResponse;
 use RuntimeException;
 
 class SpotifyApiConnect
@@ -16,15 +15,11 @@ class SpotifyApiConnect
 
     private $configValues; // spotify config file
 
-    private $response;
-
     private $refreshToken;
 
     private $command;
 
     private $channel = 'spotify_api_connect';
-
-    public $hideResponse = false;
 
     private $spotifyPermissionOptions = [
         'scope' => [
@@ -47,9 +42,8 @@ class SpotifyApiConnect
     public function __construct(?Command $command = null)
     {
         $this->command = $command;
-        $this->configValues = config('spotify');
 
-        if (!isset($this->configValues['spotify_client_id'])) {
+        if (!config('spotify.spotify_client_id')) {
             Logger::log('error', $this->channel, 'Spotify config missing.', [], $this->command);
             throw new RuntimeException('Spotify config missing: spotify_client_id.');
         }
@@ -67,7 +61,6 @@ class SpotifyApiConnect
         try {
 
             if ($this->api->me()) {
-                //$this->response = response()->success('Spotify: Connected with Access token!');
                 Logger::log('success', $this->channel, 'Spotify: Connected with Access token!');
 
                 return true;
@@ -93,6 +86,7 @@ class SpotifyApiConnect
         $this->api = null;
 
         Logger::log('error', $this->channel, 'Spotify: No valid connection. Try to re-authorize.', [], $this->command);
+
         return false;
     }
 
@@ -131,9 +125,9 @@ class SpotifyApiConnect
     {
 
         $this->session = new \SpotifyWebAPI\Session(
-            $this->configValues['spotify_client_id'],
-            $this->configValues['spotify_client_secret'],
-            $this->configValues['spotify_callback'],
+            config('spotify.spotify_client_id'),
+            config('spotify.spotify_client_secret'),
+            config('spotify.spotify_callback')
         );
     }
 

@@ -8,7 +8,6 @@ use App\Models\Menu\MenuImage;
 // Create menu image (via upload or found on disk)
 class MenuImageCreator
 {
-
     public function createMenuImage(int $id)
     {
 

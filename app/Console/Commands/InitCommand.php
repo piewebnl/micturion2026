@@ -3,8 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Database\Seeders\TiermakerAlbumSeeder;
-use Database\Seeders\TiermakerArtistSeeder;
 
 // php artisan command:Init
 class InitCommand extends Command
