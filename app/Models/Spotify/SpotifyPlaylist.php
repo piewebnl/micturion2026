@@ -68,16 +68,26 @@ class SpotifyPlaylist extends Model
         SpotifyPlaylistTrack::where('spotify_playlist_id', $spotifyPlaylistId)->delete();
     }
 
-    public function deleteNotChanged()
-    {
-        SpotifyPlaylist::where('has_changed', 0)->delete();
-        DB::table('spotify_playlists')->update(['has_changed' => 0]);
-    }
 
     public function getSpotifyPlaylistByName(string $playlistName)
     {
         return SpotifyPlaylist::where('name', $playlistName)->first();
     }
+
+
+    public function getSpotifyPlaylistsToImport()
+    {
+        $playlistsToImport = config('spotify.playlist_tracks_to_import_from_spotify');
+
+        return SpotifyPlaylist::where(function ($query) use ($playlistsToImport) {
+            foreach ($playlistsToImport as $name) {
+                $query->orWhere('name', 'like', '%' . $name . '%');
+            }
+        })->get();
+    }
+
+
+
 
     public function areSpotifyPlaylistsImported()
     {

@@ -14,10 +14,4 @@ class SpotifyPlaylistTrack extends Model
     {
         return $this->belongsTo(SpotifyTrack::class);
     }
-
-    public function deleteNotChanged(SpotifyPlaylist $playlist)
-    {
-        SpotifyPlaylistTrack::where('spotify_playlist_id', $playlist->id)->where('has_changed', 0)->delete();
-        DB::table('spotify_playlist_tracks')->where('spotify_playlist_id', $playlist->id)->update(['has_changed' => 0]);
-    }
 }

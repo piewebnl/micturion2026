@@ -38,13 +38,7 @@ class SpotifyPlaylistTracksImportCommand extends Command
             return self::FAILURE;
         }
 
-        $playlistsToImport = config('spotify.playlist_tracks_to_import_from_spotify');
-
-        $spotifyPlaylists = SpotifyPlaylist::where(function ($query) use ($playlistsToImport) {
-            foreach ($playlistsToImport as $name) {
-                $query->orWhere('name', 'like', '%' . $name . '%');
-            }
-        })->get();
+        $spotifyPlaylists = (new SpotifyPlaylist)->getSpotifyPlaylistsToImport();
 
         $this->output->progressStart(count($spotifyPlaylists));
 
@@ -58,21 +52,29 @@ class SpotifyPlaylistTracksImportCommand extends Command
                 $lastPage = $spotifyPlaylistImporter->getLastPage();
                 $total = $spotifyPlaylistImporter->getTotal();
 
+                $oldPlaylistTrackIds = SpotifyPlaylistTrack::pluck('id')->filter()->values()->all();
+
                 for ($page = 1; $page <= $lastPage; $page++) {
                     $spotifyPlaylistImporter = new SpotifyPlaylistTracksImporter($api, $spotifyPlaylist, $this->perPage);
                     $spotifyPlaylistImporter->import($page);
                 }
 
-                // Cleanup
-                (new SpotifyPlaylistTrack)->deleteNotChanged($spotifyPlaylist);
+                $spotifyPlaylistTracksImporter->deleteOldPlaylistTracks($oldPlaylistIds);
+
                 Logger::log('notice', $this->channel, 'Spotify playlist tracks imported: ' . $spotifyPlaylist->name . ' [' . $total . ' tracks]');
             } else {
                 Logger::log('info', $this->channel, 'Spotify playlists tracks (playlist hasn\'t changed) ' . $spotifyPlaylist->name);
             }
 
+
+
+
+
             $this->output->progressAdvance();
         }
 
         $this->output->progressFinish();
+
+        return self::SUCCESS;
     }
 }
