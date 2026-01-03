@@ -26,7 +26,7 @@ class DiscogsCollectionImporter
 
     private Command $command;
 
-    public function __construct(int $perPage, ?Command $command)
+    public function __construct(int $perPage, ?Command $command = null)
     {
         $this->perPage = $perPage;
         $this->command = $command;

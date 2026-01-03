@@ -12,7 +12,7 @@ class AlbumImageOthersUploadToFtp
 {
     private string $channel = 'album_image_others_upload_to_ftp';
 
-    public function uploadAlbumImageOthersToFtp(int $id, ?Command $command)
+    public function uploadAlbumImageOthersToFtp(int $id, ?Command $command = null)
     {
 
         $album = Album::with('artist')->find($id);

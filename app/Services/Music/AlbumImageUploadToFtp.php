@@ -11,7 +11,7 @@ class AlbumImageUploadToFtp
 {
     private string $channel = 'album_image_upload_to_ftp';
 
-    public function uploadAlbumImagetoFtp(int $id, ?Command $command)
+    public function uploadAlbumImagetoFtp(int $id, ?Command $command = null)
     {
 
         $album = Album::find($id);

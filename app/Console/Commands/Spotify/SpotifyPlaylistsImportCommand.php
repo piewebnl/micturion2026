@@ -21,21 +21,14 @@ class SpotifyPlaylistsImportCommand extends Command
 
     public function handle()
     {
-
         Logger::deleteChannel($this->channel);
+        Logger::echoChannel($this->channel, $this);
 
-        if (App::environment() == 'local') {
-            Logger::echoChannel($this->channel);
-        }
+        $api = (new SpotifyApiConnect($this))->getApi();
 
-        $api = (new SpotifyApiConnect)->getApi();
         if (!$api) {
-
-            // Logger::echo($this->channel);
-
-            return;
+            return self::FAILURE;
         }
-
         $lastPage = (new SpotifyPlaylistsImporter($api, $this->perPage))->getLastPage();
         $this->output->progressStart($lastPage);
 
@@ -48,6 +41,6 @@ class SpotifyPlaylistsImportCommand extends Command
 
         $this->output->progressFinish();
 
-        // Logger::echo($this->channel);
+        return self::SUCCESS;
     }
 }

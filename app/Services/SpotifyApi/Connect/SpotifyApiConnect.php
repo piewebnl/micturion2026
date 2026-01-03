@@ -4,7 +4,9 @@ namespace App\Services\SpotifyApi\Connect;
 
 use App\Models\Setting;
 use App\Traits\Logger\Logger;
+use Illuminate\Console\Command;
 use Illuminate\Http\JsonResponse;
+use RuntimeException;
 
 class SpotifyApiConnect
 {
@@ -17,6 +19,8 @@ class SpotifyApiConnect
     private $response;
 
     private $refreshToken;
+
+    private $command;
 
     private $channel = 'spotify_api_connect';
 
@@ -40,12 +44,14 @@ class SpotifyApiConnect
         ],
     ];
 
-    public function __construct()
+    public function __construct(?Command $command = null)
     {
+        $this->command = $command;
         $this->configValues = config('spotify');
 
         if (!isset($this->configValues['spotify_client_id'])) {
-            exit('Sorry no Spotify Config found');
+            Logger::log('error', $this->channel, 'Spotify config missing.', [], $this->command);
+            throw new RuntimeException('Spotify config missing: spotify_client_id.');
         }
     }
 
@@ -61,10 +67,10 @@ class SpotifyApiConnect
         try {
 
             if ($this->api->me()) {
-                $this->response = response()->success('Spotify: Connected with Access token!');
+                //$this->response = response()->success('Spotify: Connected with Access token!');
                 Logger::log('success', $this->channel, 'Spotify: Connected with Access token!');
 
-                return;
+                return true;
             }
         } catch (\Exception $e) {
 
@@ -78,7 +84,6 @@ class SpotifyApiConnect
                 $this->api->setAccessToken($accessToken);
 
                 if ($this->api->me()) {
-                    $this->response = response()->success('Spotify: Connected with Access token!');
                     Logger::log('success', $this->channel, 'Spotify: Connected with Access token!');
 
                     return;
@@ -87,8 +92,8 @@ class SpotifyApiConnect
         }
         $this->api = null;
 
-        $this->response = response()->error('Spotify: No valid connection. Try to re-authorize.');
-        Logger::log('error', $this->channel, 'Spotify: No valid connection. Try to re-authorize.');
+        Logger::log('error', $this->channel, 'Spotify: No valid connection. Try to re-authorize.', [], $this->command);
+        return false;
     }
 
     public function getAuthorizeUrl()
@@ -96,7 +101,8 @@ class SpotifyApiConnect
         $this->setupSession();
 
         $url = $this->session->getAuthorizeUrl($this->spotifyPermissionOptions);
-        $this->response = response()->json($url, 200);
+
+        return $url;
     }
 
     public function callback()
@@ -138,10 +144,5 @@ class SpotifyApiConnect
         }
 
         return $this->api;
-    }
-
-    public function getResponse(): JsonResponse
-    {
-        return $this->response;
     }
 }

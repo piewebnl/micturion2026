@@ -22,7 +22,7 @@ trait QueryCache
         }
     }
 
-    public function clearCache(string $key, string $channel, ?Command $command)
+    public function clearCache(string $key, string $channel, ?Command $command = null)
     {
         Logger::log(
             'notice',

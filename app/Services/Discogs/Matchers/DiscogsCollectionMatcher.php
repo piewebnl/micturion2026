@@ -22,7 +22,7 @@ class DiscogsCollectionMatcher
 
     private string $channel = 'discogs_collection_matcher';
 
-    public function __construct(?Command $command)
+    public function __construct(?Command $command = null)
     {
         $this->command = $command;
         $this->customReleaseIds = DiscogsReleaseCustomId::all();
