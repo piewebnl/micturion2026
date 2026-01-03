@@ -81,7 +81,6 @@ class SpineImage extends Model
         );
     }
 
-
     public function existsInDb()
     {
 

@@ -25,6 +25,7 @@ class DiscogsReleaseInfoImportCommand extends Command
 
         if ($discogsReleases->isEmpty()) {
             Logger::log('error', $this->channel, 'No discogs releases', [], $this);
+
             return;
         }
 

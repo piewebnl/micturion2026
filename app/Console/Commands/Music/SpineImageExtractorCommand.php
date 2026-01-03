@@ -6,7 +6,6 @@ use App\Models\Music\Album;
 use App\Services\Music\SpineImageExtractor;
 use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 
 // php artisan command:SpineImageExtractor
@@ -26,6 +25,7 @@ class SpineImageExtractorCommand extends Command
 
         if ($albums->isEmpty()) {
             Logger::log('error', $this->channel, 'No albums, or no matched or no discogs release info yet to extract spine images', [], $this);
+
             return;
         }
 
@@ -34,7 +34,6 @@ class SpineImageExtractorCommand extends Command
         foreach ($albums as $album) {
 
             foreach ($album->discogsReleases as $discogsRelease) {
-
 
                 if ($discogsRelease['format'] == 'CD') {
 

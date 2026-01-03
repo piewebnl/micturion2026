@@ -29,6 +29,7 @@ class AlbumImageCreateCommand extends Command
 
         if (!$ids) {
             Logger::log('error', $this->channel, 'No album items found', [], $this);
+
             return;
         }
 

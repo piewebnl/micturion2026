@@ -2,13 +2,13 @@
 
 namespace App\Services\Discogs\Matchers;
 
+use App\Models\Discogs\DiscogsRelease;
+use App\Models\Discogs\DiscogsReleaseCustomId;
+use App\Models\DiscogsApi\DiscogsApiCollectionRelease;
 use App\Models\Music\Album;
 use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Http\JsonResponse;
-use App\Models\Discogs\DiscogsRelease;
-use App\Models\Discogs\DiscogsReleaseCustomId;
-use App\Models\DiscogsApi\DiscogsApiCollectionRelease;
 
 class DiscogsCollectionMatcher
 {
@@ -62,6 +62,7 @@ class DiscogsCollectionMatcher
             $release['album_id'] = $album->id;
             $release['status'] = 'custom';
             $release['score'] = 100;
+
             return $release->toArray();
         }
 
@@ -78,6 +79,7 @@ class DiscogsCollectionMatcher
             $release['status'] = 'matched';
             $release['score'] = max(0, round($match['score']) - 1);
         }
+
         return $release->toArray();
     }
 

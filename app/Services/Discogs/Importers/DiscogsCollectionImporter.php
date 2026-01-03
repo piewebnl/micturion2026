@@ -2,13 +2,13 @@
 
 namespace App\Services\Discogs\Importers;
 
-use App\Models\Music\Album;
-use App\Traits\Logger\Logger;
 use App\Helpers\JsonHashHelper;
-use Illuminate\Console\Command;
 use App\Models\Discogs\DiscogsRelease;
 use App\Models\DiscogsApi\DiscogsApiCollectionRelease;
+use App\Models\Music\Album;
 use App\Services\DiscogsApi\Getters\DiscogsApiCollectionGetter;
+use App\Traits\Logger\Logger;
+use Illuminate\Console\Command;
 
 class DiscogsCollectionImporter
 {

@@ -45,10 +45,6 @@
 @source '../../vendor/wire-elements/modal/src/ModalComponent.php';
 @source '../../vendor/masmerise/livewire-toaster/resources/views/*.blade.php';
 
-/* Safelist classes - ensure these are included even if not detected in source files */
-/* bg-tier-s bg-tier-a bg-tier-b bg-tier-c bg-tier-d bg-tier-e */
-
-
 
 /* rock-salt-regular - latin */
 @font-face {
@@ -90,221 +86,225 @@ body {
     @apply text-sky-600;
 }
 
-a {
-    @apply font-medium text-sky-600 hover:text-sky-700 hover:underline dark:text-sky-600 dark:hover:text-sky-500 cursor-pointer;
-}
-
-.bt {
-    @apply border-dotted border-red-500 border;
-}
-
-.grid-albums {
-    @apply grid gap-4;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-}
-
-.grid-sm {
-    @apply grid grid-cols-2 sm:grid-cols-3 gap-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 xxl:grid-cols-7;
-}
-
-.grid-md {
-    @apply grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xxl:grid-cols-6;
-}
-
-.grid-lg {
-    @apply grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5;
-}
-
-
-.btn {
-    @apply inline-flex border items-center gap-2 px-5 py-2.5 font-medium hover:no-underline text-zinc-600 bg-zinc-100 border-zinc-300 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-700 rounded-2xl cursor-pointer hover:bg-zinc-200 dark:hover:border-zinc-500;
-
-    svg {
-        @apply w-4 h-4;
-    }
-
-    &.disabled,
-    &:disabled {
-        @apply cursor-default border-zinc-400 text-zinc-400 hover:border-zinc-400 hover:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:text-zinc-500
-    }
-
-}
-
-
-.btn-group-radio {
-    @apply inline-flex items-center border-t border-b gap-2 px-5 py-2.5 font-medium hover:no-underline bg-zinc-100 border-zinc-300 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-700 cursor-pointer hover:bg-zinc-200 dark:hover:border-zinc-500;
-
-
-
-    &.selected {
-        @apply dark:bg-zinc-800 bg-zinc-200 dark:text-zinc-600 text-zinc-400 cursor-default;
-    }
-
-    &.first {
-        @apply rounded-l-2xl border;
-    }
-
-    &.last {
-        @apply rounded-r-2xl border;
+@layer base {
+    a {
+        @apply font-medium text-sky-600 hover:text-sky-700 hover:underline dark:text-sky-600 dark:hover:text-sky-500 cursor-pointer;
     }
 
 
-}
 
-.btn-group-checkbox {
-    @apply inline-flex border items-center gap-1 px-5 py-2.5 font-medium hover:no-underline text-zinc-700 hover:text-zinc-500 dark:text-zinc-400 dark:hover:text-zinc-300 rounded-2xl hover:border-zinc-500 border-zinc-400 dark:hover:border-zinc-300 dark:border-zinc-500 cursor-pointer;
-
-    @apply py-1 px-3;
-
-    &.selected {
-        @apply dark:bg-zinc-700 bg-zinc-200 border-zinc-500 dark:border-zinc-600;
+    .bt {
+        @apply border-dotted border-red-500 border;
     }
 
-}
-
-.btn-primary {
-    @apply inline-flex border items-center gap-2 rounded-2xl px-5 py-2.5 font-medium hover:no-underline border-amber-600 text-amber-600 hover:border-amber-500 hover:text-amber-500 dark:text-amber-600 dark:hover:text-amber-500 dark:border-amber-600 dark:hover:border-amber-500;
-
-    &.disabled,
-    &:disabled {
-        @apply cursor-default border-zinc-400 text-zinc-400 hover:border-zinc-400 hover:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:text-zinc-500
-    }
-}
-
-.btn-secondary {
-    @apply inline-flex border items-center gap-2 rounded-2xl px-5 py-2.5 font-medium hover:no-underline border-sky-600 text-sky-600 hover:border-sky-500 hover:text-sky-500 dark:text-sky-600 dark:hover:text-sky-500 dark:border-sky-600 dark:hover:border-sky-500;
-
-    &.disabled,
-    &:disabled {
-        @apply cursor-default border-zinc-400 text-zinc-400 hover:border-zinc-400 hover:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:text-zinc-500
-    }
-}
-
-.btn-pagination {
-    @apply inline-flex border items-center px-5 py-2.5 text-sm hover:no-underline text-zinc-700 hover:text-zinc-500 dark:text-zinc-400 dark:hover:text-zinc-300 hover:border-zinc-500 border-zinc-700 dark:hover:border-zinc-300 dark:border-zinc-400 cursor-pointer;
-
-
-    &.disabled {
-        @apply cursor-default border-zinc-400 text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-800 dark:border-zinc-500 dark:text-zinc-500
-    }
-}
-
-label {
-    @apply block mb-2 font-medium text-zinc-600 dark:text-zinc-400;
-}
-
-input:not([type='checkbox']):not([type='image']):not([type='checkbox']):not([type='radio']):not([type='file']) {
-    @apply block border items-center gap-2 rounded-2xl px-5 py-2.5 font-medium hover:no-underline max-w-md p-2.5 text-zinc-600 bg-zinc-100 border-zinc-300 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-700;
-}
-
-
-textarea {
-    @apply block w-full border items-center gap-2 rounded-2xl px-5 py-2.5 font-medium hover:no-underline max-w-md p-2.5 text-zinc-600 bg-zinc-100 border-zinc-300 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-700;
-}
-
-input[type="file"] {
-    display: none;
-}
-
-
-.checkbox {
-    @apply w-4 h-4 text-gray-500 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600
-}
-
-
-select {
-    @apply border items-center gap-2 rounded-2xl px-5 py-2.5 font-medium hover:no-underline max-w-md p-2.5 text-zinc-600 bg-zinc-100 border-zinc-300 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-700;
-}
-
-select,
-input {
-    @apply focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500;
-}
-
-
-/* .fi-input-wrp:is(.dark *) {} */
-
-
-form {
-    @apply w-full max-w-lg;
-
-}
-
-.table-wrapper {
-    @apply overflow-x-auto;
-}
-
-.table-layout {
-    @apply relative sm:rounded-lg;
-
-    table {
-        @apply w-full text-left rtl:text-right;
+    .grid-albums {
+        @apply grid gap-4;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
 
-    th {
-        @apply font-normal text-zinc-500 bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-500 p-2 text-left;
+    .grid-sm {
+        @apply grid grid-cols-2 sm:grid-cols-3 gap-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 xxl:grid-cols-7;
     }
 
-    tr {
-        @apply odd:bg-zinc-50 odd:dark:bg-zinc-950 even:bg-zinc-100 even:dark:bg-zinc-900 border-b dark:border-zinc-700 border-zinc-300 text-zinc-600 dark:text-zinc-400;
+    .grid-md {
+        @apply grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xxl:grid-cols-6;
     }
 
-    td {
-        @apply p-2;
+    .grid-lg {
+        @apply grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xxl:grid-cols-5;
     }
 
-}
+
+    .btn {
+        @apply inline-flex border items-center gap-2 px-5 py-2.5 font-medium hover:no-underline text-zinc-600 bg-zinc-100 border-zinc-300 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-700 rounded-2xl cursor-pointer hover:bg-zinc-200 dark:hover:border-zinc-500;
+
+        svg {
+            @apply w-4 h-4;
+        }
+
+        &.disabled,
+        &:disabled {
+            @apply cursor-default border-zinc-400 text-zinc-400 hover:border-zinc-400 hover:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:text-zinc-500
+        }
+
+    }
+
+
+    .btn-group-radio {
+        @apply inline-flex items-center border-t border-b gap-2 px-5 py-2.5 font-medium hover:no-underline bg-zinc-100 border-zinc-300 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-700 cursor-pointer hover:bg-zinc-200 dark:hover:border-zinc-500;
 
 
 
-#modal-container {
-    align-self: center;
+        &.selected {
+            @apply dark:bg-zinc-800 bg-zinc-200 dark:text-zinc-600 text-zinc-400 cursor-default;
+        }
 
-}
+        &.first {
+            @apply rounded-l-2xl border;
+        }
 
-.custom-overflow-x {
-    width: 100%;
-    padding-bottom: 1rem;
-    display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -ms-scroll-snap-type: x mandatory;
-    scroll-snap-type: x mandatory;
-}
+        &.last {
+            @apply rounded-r-2xl border;
+        }
 
 
-.text-info {
-    @apply text-sky-600 dark:text-sky-400;
-}
+    }
 
-.bg-info {
-    @apply bg-sky-100 dark:bg-sky-900
-}
+    .btn-group-checkbox {
+        @apply inline-flex border items-center gap-1 px-5 py-2.5 font-medium hover:no-underline text-zinc-700 hover:text-zinc-500 dark:text-zinc-400 dark:hover:text-zinc-300 rounded-2xl hover:border-zinc-500 border-zinc-400 dark:hover:border-zinc-300 dark:border-zinc-500 cursor-pointer;
 
-.text-success {
-    @apply text-green-700 dark:text-green-400
-}
+        @apply py-1 px-3;
 
-.bg-success {
-    @apply bg-green-100 dark:bg-green-900
-}
+        &.selected {
+            @apply dark:bg-zinc-700 bg-zinc-200 border-zinc-500 dark:border-zinc-600;
+        }
 
-.text-error {
-    @apply text-red-700 dark:text-red-500
-}
+    }
 
-.bg-error {
-    @apply bg-red-100 dark:bg-red-950
-}
+    .btn-primary {
+        @apply inline-flex border items-center gap-2 rounded-2xl px-5 py-2.5 font-medium hover:no-underline border-amber-600 text-amber-600 hover:border-amber-500 hover:text-amber-500 dark:text-amber-600 dark:hover:text-amber-500 dark:border-amber-600 dark:hover:border-amber-500;
 
-.text-warning {
-    @apply text-amber-800 dark:text-amber-800;
-}
+        &.disabled,
+        &:disabled {
+            @apply cursor-default border-zinc-400 text-zinc-400 hover:border-zinc-400 hover:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:text-zinc-500
+        }
+    }
 
-.bg-warning {
-    @apply bg-amber-100 dark:bg-amber-800
-}
+    .btn-secondary {
+        @apply inline-flex border items-center gap-2 rounded-2xl px-5 py-2.5 font-medium hover:no-underline border-sky-600 text-sky-600 hover:border-sky-500 hover:text-sky-500 dark:text-sky-600 dark:hover:text-sky-500 dark:border-sky-600 dark:hover:border-sky-500;
 
-.custom-modal-width {
-    max-width: 48rem;
+        &.disabled,
+        &:disabled {
+            @apply cursor-default border-zinc-400 text-zinc-400 hover:border-zinc-400 hover:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:text-zinc-500
+        }
+    }
+
+    .btn-pagination {
+        @apply inline-flex border items-center px-5 py-2.5 text-sm hover:no-underline text-zinc-700 hover:text-zinc-500 dark:text-zinc-400 dark:hover:text-zinc-300 hover:border-zinc-500 border-zinc-700 dark:hover:border-zinc-300 dark:border-zinc-400 cursor-pointer;
+
+
+        &.disabled {
+            @apply cursor-default border-zinc-400 text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-800 dark:border-zinc-500 dark:text-zinc-500
+        }
+    }
+
+    label {
+        @apply block mb-2 font-medium text-zinc-600 dark:text-zinc-400;
+    }
+
+    input:not([type='checkbox']):not([type='image']):not([type='checkbox']):not([type='radio']):not([type='file']) {
+        @apply block border items-center gap-2 rounded-2xl px-5 py-2.5 font-medium hover:no-underline max-w-md p-2.5 text-zinc-600 bg-zinc-100 border-zinc-300 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-700;
+    }
+
+
+    textarea {
+        @apply block w-full border items-center gap-2 rounded-2xl px-5 py-2.5 font-medium hover:no-underline max-w-md p-2.5 text-zinc-600 bg-zinc-100 border-zinc-300 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-700;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+
+    .checkbox {
+        @apply w-4 h-4 text-gray-500 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600
+    }
+
+
+    select {
+        @apply border items-center gap-2 rounded-2xl px-5 py-2.5 font-medium hover:no-underline max-w-md p-2.5 text-zinc-600 bg-zinc-100 border-zinc-300 dark:text-zinc-300 dark:bg-zinc-800 dark:border-zinc-700;
+    }
+
+    select,
+    input {
+        @apply focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500;
+    }
+
+
+    /* .fi-input-wrp:is(.dark *) {} */
+
+
+    form {
+        @apply w-full max-w-lg;
+
+    }
+
+    .table-wrapper {
+        @apply overflow-x-auto;
+    }
+
+    .table-layout {
+        @apply relative sm:rounded-lg;
+
+        table {
+            @apply w-full text-left rtl:text-right;
+        }
+
+        th {
+            @apply font-normal text-zinc-500 bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-500 p-2 text-left;
+        }
+
+        tr {
+            @apply odd:bg-zinc-50 odd:dark:bg-zinc-950 even:bg-zinc-100 even:dark:bg-zinc-900 border-b dark:border-zinc-700 border-zinc-300 text-zinc-600 dark:text-zinc-400;
+        }
+
+        td {
+            @apply p-2;
+        }
+
+    }
+
+
+
+    #modal-container {
+        align-self: center;
+
+    }
+
+    .custom-overflow-x {
+        width: 100%;
+        padding-bottom: 1rem;
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -ms-scroll-snap-type: x mandatory;
+        scroll-snap-type: x mandatory;
+    }
+
+
+    .text-info {
+        @apply text-sky-600 dark:text-sky-400;
+    }
+
+    .bg-info {
+        @apply bg-sky-100 dark:bg-sky-900
+    }
+
+    .text-success {
+        @apply text-green-700 dark:text-green-400
+    }
+
+    .bg-success {
+        @apply bg-green-100 dark:bg-green-900
+    }
+
+    .text-error {
+        @apply text-red-700 dark:text-red-500
+    }
+
+    .bg-error {
+        @apply bg-red-100 dark:bg-red-950
+    }
+
+    .text-warning {
+        @apply text-amber-800 dark:text-amber-800;
+    }
+
+    .bg-warning {
+        @apply bg-amber-100 dark:bg-amber-800
+    }
+
+    .custom-modal-width {
+        max-width: 48rem;
+    }
 }

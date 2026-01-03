@@ -31,6 +31,7 @@ class DiscogsCollectionImportCommand extends Command
 
         if (!$lastPage) {
             Logger::log('error', $this->channel, 'No results from API');
+
             return;
         }
 

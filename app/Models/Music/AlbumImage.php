@@ -81,10 +81,9 @@ class AlbumImage extends Model
             $this->channel,
             'Album image created: ' . $this->album->artist->name . ' - ' . $this->album->name
         );
+
         return true;
     }
-
-
 
     public function existsInDb()
     {

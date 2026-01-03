@@ -7,7 +7,6 @@ use App\Traits\Logger\Logger;
 use App\Traits\QueryCache\QueryCache;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cache;
 
 // php artisan command:DatabaseDumper
 class DatabaseDumperCommand extends Command

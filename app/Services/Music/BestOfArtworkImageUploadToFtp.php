@@ -3,8 +3,6 @@
 namespace App\Services\Music;
 
 use App\Services\Ftp\FtpUploader;
-use App\Traits\Logger\Logger;
-use Illuminate\Support\Facades\Storage;
 
 class BestOfArtworkImageUploadToFtp
 {

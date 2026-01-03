@@ -33,6 +33,7 @@ class AlbumImageUploadToFtpCommand extends Command
 
         if (!$ids) {
             Logger::log('info', $this->channel, 'No albums to copy');
+
             return;
         }
 

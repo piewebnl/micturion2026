@@ -6,7 +6,6 @@ use App\Models\Music\Album;
 use App\Services\Music\SpineImageCreator;
 use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 
 // php artisan command:SpineImageCreate
 class SpineImageCreateCommand extends Command
@@ -30,6 +29,7 @@ class SpineImageCreateCommand extends Command
 
         if ($ids->isEmpty()) {
             Logger::log('error', $this->channel, 'No albums with discogs releases yet to create spine images', [], $this);
+
             return;
         }
 

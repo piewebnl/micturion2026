@@ -22,6 +22,7 @@ class DiscogsCollectionMatcherCommand extends Command
 
         if (!Album::query()->exists()) {
             Logger::log('error', $this->channel, 'No albums found, skipping Discogs Release matcher.', [], $this);
+
             return;
         }
 

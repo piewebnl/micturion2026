@@ -3,11 +3,10 @@
 namespace App\Services\Music;
 
 use App\Models\Music\Album;
-use Illuminate\Support\Str;
+use App\Services\Ftp\FtpUploader;
 use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
-use App\Services\Ftp\FtpUploader;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AlbumImageOthersUploadToFtp
 {
@@ -24,6 +23,7 @@ class AlbumImageOthersUploadToFtp
 
         if (!file_exists($source)) {
             Logger::log('warning', $this->channel, 'No album image others found  ' . $album->artist->name . ' - ' . $album->name, [], $command);
+
             return;
         }
 

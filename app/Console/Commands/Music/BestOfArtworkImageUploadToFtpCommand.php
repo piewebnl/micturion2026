@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands\Music;
 
+use App\Helpers\VolumeMountedCheck;
+use App\Models\Playlist\Playlist;
+use App\Services\Music\BestOfArtworkImageUploadToFtp;
 use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
-use App\Models\Playlist\Playlist;
-use App\Helpers\VolumeMountedCheck;
 use Illuminate\Support\Facades\App;
-use App\Services\Music\BestOfArtworkImageUploadToFtp;
 
 // php artisan command:BestOfArtworkImageUploadToFtp
 class BestOfArtworkImageUploadToFtpCommand extends Command
@@ -33,6 +33,7 @@ class BestOfArtworkImageUploadToFtpCommand extends Command
 
         if (count($playlists) == 0) {
             Logger::log('error', $this->channel, 'No playlists to copy');
+
             return;
         }
 

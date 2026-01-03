@@ -6,7 +6,6 @@ use App\Helpers\VolumeMountedCheck;
 use App\Services\Disk\MirrorDirectory;
 use App\Traits\Logger\Logger;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\App;
 
 // php artisan command:MusicToPlexAmp
 class MusicToPlexAmpCommand extends Command
@@ -29,6 +28,7 @@ class MusicToPlexAmpCommand extends Command
 
         if (!is_dir($sourcePath)) {
             Logger::log('error', $this->channel, "Source does not exist: {$sourcePath}", [], $this);
+
             return;
         }
 
