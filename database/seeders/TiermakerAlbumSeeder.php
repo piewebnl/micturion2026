@@ -9,6 +9,7 @@ class TiermakerAlbumSeeder extends CsvSeeder
 {
     public function __construct()
     {
+
         $this->tablename = 'tiermaker_albums';
         $this->file = '/database/seeders/csvs/TiermakerAlbums.csv';
         $this->truncate = false;

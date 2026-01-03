@@ -1,7 +1,5 @@
 <x-layouts.app>
 
-    WEE
-
     <section class="mb-24 p-4" <div x-data x-init="Livewire.hook('commit', () => {
         const el = document.getElementById('c');
         if (el) {
