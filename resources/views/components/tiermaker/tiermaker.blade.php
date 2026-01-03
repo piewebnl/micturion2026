@@ -12,9 +12,11 @@
                             $albumImage = $tiermakerAlbum['album']->albumImage;
                         @endphp
                         <div class="z-10 shrink-0">
-                            <x-images.image type="album" slug="{{ $albumImage['slug'] }}" size="100"
-                                largestWidth="{{ $albumImage['largest_width'] }}" hash="{{ $albumImage['hash'] }}"
-                                class="cursor-pointer" />
+                            @if (isset($albumImage['slug']))
+                                <x-images.image type="album" slug="{{ $albumImage['slug'] }}" size="100"
+                                    largestWidth="{{ $albumImage['largest_width'] }}" hash="{{ $albumImage['hash'] }}"
+                                    class="cursor-pointer" />
+                            @endif
                         </div>
                     @endif
                 @endforeach

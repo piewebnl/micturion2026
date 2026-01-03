@@ -14,7 +14,8 @@ class TiermakerCommand extends Command
     public function handle()
     {
 
+        // Only when artist/albums exist
         $this->call(TiermakerArtistSeeder::class);
-        //$this->call(TiermakerAlbumSeeder::class);
+        $this->call(TiermakerAlbumSeeder::class);
     }
 }
