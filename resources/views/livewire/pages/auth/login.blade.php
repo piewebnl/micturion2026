@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new #[Layout('layouts.app')] class extends Component {
+new #[Layout('components.layouts.app')] class extends Component {
     public LoginForm $form;
 
     /**
