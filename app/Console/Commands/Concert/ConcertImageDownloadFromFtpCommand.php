@@ -17,7 +17,7 @@ class ConcertImageDownloadFromFtpCommand extends Command
 
     protected $signature = 'command:ConcertImageDownloadFromFtp';
 
-    protected $description = 'Download concert images from FTP to local storage';
+    protected $description = 'Download concert images from FTP to iTunes volume';
 
     private string $channel = 'concert_image_download_from_ftp';
 

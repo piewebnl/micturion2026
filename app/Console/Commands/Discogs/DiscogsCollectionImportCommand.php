@@ -12,9 +12,11 @@ class DiscogsCollectionImportCommand extends Command
 {
     protected $signature = 'command:DiscogsCollectionImport';
 
-    private int $perPage = 50;
+    protected $description = 'Imports all Discogs releases (online) via its api';
 
     private string $channel = 'discogs_collection_importer';
+
+    private int $perPage = 50;
 
     public function handle()
     {

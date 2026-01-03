@@ -13,6 +13,8 @@ class DiscogsCollectionMatcherCommand extends Command
 {
     protected $signature = 'command:DiscogsCollectionMatcher';
 
+    protected $description = 'Matches the imported Discogs Releases with albums from iTunes library';
+
     private string $channel = 'discogs_collection_matcher';
 
     public function handle()

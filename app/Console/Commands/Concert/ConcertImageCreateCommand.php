@@ -16,7 +16,10 @@ class ConcertImageCreateCommand extends Command
 
     protected $signature = 'command:ConcertImageCreate';
 
+    protected $description = 'Create concerts images';
+
     private string $channel = 'concert_create_images';
+
 
     public function handle()
     {

@@ -13,6 +13,8 @@ class DiscogsReleaseInfoImportCommand extends Command
 {
     protected $signature = 'command:DiscogsReleaseInfoImport';
 
+    protected $description = 'Imports all extra info (artwork etc) of Discogs releases (online) via its api';
+
     private string $channel = 'discogs_release_info_importer';
 
     public function handle()

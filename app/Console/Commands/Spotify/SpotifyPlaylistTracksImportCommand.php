@@ -17,6 +17,8 @@ class SpotifyPlaylistTracksImportCommand extends Command
 {
     protected $signature = 'command:SpotifyPlaylistTracksImport';
 
+    protected $description = 'Imports all Spotify playlist tracks via its api (if snapshot changed)';
+
     private string $channel = 'spotify_playlist_tracks_import';
 
     private int $perPage = 50;

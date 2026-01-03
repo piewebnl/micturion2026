@@ -15,6 +15,8 @@ class DatabaseDumperCommand extends Command
 
     protected $signature = 'command:DatabaseDumper';
 
+    protected $description = 'Grabs data from models (online) and dumps it to csv files (to later DB seed)';
+
     private string $channel = 'database_dumber';
 
     private array $filesToImport;

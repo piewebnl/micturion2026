@@ -14,6 +14,8 @@ class MenuImageCreateCommand extends Command
 
     protected $signature = 'command:MenuImageCreate';
 
+    protected $description = 'Create menu images for the homepage';
+
     private string $channel = 'menu_create_images';
 
     public function handle(): void
