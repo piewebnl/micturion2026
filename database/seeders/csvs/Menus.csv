@@ -8,4 +8,5 @@ order;name;url;auth;homepage
 7;"Last FM";"/admin/last-fm-api/scrobble";1;1
 8;"Wishlist";"/admin/wishlist";1;1
 9;"Discogs";"/admin/discogs";1;1
-10;"Music stats";"/admin/music/stats";1;1
+10;"Tiermaker";"/admin/tiermaker";1;1
+11;"Music stats";"/admin/music/stats";1;1

@@ -6,11 +6,15 @@ use App\Http\Controllers\Music\AlbumRandomController;
 use App\Http\Controllers\Music\AlbumWithoutDiscogsController;
 use App\Http\Controllers\Music\MusicController;
 use App\Http\Controllers\Music\MusicStatsController;
+use App\Http\Controllers\Tiermaker\TiermakerController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('music/stats', [MusicStatsController::class, 'index'])->name('music.stats');
     Route::get('music/albums-without-discogs', [AlbumWithoutDiscogsController::class, 'index'])->name('music.album-without-discogs');
+
+    Route::get('/tiermaker', [TiermakerController::class, 'index'])->name('tiermaker.index');
+    Route::get('/tiermaker/create/{id}', [TiermakerController::class, 'create'])->name('tiermaker.create');
 });
 
 Route::get('/music', [MusicController::class, 'index'])->name('music');
