@@ -45,4 +45,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+    public function getAvatarNameAttribute()
+    {
+        $parts = explode(' ', trim($this->name));
+        $firstWord = $parts[0];
+
+        return $firstWord[0];
+    }
 }
