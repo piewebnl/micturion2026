@@ -1,18 +1,20 @@
 @props([
     'type' => 'text',
     'label',
-    'wireModel',
+    'wireModel' => null,
     'name',
     'id',
     'size' => null,
     'placeholder' => '',
     'autocomplete' => 'on',
+    'inputAttributes' => [],
 ])
 
 @php
     $labelClass = '';
     $inputClass = '';
     $inputClass = '';
+    $inputAttributes = new \Illuminate\View\ComponentAttributeBag($inputAttributes);
 
     if (!$size) {
         $inputClass .= ' w-full';
@@ -29,8 +31,9 @@
     <label class="{{ $label == '' ? 'hidden' : '' }}">
         {{ $label }}
     </label>
-    <input type="{{ $type }}" wire:model="{{ $wireModel }}" id="{{ $id }}" name="{{ $name }}"
-        placeholder="{{ $placeholder }}" class="{{ $inputClass }}" size="{{ $size }}"
+    <input type="{{ $type }}" @if ($wireModel) wire:model="{{ $wireModel }}" @endif
+        id="{{ $id }}" name="{{ $name }}" placeholder="{{ $placeholder }}"
+        {{ $inputAttributes->merge(['class' => $inputClass]) }} size="{{ $size }}"
         autocomplete="{{ $autocomplete }}" />
-    <x-forms.error-messages :messages="$errors->get($wireModel)" />
+    <x-forms.error-messages :messages="$errors->get($wireModel ?? $name)" />
 </div>

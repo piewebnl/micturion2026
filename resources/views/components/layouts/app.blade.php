@@ -31,7 +31,7 @@
 
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        (function () {
+        (function() {
             const stored = localStorage.getItem('theme');
             const legacy = localStorage.getItem('color-theme');
             let mode = stored;
@@ -77,8 +77,14 @@
 
     @persist('toaster')
     @endpersist
-    @filamentScripts(withCore: true)
+
+    @php
+        //@filamentScripts(withCore: true)
+    @endphp
+
+
     @livewireScripts()
+
 
 </body>
 
