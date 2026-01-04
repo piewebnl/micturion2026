@@ -44,14 +44,18 @@ class LastFmSearch extends Component implements HasForms
                             ->toArray()
                     )
                     ->searchable()
-                    ->native(false),
+                    ->native(false)
+                    ->live()
+                    ->afterStateUpdated(function () {
+                        $this->search();
+                    }),
             ])
             ->statePath('data');
     }
 
     public function search()
     {
-        $this->filterValues['album'] = $this->form->getState('album')['album'];
+        $this->filterValues['album'] = $this->data['album'] ?? null;
         $this->dispatch('last-fm-searched', $this->filterValues);
         $this->skipRender();
     }

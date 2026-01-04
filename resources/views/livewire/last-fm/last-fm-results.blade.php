@@ -41,6 +41,7 @@
         @endif
     @endif
 
+
     <div class="w-full">
         @livewire('music.music-tracklist', [
             'lazy' => true,

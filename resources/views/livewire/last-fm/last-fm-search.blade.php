@@ -1,5 +1,5 @@
 <div class="mb-6">
-    <form wire:change="search">
+    <form>
         {{ $this->form }}
     </form>
 
