@@ -15,6 +15,7 @@ class SpotifySearchAlbumResult
         public string $search_artist,
         public int $album_id,
         public ?string $source,
+        public array $score_breakdown = [],
         public ?int $year = null,
         public ?string $artwork_url = null,
         // Unavailabe, Custom ID, Spotify
@@ -33,6 +34,7 @@ class SpotifySearchAlbumResult
             'search_artist' => $this->search_artist,
             'album_id' => $this->album_id,
             'source' => $this->source,
+            'score_breakdown' => $this->score_breakdown,
             'year' => $this->year,
             'artwork_url' => $this->artwork_url,
         ];

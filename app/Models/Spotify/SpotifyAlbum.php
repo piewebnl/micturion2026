@@ -3,6 +3,7 @@
 namespace App\Models\Spotify;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Dto\Spotify\SpotifySearchAlbumResult;
 use App\Models\Spotify\SpotifySearchResultAlbum;
 use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 use App\Services\SpotifyApi\Getters\SpotifyApiUserAlbumsGetter;
@@ -35,19 +36,19 @@ class SpotifyAlbum extends Model
         return $result;
     }
 
-    public function storeFromSpotifySearchResultAlbum(SpotifySearchResultAlbum $spotifySearchResultAlbum)
+    public function storeFromSpotifySearchResultAlbum(SpotifySearchAlbumResult $spotifySearchAlbumResult)
     {
 
-        dd($spotifySearchResultAlbum);
+
         $result = SpotifyAlbum::updateOrCreate(
             [
-                'spotify_api_album_id' => $spotifySearchResultAlbum['spotify_api_album_id'],
+                'spotify_api_album_id' => $spotifySearchAlbumResult->spotify_api_album_id,
             ],
             [
-                'name' => $spotifySearchResultAlbum['name'],
-                'name_sanitized' => $spotifySearchResultAlbum['name_sanitized'],
-                'artist' => $spotifySearchResultAlbum['artist'],
-                'artwork_url' => $spotifySearchResultAlbum['artwork_url'],
+                'name' => $spotifySearchAlbumResult->name,
+                'name_sanitized' => $spotifySearchAlbumResult->name_sanitized,
+                'artist' => $spotifySearchAlbumResult->artist,
+                'artwork_url' => $spotifySearchAlbumResult->artwork_url,
 
             ]
         );

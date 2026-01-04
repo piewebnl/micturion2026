@@ -2,6 +2,7 @@
 
 namespace App\Dto\Spotify;
 
+use App\Models\Music\Song;
 use App\Models\Music\Album;
 use App\Models\Spotify\SpotifySearchTrack;
 
@@ -9,55 +10,41 @@ class SpotifySearchQuery
 {
     public function __construct(
         public ?int $album_id,
-        public ?string $sort_name,
-        public ?string $persistent_id,
+        public ?int $song_id,
+        public ?string $album_persistent_id,
         public ?string $name,
         public mixed $album,
         public ?string $artist,
         public ?int $year,
-        public ?string $album_name,
         public ?int $track_number,
-        public ?int $track_count,
     ) {}
 
-    public static function fromAlbum(Album $album, string $artist): self
+    public static function fromAlbum(Album $album): self
     {
         return new self(
             album_id: $album->id,
-            sort_name: $album->sort_name,
-            persistent_id: $album->persistent_id,
-            name: $album->name,
-            album: $album,
-            artist: $artist,
+            song_id: null,
+            album_persistent_id: $album->persistent_id,
+            name: null,
+            album: $album->name,
+            artist: $album->artist_name,
             year: is_numeric($album->year) ? (int) $album->year : null,
-            album_name: null,
             track_number: null,
-            track_count: self::resolveTrackCount($album),
         );
     }
 
-    public static function fromTrack(SpotifySearchTrack $track): self
+
+    public static function fromSong(Song $song): self
     {
         return new self(
-            album_id: null,
-            sort_name: null,
-            persistent_id: is_string($track['persistent_id'] ?? null) ? $track['persistent_id'] : null,
-            name: is_string($track['name'] ?? null) ? $track['name'] : null,
-            album: null,
-            artist: is_string($track['artist'] ?? null) ? $track['artist'] : null,
-            year: is_numeric($track['year'] ?? null) ? (int) $track['year'] : null,
-            album_name: is_string($track['album'] ?? null) ? $track['album'] : null,
-            track_number: is_numeric($track['track_number'] ?? null) ? (int) $track['track_number'] : null,
-            track_count: null,
+            album_id: $song->album->id,
+            song_id: $song->id,
+            album_persistent_id: $song->album->persistent_id,
+            name: $song->name,
+            album: $song->album->name,
+            artist: $song->album->artist->name,
+            year: is_numeric($song->album->year) ? (int) $song->album->year : null,
+            track_number: $song->track_number,
         );
-    }
-
-    private static function resolveTrackCount(Album $album): ?int
-    {
-        try {
-            return (int) $album->songs()->count();
-        } catch (\Throwable $e) {
-            return null;
-        }
     }
 }

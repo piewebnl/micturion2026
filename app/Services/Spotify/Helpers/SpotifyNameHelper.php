@@ -68,6 +68,7 @@ class SpotifyNameHelper
     public function areNamesSimilar($searchTrackName, $foundName)
     {
 
+        echo $searchTrackName . ' vs ' . $foundName . "\r\n";
         similar_text(strtolower($searchTrackName), strtolower($foundName), $perc);
 
         return $perc;

@@ -13,13 +13,12 @@ class SpotifyAlbumSearchPrepare
     public function prepareSpotifySearchAlbum(Album $album): SpotifySearchQuery
     {
 
-        $name = $album->name;
         $artist = is_string($album->artist['name'] ?? null) ? $album->artist['name'] : '';
 
         if ($artist === 'Various Artists' && $album->album_artist !== '') {
             $artist = $album->album_artist;
         }
 
-        return SpotifySearchQuery::fromAlbum($album, $artist);
+        return SpotifySearchQuery::fromAlbum($album);
     }
 }

@@ -119,10 +119,15 @@ class SpotifyTrackSearcher
                 }
 
                 $context = SpotifySearchQuery::fromTrack($spotifySearchTrack);
-                $score = $spotifyScoreSearch->calculateScoreTrack($spotifyApiTracks[$count], $context);
-                $status = $spotifyScoreSearch->determineStatus($score['total']);
+                $scoredTrack = $spotifyScoreSearch->calculateScore($spotifyApiTracks[$count], $context, true);
+                $status = $spotifyScoreSearch->determineStatus($scoredTrack->score);
 
-                $this->allResults[] = $this->convertSpotifyApiTrackToSpotifySearchResultTrack($spotifyApiTracks[$count], $score, $status, $spotifySearchTrack);
+                $this->allResults[] = $this->convertSpotifyApiTrackToSpotifySearchResultTrack(
+                    $scoredTrack,
+                    $scoredTrack->score_breakdown,
+                    $status,
+                    $spotifySearchTrack
+                );
             }
 
             $count = $count + 1;

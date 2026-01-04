@@ -72,22 +72,20 @@ class SpotifyAlbumSearchAndImporter
 
         // Try Spotify API to find match (if not customId)
         if (!$this->spotifySearchAlbumResult) {
-            $this->searchSpotifyApi();
+            $this->spotifySearchAlbumResult = $this->searchSpotifyApi();
         }
 
-        dd();
 
         // All good use the SpotifyAlbumImporter?
         $spotifyAlbum = new SpotifyAlbum();
         $spotifyAlbum->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult);
-        dd();
     }
 
 
 
     private function searchUnavailable()
     {
-        $found = SpotifyAlbumUnavailable::where('persistent_id', $this->spotifySearchQuery->persistent_id)->first();
+        $found = SpotifyAlbumUnavailable::where('persistent_id', $this->spotifySearchQuery->album_persistent_id)->first();
 
         if ($found) {
 
@@ -110,7 +108,7 @@ class SpotifyAlbumSearchAndImporter
     private function searchSpotifyApi()
     {
         $spotifyAlbumSearcher = new SpotifyAlbumSearcher($this->api);
-        $this->spotifySearchAlbumResult = $spotifyAlbumSearcher->search($this->spotifySearchQuery);
+        return $spotifyAlbumSearcher->search($this->spotifySearchQuery);
     }
 
     public function getResponse(): JsonResponse

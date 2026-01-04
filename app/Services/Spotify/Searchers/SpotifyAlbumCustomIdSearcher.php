@@ -21,10 +21,11 @@ class SpotifyAlbumCustomIdSearcher
 
     public function search(SpotifySearchQuery $spotifySearchQuery)
     {
-        $spotifyAlbumCustomId = SpotifyAlbumCustomId::where('persistent_id', $spotifySearchQuery->persistent_id)->first();
+        $spotifyAlbumCustomId = SpotifyAlbumCustomId::where('persistent_id', $spotifySearchQuery->album_persistent_id)->first();
 
         if ($spotifyAlbumCustomId) {
 
+            dd('custom!!!');
             $album = Album::where('persistent_id', $spotifySearchQuery->persistent_id)->first();
 
             if ($album) {
