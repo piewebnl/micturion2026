@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands\Spotify;
 
-use App\Jobs\Spotify\SpotifyAlbumsExportJob;
 use App\Services\Spotify\Deleters\SpotifyAlbumsDeleter;
 use App\Services\Spotify\Exporters\SpotifyAlbumsExporter;
 use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
@@ -16,7 +15,9 @@ class SpotifyAlbumsExportCommand extends Command
 {
     protected $signature = 'command:SpotifyAlbumsExport';
 
-    private string $channel;
+    protected $description = 'Export all iTunes album to Spotify albums via its api';
+
+    private string $channel = 'spotify_albums_export';
 
     private int $perPage = 50;
 
@@ -24,62 +25,47 @@ class SpotifyAlbumsExportCommand extends Command
 
     private $totalAlbumsToExport = 0;
 
-    private $albumsExported = [];
-
-    private array $fetchedUserAlbumIds;
+    private array $fetchedUserAlbumIds = [];
 
     public function handle()
     {
-        $this->channel = 'spotify_albums_export';
-
         Logger::deleteChannel($this->channel);
+        Logger::echoChannel($this->channel, $this);
 
-        $api = (new SpotifyApiConnect)->getApi();
-        if (!$api) {
-            Logger::log('error', $this->channel, 'No valid spotify API connection');
-            // Logger::echo($this->channel);
+        $this->api = (new SpotifyApiConnect($this))->getApi();
 
-            return;
+        if (!$this->api) {
+            return self::FAILURE;
         }
 
-        if (App::environment() == 'local') {
-            Logger::echoChannel($this->channel);
-        }
-
-        $this->api = (new SpotifyApiConnect)->getApi();
-        $this->export();
-        $this->deleteUnwanted();
+        $this->exportAlbums();
+        //$this->deleteUnwanted();
 
         // Logger::echo($this->channel);
     }
 
-    private function export()
+    private function exportAlbums()
     {
         $spotifyAlbumsExporter = new SpotifyAlbumsExporter($this->api, $this->perPage);
         $lastPage = $spotifyAlbumsExporter->getLastPage();
+
         $this->totalAlbumsToExport = $spotifyAlbumsExporter->getTotal();
-
         if ($this->totalAlbumsToExport == 0) {
-            Logger::log('info', $this->channel, 'No albums to export');
-
+            Logger::log('error', $this->channel, 'No albums to export', [], $this);
             return;
         }
 
         $this->output->progressStart($lastPage);
 
         for ($page = 1; $page <= $lastPage; $page++) {
-            SpotifyAlbumsExportJob::dispatch(
-                $page,
-                $this->perPage
-
-            );
-            sleep(0.5);
+            $spotifyAlbumsExporter->export($page);
+            sleep(1);
             $this->output->progressAdvance();
         }
         $this->output->progressFinish();
     }
 
-    // JOB!!
+    /*
     private function deleteUnwanted()
     {
 
@@ -93,11 +79,15 @@ class SpotifyAlbumsExportCommand extends Command
         $all = $spotifyAlbumsExporter->getAlbums();
         $allAlbums = $all->pluck('spotify_api_album_id')->toArray();
 
-        $eraseFromSpotfy = array_diff($this->fetchedUserAlbumIds, $allAlbums);
-        $spotifyAlbumsDeleter = new SpotifyAlbumsDeleter($this->api, $eraseFromSpotfy);
+        $eraseFromSpotify = array_diff($this->fetchedUserAlbumIds, $allAlbums);
+        if (empty($eraseFromSpotify)) {
+            return;
+        }
+
+        $spotifyAlbumsDeleter = new SpotifyAlbumsDeleter($this->api, $eraseFromSpotify);
         $lastPage = $spotifyAlbumsDeleter->getLastPage();
 
-        // Job!!
+
         $this->output->progressStart($lastPage);
 
         for ($page = 1; $page <= $lastPage; $page++) {
@@ -108,26 +98,5 @@ class SpotifyAlbumsExportCommand extends Command
 
         $this->output->progressFinish();
     }
-
-    // SERVICE?
-    private function fetchAllUserAlbums()
-    {
-
-        $spotifyApiUserAlbumsGetter = new SpotifyApiUserAlbumsGetter($this->api, $this->perPage);
-        $lastPage = $spotifyApiUserAlbumsGetter->getLastPage();
-
-        $this->output->progressStart($lastPage);
-
-        $ids = [];
-        // Cannot be done via job
-        for ($page = 1; $page <= $lastPage; $page++) {
-            $spotifyApiUserAlbumsGetter = new SpotifyApiUserAlbumsGetter($this->api, $this->perPage);
-            $ids = array_merge($ids, $spotifyApiUserAlbumsGetter->getPerPage($page));
-            sleep(0.5);
-            $this->output->progressAdvance();
-        }
-
-        $this->fetchedUserAlbumIds = $ids;
-        $this->output->progressFinish();
-    }
+        */
 }

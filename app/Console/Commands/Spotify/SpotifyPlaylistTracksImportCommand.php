@@ -29,6 +29,7 @@ class SpotifyPlaylistTracksImportCommand extends Command
         Logger::deleteChannel($this->channel);
         Logger::echoChannel($this->channel, $this);
 
+
         $api = (new SpotifyApiConnect($this))->getApi();
 
         if (!$api) {

@@ -25,6 +25,20 @@ class SpotifyApiUserAlbumsGetter
         $this->perPage = $perPage;
     }
 
+    public function getAll(): array
+    {
+
+        $lastPage = $this->getLastPage();
+
+        $ids = [];
+        for ($page = 1; $page <= $lastPage; $page++) {
+            $ids = array_merge($ids, $this->getPerPage($page));
+            sleep(1);
+        }
+
+        return $ids;
+    }
+
     public function getPerPage(int $page): array
     {
         $this->page = $page;

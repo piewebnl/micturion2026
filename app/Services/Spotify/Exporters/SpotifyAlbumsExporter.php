@@ -46,6 +46,9 @@ class SpotifyAlbumsExporter
     public function export(int $page)
     {
         $this->page = $page;
+        $this->spotifyAlbumIds = [];
+        $this->spotifyAlbumIdsToExport = [];
+        $this->spotifyAlbumIdsExists = [];
 
         $this->getAlbumPerPage();
         $this->calculateLastPage();
@@ -62,7 +65,7 @@ class SpotifyAlbumsExporter
 
         $this->determineAlbumsToExport();
 
-        if ($this->spotifyAlbumIdsToExport) {
+        if (!empty($this->spotifyAlbumIdsToExport)) {
             $spotifyAlbumPoster = new SpotifyApiUserAlbumsPoster($this->api);
             $spotifyAlbumPoster->post($this->spotifyAlbumIdsToExport);
 
@@ -71,13 +74,13 @@ class SpotifyAlbumsExporter
                 'total' => $this->total,
             ];
             $this->response = response()->success('Spotify albums exported', $this->resource);
+        } else {
+            $this->resource = [
+                'album_ids' => $this->spotifyAlbumIdsExists,
+                'total' => $this->total,
+            ];
+            $this->response = response()->success('Spotify albums already exist', $this->resource);
         }
-
-        $this->resource = [
-            'album_ids' => $this->spotifyAlbumIdsExists,
-            'total' => $this->total,
-        ];
-        $this->response = response()->success('Spotify albums already exist', $this->resource);
     }
 
     // Only export if not exists

@@ -2,8 +2,9 @@
 
 namespace App\Models\Spotify;
 
-use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
+use App\Services\SpotifyApi\Getters\SpotifyApiUserAlbumsGetter;
 
 // Spotify albums are retrieved from spotify and are stored in the database (succes or warning)
 class SpotifyAlbum extends Model
