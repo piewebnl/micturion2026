@@ -7,7 +7,7 @@ use App\Traits\Forms\SearchForm;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Livewire\Component;
 
 class LastFmSearch extends Component implements HasForms
@@ -34,10 +34,10 @@ class LastFmSearch extends Component implements HasForms
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Select::make('album')
                     ->options(
                         collect($this->searchFormData['albums_filament'])

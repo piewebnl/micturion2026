@@ -66,8 +66,9 @@
 
     @persist('toaster')
     @endpersist
-    @livewireScripts
-    @filamentScripts
+    @filamentScripts(withCore: true)
+    @livewireScripts()
+
 </body>
 
 </html>
