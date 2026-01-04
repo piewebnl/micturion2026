@@ -2,37 +2,24 @@
 
 namespace App\Services\Spotify\Searchers;
 
-use App\Models\Spotify\SpotifySearchAlbum;
-use App\Models\Spotify\SpotifySearchResultAlbum;
-use App\Services\Spotify\Helpers\SpotifyNameHelper;
-use App\Traits\Converters\ToSpotifySearchResultAlbumConverter;
-use App\Services\Logger\Logger;
 use Exception;
+use App\Services\Logger\Logger;
+use App\Dto\Spotify\SpotifySearchQuery;
+use App\Services\Spotify\Dto\SpotifySearchAlbum;
+use App\Services\Spotify\Helpers\SpotifyNameHelper;
 
 // Search spotify api for albums
 class SpotifyAlbumSearcher
 {
-    use ToSpotifySearchResultAlbumConverter;
-
     private $api;
 
     private SpotifyNameHelper $spotifyNameHelper;
 
-    private $result = []; // actual result meeting score requirement
-
-    private $spotifySearchResultAlbum;
-
     private $allResults = []; // All allResults from spotify search
-
-    private $resource;
 
     private $spotifySearchString = '';
 
     private $highestScore = 0;
-
-    private $successScore;
-
-    private $warningScore;
 
     public function __construct($api)
     {
@@ -40,22 +27,20 @@ class SpotifyAlbumSearcher
         $this->spotifyNameHelper = new SpotifyNameHelper;
     }
 
-    public function search(SpotifySearchAlbum $spotifySearchAlbum)
-    {
-        $this->searchByName($spotifySearchAlbum);
-        $this->resource = $this->spotifySearchResultAlbum;
-    }
-
-    private function searchByName(SpotifySearchAlbum $spotifySearchAlbum)
+    public function search(SpotifySearchQuery $spotifySearchQuery)
     {
 
-        $this->spotifySearchString = $spotifySearchAlbum['artist'] . ' ' . $spotifySearchAlbum['name'];
+        dd($spotifySearchQuery);
+
+        $this->spotifySearchString = $spotifySearchQuery->artist . ' ' . $spotifySearchQuery->name;
 
         try {
             $spotifyResults = $this->api->search($this->spotifySearchString, 'album', ['limit' => 10, 'market' => 'NL']);
+            dd($spotifyResults);
 
             if (isset($spotifyResults->albums->items)) {
-                $this->searchResults($spotifyResults->albums->items, $spotifySearchAlbum);
+
+                $this->searchResults($spotifyResults->albums->items, $spotifySearchQuery);
 
                 // echo "Results:\r\n";
                 foreach ($this->allResults as $nr => $item) {
@@ -63,27 +48,6 @@ class SpotifyAlbumSearcher
                 }
                 $this->getBestResult();
             }
-
-            // Nothing found?
-            if ($this->spotifySearchResultAlbum == null) {
-
-                // Fake result
-                $this->spotifySearchResultAlbum = new SpotifySearchResultAlbum;
-                $this->spotifySearchResultAlbum->fill([
-                    'spotify_api_album_id' => null,
-                    'name' => null,
-                    'artist' => null,
-                    'year' => null,
-                    'spotify_api_album_id' => null,
-                    'score' => 0,
-                    'artwork_url' => null,
-                    'status' => 'error',
-                    'search_name' => $spotifySearchAlbum['name'],
-                    'search_artist' => $spotifySearchAlbum['artist'],
-                    'album_id' => $spotifySearchAlbum['album_id'],
-                ]);
-            }
-            sleep(1);
         } catch (Exception $e) {
             echo 'Spotify API error: ' . $e;
             Logger::log('error', 'Spotify search and import albums', 'Spotify Api error: ' . $e);
@@ -94,7 +58,8 @@ class SpotifyAlbumSearcher
         Logger::log('error', 'Spotify search and import albums', 'Something went wrong');
     }
 
-    private function searchResults($spotifyApiAlbums, SpotifySearchAlbum $spotifySearchAlbum)
+
+    private function searchResults($spotifyApiAlbums, SpotifySearchQuery $spotifySearchQuery)
     {
         $spotifyScoreSearch = new SpotifyScoreSearch;
 
@@ -110,10 +75,10 @@ class SpotifyAlbumSearcher
                     $spotifyApiAlbums[$count]->name_sanitized =
                         $this->spotifyNameHelper->removeUnwantedStrings($spotifyApiAlbums[$count]->name);
                 }
-                $score = $spotifyScoreSearch->calculateScoreAlbum($spotifyApiAlbums[$count], $spotifySearchAlbum);
+                $score = $spotifyScoreSearch->calculateScoreAlbum($spotifyApiAlbums[$count], $spotifySearchQuery);
                 $status = $spotifyScoreSearch->determineStatus($score['total']);
 
-                $this->allResults[] = $this->convertSpotifyApiAlbumToSpotifySearchResultAlbum($spotifyApiAlbums[$count], $score, $status, $spotifySearchAlbum);
+                //$this->allResults[] = $this->convertSpotifyApiAlbumToSpotifySearchResultAlbum($spotifyApiAlbums[$count], $score, $status, $spotifySearchAlbumDto);
             }
 
             $count = $count + 1;
@@ -140,15 +105,5 @@ class SpotifyAlbumSearcher
                 return;
             }
         }
-    }
-
-    public function getSpotifySearchResultAlbum(): SpotifySearchResultAlbum
-    {
-        if (!$this->spotifySearchResultAlbum) {
-            echo ' null';
-            // dd($this->spotifySearchResultAlbum);
-        }
-
-        return $this->spotifySearchResultAlbum;
     }
 }

@@ -41,12 +41,6 @@ class SpotifyPlaylistTracksExportCommand extends Command
 
         $playlists = Playlist::whereIn('name', $search)->orWhereIn('parent_name', $search)->get();
 
-        $api = (new SpotifyApiConnect)->getApi();
-        if (!$api) {
-            // Logger::echo($this->channel);
-
-            return;
-        }
 
         $this->output->progressStart(count($playlists));
 

@@ -3,14 +3,17 @@
 namespace App\Services\Spotify\Importers;
 
 use App\Models\Music\Album;
+use App\Services\Logger\Logger;
+use Illuminate\Http\JsonResponse;
 use App\Models\Spotify\SpotifyAlbum;
+use App\Dto\Spotify\SpotifySearchAlbumResult;
+use App\Dto\Spotify\SpotifySearchQuery;
 use App\Models\Spotify\SpotifyAlbumUnavailable;
 use App\Models\Spotify\SpotifySearchResultAlbum;
-use App\Services\Spotify\Searchers\SpotifyAlbumCustomIdSearcher;
+use App\Traits\Converters\ToSpotifyAlbumConverter;
 use App\Services\Spotify\Searchers\SpotifyAlbumSearcher;
 use App\Services\Spotify\Searchers\SpotifyAlbumSearchPrepare;
-use App\Traits\Converters\ToSpotifyAlbumConverter;
-use Illuminate\Http\JsonResponse;
+use App\Services\Spotify\Searchers\spotifyAlbumCustomIdSearcher;
 
 // Search for spotify album via api and then import to db
 class SpotifyAlbumSearchAndImporter
@@ -23,103 +26,91 @@ class SpotifyAlbumSearchAndImporter
 
     private $resource = [];
 
-    private $spotifySearchResultAlbum; // Best found spotify album
+    private ?SpotifySearchAlbumResult $spotifySearchAlbumResult = null; // Best found spotify album
 
-    private $album;
+    private SpotifySearchQuery $spotifySearchQuery;
 
-    private $spotifySearchAlbum;
+    private Album $album;
+
+    private $channel = 'spotify_search_and_import_albums';
 
     public function __construct($api)
     {
         $this->api = $api;
     }
 
-    // REWRITE
     public function import(Album $album)
     {
         $this->album = $album;
 
-        $SpotifyAlbumSearchPrepare = new SpotifyAlbumSearchPrepare;
-        $this->spotifySearchAlbum = $SpotifyAlbumSearchPrepare->prepareSpotifySearchAlbum($this->album);
+        $spotifyAlbumSearchPrepare = new SpotifyAlbumSearchPrepare;
+        $this->spotifySearchQuery = $spotifyAlbumSearchPrepare->prepareSpotifySearchAlbum($this->album);
 
         // Search unavailable in own DB first
         $this->searchUnavailable();
 
-        if (!$this->spotifySearchResultAlbum) {
+        if ($this->spotifySearchAlbumResult?->source == 'unavailabe') {
+            Logger::log(
+                'warning',
+                $this->channel,
+                'CUSTOM ID Save to dB? ' . $this->album->name
+            );
+            return;
+        }
 
+        if (!$this->spotifySearchAlbumResult) {
             // Search for customId in own DB first
-            $this->searchCustomId();
-
+            $spotifyAlbumCustomIdSearcher = new spotifyAlbumCustomIdSearcher($this->api);
+            $this->spotifySearchAlbumResult = $spotifyAlbumCustomIdSearcher->search($this->spotifySearchQuery);
+        }
+        /*
+        if (!$this->spotifySearchAlbumResult) {
             // Already in DB?
             $this->searchAlbumId();
-
-            // Try Spotify API to find match (if not customId)
-            if (!$this->spotifySearchResultAlbum->spotify_api_album_id) {
-                // $this->searchSpotifyApi();
-            }
         }
+            */
+
+        // Try Spotify API to find match (if not customId)
+        if (!$this->spotifySearchAlbumResult) {
+            $this->searchSpotifyApi();
+        }
+
+        dd();
 
         // All good use the SpotifyAlbumImporter?
-        $this->storeSpotifySearchResultAlbum();
+        $spotifyAlbum = new SpotifyAlbum();
+        $spotifyAlbum->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult);
+        dd();
     }
 
-    private function storeSpotifySearchResultAlbum()
-    {
-        $spotifySearchResultAlbum = new SpotifySearchResultAlbum;
-        $spotifyAlbum = $spotifySearchResultAlbum->store($this->spotifySearchResultAlbum);
 
-        $this->resource = SpotifyAlbum::with('AlbumSpotifyAlbum.album.artist')->find($spotifyAlbum->id)->toArray();
-
-        if ($this->resource['album_spotify_album']['status'] == 'success') {
-            $this->response = response()->success('Spotify album found', $this->resource);
-
-            return;
-        }
-        if ($this->resource['album_spotify_album']['status'] == 'warning') {
-            $this->response = response()->warning('Spotify album found (low scoring)', $this->resource);
-
-            return;
-        }
-        $this->response = response()->error('Spotify album found very low scoring', $this->resource);
-    }
 
     private function searchUnavailable()
     {
-        $found = SpotifyAlbumUnavailable::where('persistent_id', $this->spotifySearchAlbum['persistent_id'])->first();
+        $found = SpotifyAlbumUnavailable::where('persistent_id', $this->spotifySearchQuery->persistent_id)->first();
+
         if ($found) {
-            $this->spotifySearchResultAlbum = new SpotifySearchResultAlbum;
-            $this->spotifySearchResultAlbum->fill([
-                'spotify_api_track_id' => null,
-                'name' => '',
-                'artist' => '',
-                'score' => 0,
-                'status' => 'error',
-                'search_name' => $found['name'],
-                'search_artist' => $found['artist'],
-                'album_id' => $this->album->id,
-            ]);
+
+            $this->spotifySearchAlbumResult = new SpotifySearchAlbumResult(
+                spotify_api_album_id: null,
+                name: '',
+                name_sanitized: null,
+                artist: '',
+                score: 0,
+                status: 'error',
+                search_name: $found['name'],
+                search_artist: $found['artist'],
+                album_id: $this->album->id,
+                source: 'unavailabe'
+            );
         }
     }
 
-    private function searchCustomId()
-    {
-        $SpotifyAlbumCustomIdSearcher = new SpotifyAlbumCustomIdSearcher($this->api);
-        $SpotifyAlbumCustomIdSearcher->search($this->spotifySearchAlbum);
-        $this->spotifySearchResultAlbum = $SpotifyAlbumCustomIdSearcher->getSpotifySearchResultAlbum();
-    }
-
-    private function searchAlbumId()
-    {
-        $SpotifyAlbumCustomIdSearcher = new SpotifyAlbumCustomIdSearcher($this->api);
-        $SpotifyAlbumCustomIdSearcher->search($this->spotifySearchAlbum);
-        $this->spotifySearchResultAlbum = $SpotifyAlbumCustomIdSearcher->getSpotifySearchResultAlbum();
-    }
 
     private function searchSpotifyApi()
     {
         $spotifyAlbumSearcher = new SpotifyAlbumSearcher($this->api);
-        $spotifyAlbumSearcher->search($this->spotifySearchAlbum);
-        $this->spotifySearchResultAlbum = $spotifyAlbumSearcher->getSpotifySearchResultAlbum();
+        $this->spotifySearchAlbumResult = $spotifyAlbumSearcher->search($this->spotifySearchQuery);
     }
 
     public function getResponse(): JsonResponse

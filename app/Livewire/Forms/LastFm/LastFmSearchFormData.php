@@ -16,7 +16,7 @@ class LastFmSearchFormData
         $formDataGenerator = new FormDataGenerator;
 
         $category = new Category;
-        $catIds = $category->getCategoriesByName(['Albums', 'EPs']);
+        $catIds = $category->getCategoriesByName(['Albums', 'EPs', 'Bootlegs']);
         $filterValues['categories'] = $catIds;
 
         $artist = new Artist;

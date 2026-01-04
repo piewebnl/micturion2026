@@ -2,6 +2,7 @@
 
 namespace App\Services\Spotify\Searchers;
 
+use App\Dto\Spotify\SpotifySearchQuery;
 use App\Models\Spotify\SpotifySearchResultTrack;
 use App\Models\Spotify\SpotifySearchTrack;
 use App\Services\Spotify\Helpers\SpotifyNameHelper;
@@ -117,7 +118,8 @@ class SpotifyTrackSearcher
                         $this->spotifyNameHelper->removeUnwantedStrings($spotifyApiTracks[$count]->name);
                 }
 
-                $score = $spotifyScoreSearch->calculateScoreTrack($spotifyApiTracks[$count], $spotifySearchTrack);
+                $context = SpotifySearchQuery::fromTrack($spotifySearchTrack);
+                $score = $spotifyScoreSearch->calculateScoreTrack($spotifyApiTracks[$count], $context);
                 $status = $spotifyScoreSearch->determineStatus($score['total']);
 
                 $this->allResults[] = $this->convertSpotifyApiTrackToSpotifySearchResultTrack($spotifyApiTracks[$count], $score, $status, $spotifySearchTrack);

@@ -2,84 +2,120 @@
 
 namespace App\Services\Spotify\Searchers;
 
-use App\Models\Spotify\SpotifySearchAlbum;
-use App\Models\Spotify\SpotifySearchTrack;
+use App\Dto\Spotify\SpotifySearchQuery;
 use App\Services\Spotify\Helpers\SpotifyNameHelper;
 
 // Search spotify api for albums
 class SpotifyScoreSearch
 {
     private $spotifyNameHelper;
+    private const YEAR_PROXIMITY_RANGE = 5;
+    private const TRACK_COUNT_RANGE = 5;
 
     public function __construct()
     {
         $this->spotifyNameHelper = new SpotifyNameHelper;
     }
 
-    public function calculateScoreTrack($spotifyApiTrack, SpotifySearchTrack $spotifySearchTrack): array
+    public function calculateScoreTrack($spotifyApiTrack, SpotifySearchQuery $context): array
     {
         $score['total'] = 0;
-        $weightTotal = 10;
+        $weightTotal = 0;
+        $searchArtist = $context->artist;
+        $searchAlbum = $context->album_name;
+        $searchName = $context->name;
+        $searchYear = $context->year;
+        $searchTrackNumber = $context->track_number;
 
         // Result should match artist
-        if (isset($spotifyApiTrack->artists[0]->name)) {
-            $score['artist'] = $this->spotifyNameHelper->areNamesSimilar($spotifySearchTrack['artist'], $spotifyApiTrack->artists[0]->name) * 3;
+        if ($searchArtist && isset($spotifyApiTrack->artists[0]->name)) {
+            $weightTotal += 3;
+            $score['artist'] = $this->spotifyNameHelper->areNamesSimilar($searchArtist, $spotifyApiTrack->artists[0]->name) * 3;
             $score['total'] = $score['total'] + $score['artist'];
         }
 
-        if (isset($spotifyApiTrack->album->name)) {
+        if ($searchAlbum && isset($spotifyApiTrack->album->name)) {
 
-            $score['album'] = $this->spotifyNameHelper->areNamesSimilar($spotifySearchTrack['album'], $spotifyApiTrack->album->name_sanitized) * 2;
+            $weightTotal += 2;
+            $score['album'] = $this->spotifyNameHelper->areNamesSimilar($searchAlbum, $spotifyApiTrack->album->name_sanitized) * 2;
             $score['total'] = $score['total'] + $score['album'];
         }
 
-        if (isset($spotifyApiTrack->name)) {
+        if ($searchName && isset($spotifyApiTrack->name)) {
 
-            $score['name'] = $this->spotifyNameHelper->areNamesSimilar($spotifySearchTrack['name'], $spotifyApiTrack->name_sanitized) * 3;
+            $weightTotal += 3;
+            $score['name'] = $this->spotifyNameHelper->areNamesSimilar($searchName, $spotifyApiTrack->name_sanitized) * 3;
             $score['total'] = $score['total'] + $score['name'];
         }
 
-        $spotifyAlbumYear = substr($spotifyApiTrack->album->release_date, 0, 4);
-        if ($spotifyAlbumYear == $spotifySearchTrack['year']) {
-            $score['year'] = 90;
+        $spotifyAlbumYear = $this->getReleaseYear($spotifyApiTrack->album->release_date ?? null);
+        if ($spotifyAlbumYear && $searchYear) {
+            $weightTotal += 2;
+            $score['year'] = $this->scoreProximity($searchYear, $spotifyAlbumYear, self::YEAR_PROXIMITY_RANGE) * 2;
             $score['total'] = $score['total'] + $score['year'];
         }
 
-        if ($spotifyApiTrack->track_number == $spotifySearchTrack['track_number']) {
-            $score['track_number'] = 100;
+        if ($searchTrackNumber && isset($spotifyApiTrack->track_number)) {
+            $weightTotal += 2;
+            $score['track_number'] = ($spotifyApiTrack->track_number == $searchTrackNumber ? 100 : 0) * 2;
             $score['total'] = $score['total'] + $score['track_number'];
         }
 
-        $score['total'] = $score['total'] / $weightTotal;
+        if (isset($spotifyApiTrack->popularity) && is_numeric($spotifyApiTrack->popularity)) {
+            $weightTotal += 1;
+            $score['popularity'] = $this->scorePopularity($spotifyApiTrack->popularity) * 1;
+            $score['total'] = $score['total'] + $score['popularity'];
+        }
+
+        $score['total'] = $this->finalizeScore($score['total'], $weightTotal);
 
         return $score;
     }
 
-    public function calculateScoreAlbum($spotifyApiAlbum, SpotifySearchAlbum $spotifySearchAlbum): array
+    public function calculateScoreAlbum($spotifyApiAlbum, SpotifySearchQuery $context): array
     {
         $score['total'] = 0;
-        $weightTotal = 7;
+        $weightTotal = 0;
+        $searchArtist = $context->artist;
+        $searchName = $context->name;
+        $searchYear = $context->year;
+        $searchTrackCount = $context->track_count;
 
         // Result should match artist
-        if (isset($spotifyApiAlbum->artists[0]->name)) {
-            $score['artist'] = $this->spotifyNameHelper->areNamesSimilar($spotifySearchAlbum['artist'], $spotifyApiAlbum->artists[0]->name) * 3;
+        if ($searchArtist && isset($spotifyApiAlbum->artists[0]->name)) {
+            $weightTotal += 3;
+            $score['artist'] = $this->spotifyNameHelper->areNamesSimilar($searchArtist, $spotifyApiAlbum->artists[0]->name) * 3;
             // echo $spotifySearchAlbum['artist'] . ' vs  ' . $spotifyApiAlbum->artists[0]->name;
             $score['total'] = $score['total'] + $score['artist'];
         }
 
         // Similar name?
-        if (isset($spotifyApiAlbum->name)) {
-            $score['name'] = $this->spotifyNameHelper->areNamesSimilar($spotifySearchAlbum['name'], $spotifyApiAlbum->name) * 3;
+        if ($searchName && isset($spotifyApiAlbum->name)) {
+            $weightTotal += 3;
+            $score['name'] = $this->spotifyNameHelper->areNamesSimilar($searchName, $spotifyApiAlbum->name) * 3;
             $score['total'] = $score['total'] + $score['name'];
         }
 
-        $spotifyAlbumYear = substr($spotifyApiAlbum->release_date, 0, 4);
-        if ($spotifyAlbumYear == $spotifySearchAlbum['year']) {
-            $score['year'] = 90;
+        $spotifyAlbumYear = $this->getReleaseYear($spotifyApiAlbum->release_date ?? null);
+        if ($spotifyAlbumYear && $searchYear) {
+            $weightTotal += 2;
+            $score['year'] = $this->scoreProximity($searchYear, $spotifyAlbumYear, self::YEAR_PROXIMITY_RANGE) * 2;
             $score['total'] = $score['total'] + $score['year'];
         }
 
-        $score['total'] = $score['total'] / $weightTotal;
+        if ($searchTrackCount && isset($spotifyApiAlbum->total_tracks)) {
+            $weightTotal += 2;
+            $score['track_count'] = $this->scoreProximity($searchTrackCount, $spotifyApiAlbum->total_tracks, self::TRACK_COUNT_RANGE) * 2;
+            $score['total'] = $score['total'] + $score['track_count'];
+        }
+
+        if (isset($spotifyApiAlbum->popularity) && is_numeric($spotifyApiAlbum->popularity)) {
+            $weightTotal += 1;
+            $score['popularity'] = $this->scorePopularity($spotifyApiAlbum->popularity) * 1;
+            $score['total'] = $score['total'] + $score['popularity'];
+        }
+
+        $score['total'] = $this->finalizeScore($score['total'], $weightTotal);
 
         return $score;
     }
@@ -99,5 +135,45 @@ class SpotifyScoreSearch
         }
 
         return 'error';
+    }
+
+    private function finalizeScore(float $scoreTotal, int $weightTotal): float
+    {
+        if ($weightTotal <= 0) {
+            return 0;
+        }
+
+        return $scoreTotal / $weightTotal;
+    }
+
+    private function getReleaseYear(?string $releaseDate): ?int
+    {
+        if (!$releaseDate) {
+            return null;
+        }
+
+        $year = substr($releaseDate, 0, 4);
+        if (!is_numeric($year)) {
+            return null;
+        }
+
+        return (int) $year;
+    }
+
+    private function scoreProximity(int $expected, int $actual, int $range): float
+    {
+        $diff = abs($expected - $actual);
+        if ($diff >= $range) {
+            return 0;
+        }
+
+        return 100 - ($diff * (100 / $range));
+    }
+
+    private function scorePopularity(int $popularity): float
+    {
+        $bounded = max(0, min(100, $popularity));
+
+        return (float) $bounded;
     }
 }
