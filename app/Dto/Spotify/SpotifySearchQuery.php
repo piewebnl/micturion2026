@@ -17,6 +17,7 @@ class SpotifySearchQuery
         public ?string $artist,
         public ?int $year,
         public ?int $track_number,
+
     ) {}
 
     public static function fromAlbum(Album $album): self

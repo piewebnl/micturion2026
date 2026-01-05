@@ -7,6 +7,7 @@ use App\Models\Spotify\SpotifySearchResultAlbum;
 
 trait ToSpotifySearchResultAlbumConverter
 {
+    /*
     public function convertSpotifyApiAlbumToSpotifySearchResultAlbum(object $spotifyApiAlbum, array $score, string $status, SpotifySearchAlbum $spotifySearchAlbum): SpotifySearchResultAlbum
     {
 
@@ -35,4 +36,5 @@ trait ToSpotifySearchResultAlbumConverter
             'album_id' => $spotifySearchAlbum['album_id'],
         ]);
     }
+        */
 }

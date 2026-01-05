@@ -60,13 +60,12 @@ class AlbumSpotifyAlbum extends Model
                 'score' => $spotifySearchAlbumResult->score,
                 'status' => $spotifySearchAlbumResult->status,
                 'search_artist' => $spotifySearchAlbumResult->search_artist,
-                'search_name' => $spotifySearchAlbumResult->search_name,
+                'search_name' => $spotifySearchAlbumResult->name,
             ]
         );
 
         return $result;
     }
-
 
 
 

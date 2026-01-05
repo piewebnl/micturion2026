@@ -19,6 +19,8 @@ class SpotifyAlbumSearchPrepare
             $artist = $album->album_artist;
         }
 
+        $album->artist = $artist;
+
         return SpotifySearchQuery::fromAlbum($album);
     }
 }

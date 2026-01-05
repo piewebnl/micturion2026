@@ -2,6 +2,7 @@
 
 namespace App\Models\Spotify;
 
+use App\Models\Music\Album;
 use Illuminate\Database\Eloquent\Model;
 
 class SpotifyAlbumCustomId extends Model
@@ -10,17 +11,17 @@ class SpotifyAlbumCustomId extends Model
 
     protected $guarded = [];
 
-    public function store(SpotifyAlbumCustomId $spotifyAlbumCustomId)
+    public function storeFromSpotifyApiAlbum($spotifyApiAlbum, Album $album)
     {
 
         $result = SpotifyAlbumCustomId::updateOrCreate(
             [
-                'persistent_id' => $spotifyAlbumCustomId['persistent_id'],
+                'persistent_id' => $album->persistent_id,
             ],
             [
-                'spotify_api_album_custom_id' => $spotifyAlbumCustomId['spotify_api_album_custom_id'],
-                'artist' => $spotifyAlbumCustomId['artist'],
-                'name' => $spotifyAlbumCustomId['name'],
+                'spotify_api_album_custom_id' => $spotifyApiAlbum->spotify_api_album_custom_id,
+                'artist' => $spotifyApiAlbum->artist,
+                'name' => $spotifyApiAlbum->name,
             ]
         );
 

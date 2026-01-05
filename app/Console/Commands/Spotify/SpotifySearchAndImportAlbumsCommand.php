@@ -46,7 +46,6 @@ class SpotifySearchAndImportAlbumsCommand extends Command
         $this->output->progressStart(count($albums));
 
         foreach ($albums as $album) {
-            echo $album->name . "\r\n";
             $spotifyAlbumSearchAndImporter = new SpotifyAlbumSearchAndImporter($api);
             $spotifyAlbumSearchAndImporter->import($album);
             sleep(1);

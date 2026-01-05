@@ -35,17 +35,17 @@
 
         <div class="relative mx-5 my-10">
             <div
-                class="to-grreen-500 relative mb-4 flex h-5 w-[110px] overflow-hidden rounded bg-gray-100 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 text-xs">
+                class="to-grreen-500 relative mb-4 flex h-2 w-[110px] overflow-hidden rounded bg-gray-500 bg-gradient-to-r from-red-800 via-yellow-800 to-green-800 text-xs">
                 <div style="width: 10px; height: 100%; left: {{ $spotifyAlbum->score }}px"
-                    class="absolute border border-gray-500 bg-white">
+                    class="absolute border border-gray-700 bg-gray-300">
                 </div>
             </div>
-            @if ($spotifyAlbum->score == 100)
+            @if ($spotifyAlbum->status == 'custom')
                 <div class="mb-2 flex w-[110px] justify-center text-xs">
                     <strong class="{{ $textClass }}">Custom match</strong>
                 </div>
             @endif
-            @if ($spotifyAlbum->score == 0)
+            @if ($spotifyAlbum->score == 'unavailable')
                 <div class="mb-2 flex w-[110px] justify-center text-xs">
                     <strong class="{{ $textClass }}">Marked not available</strong>
                 </div>

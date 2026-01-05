@@ -60,6 +60,10 @@ class SpotifyAlbumSearcher
                 $album->name_sanitized =
                     $this->spotifyNameHelper->santizeSpotifyName($album->name);
             }
+            if (isset($album->artists[0]->name)) {
+                $album->artists[0]->name =
+                    $this->spotifyNameHelper->sanitzeSpotifyArtist($album->artists[0]->name);
+            }
 
             $scoredAlbum = $spotifyScoreSearch->calculateScore($album, $spotifySearchQuery, false);
             $scoredAlbum->status = $spotifyScoreSearch->determineStatus($scoredAlbum->score);
@@ -92,7 +96,6 @@ class SpotifyAlbumSearcher
             search_name: $spotifySearchQuery->name ?? '',
             search_artist: $spotifySearchQuery->artist ?? '',
             album_id: $spotifySearchQuery->album_id ?? 0,
-            source: 'spotify',
             year: $releaseYear,
             artwork_url: $bestAlbum->images[0]->url ?? null,
             score_breakdown: $bestAlbum->score_breakdown ?? [],

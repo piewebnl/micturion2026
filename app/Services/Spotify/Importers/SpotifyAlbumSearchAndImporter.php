@@ -50,31 +50,40 @@ class SpotifyAlbumSearchAndImporter
         // Search unavailable in own DB first
         $this->searchUnavailable();
 
-        if ($this->spotifySearchAlbumResult?->source == 'unavailabe') {
-            Logger::log(
-                'warning',
-                $this->channel,
-                'CUSTOM ID Save to dB? ' . $this->album->name
-            );
-            return;
+        $found = false;
+
+        if ($this->spotifySearchAlbumResult?->status == 'unavailabe') {
+            $found = true;
         }
 
-        if (!$this->spotifySearchAlbumResult) {
+        if (!$found) {
             // Search for customId in own DB first
-            //$spotifyAlbumCustomIdSearcher = new spotifyAlbumCustomIdSearcher($this->api);
-            //$this->spotifySearchAlbumResult = $spotifyAlbumCustomIdSearcher->search($this->spotifySearchQuery);
+            $spotifyAlbumCustomIdSearcher = new spotifyAlbumCustomIdSearcher($this->api);
+            $this->spotifySearchAlbumResult = $spotifyAlbumCustomIdSearcher->search($this->spotifySearchQuery);
+            if ($this->spotifySearchAlbumResult?->status == 'custom') {
+                $found = true;
+            }
         }
+
         /*
         if (!$this->spotifySearchAlbumResult) {
             // Already in DB?
             $this->searchAlbumId();
         }
-            */
+        */
 
 
         // Try Spotify API to find match (if not customId)
         if (!$this->spotifySearchAlbumResult) {
-            $this->spotifySearchAlbumResult = $this->searchSpotifyApi();
+            $spotifyAlbumSearcher = new SpotifyAlbumSearcher($this->api);
+            $this->spotifySearchAlbumResult = $spotifyAlbumSearcher->search($this->spotifySearchQuery);
+            if ($this->spotifySearchAlbumResult->status) {
+                $found = true;
+            }
+        }
+
+        if (!$found) {
+            dd('nothing found');
         }
 
 
@@ -84,21 +93,25 @@ class SpotifyAlbumSearchAndImporter
         $albumSpotifyAlbum = new AlbumSpotifyAlbum();
         $albumSpotifyAlbum->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult, $spotifyAlbum);
 
-        $loggerText = 'not found?';
+        $loggerText = 'Not found';
         $loggerStatus = 'error';
         if ($this->spotifySearchAlbumResult->status == 'success') {
-            $loggerText = 'mwah';
+            $loggerText = 'Imported';
             $loggerStatus = 'notice';
         }
         if ($this->spotifySearchAlbumResult->status == 'warning') {
-            $loggerText = 'mwah';
+            $loggerText = 'Imported, but check';
             $loggerStatus = 'warning';
         }
         Logger::log(
             $loggerStatus,
             $this->channel,
-            'Spotify album ' . $loggerText . ' and imported:<br/>Searched for: ' .  $this->spotifySearchAlbumResult->score . ': ' . $this->spotifySearchQuery->artist . ' ' . $this->spotifySearchQuery->album . "<br/>Result:" . $this->spotifySearchAlbumResult->artist . ' - ' . $this->spotifySearchAlbumResult->name,
-            ['spotifySearchAlbumResult' => $this->spotifySearchAlbumResult]
+            'Spotify album ' . $loggerText . ': ' . $this->spotifySearchQuery->artist . ' ' . $this->spotifySearchQuery->album,
+            [
+                ['Score: ' . $this->spotifySearchAlbumResult->score],
+                ['Search string: ' .  $this->spotifySearchAlbumResult->artist . ' - ' . $this->spotifySearchAlbumResult->name],
+                ['spotifySearchAlbumResult' => $this->spotifySearchAlbumResult]
+            ]
 
         );
         return;
@@ -123,18 +136,12 @@ class SpotifyAlbumSearchAndImporter
                 search_name: $found['name'],
                 search_artist: $found['artist'],
                 album_id: $this->album->id,
-                source: 'unavailabe',
                 all_results: null
             );
         }
     }
 
 
-    private function searchSpotifyApi()
-    {
-        $spotifyAlbumSearcher = new SpotifyAlbumSearcher($this->api);
-        return $spotifyAlbumSearcher->search($this->spotifySearchQuery);
-    }
 
     public function getResponse(): JsonResponse
     {

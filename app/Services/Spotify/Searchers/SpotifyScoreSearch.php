@@ -92,8 +92,9 @@ class SpotifyScoreSearch
             );
         }
 
-        /*
+
         if ($isTrack) {
+            /*
             $searchAlbum = $spotifySearchQuery->album_name;
             if ($searchAlbum && isset($spotifyApiResult->album->name)) {
                 $candidateAlbum = $spotifyApiResult->album->name_sanitized ?? $spotifyApiResult->album->name;
@@ -115,33 +116,10 @@ class SpotifyScoreSearch
                     2
                 );
             }
-        */
-
-        /*
-        if (!$isTrack && is_numeric($spotifySearchQuery->track_count) && is_numeric($spotifyApiResult->total_tracks)) {
-            if ($spotifySearchQuery->track_count && isset($spotifyApiResult->total_tracks)) {
-                $this->addScore(
-                    $score,
-                    $weightTotal,
-                    'track_count',
-                    $this->scoreProximity($spotifySearchQuery->track_count, $spotifyApiResult->total_tracks, self::TRACK_COUNT_RANGE),
-                    2
-                );
-            }
+                */
         }
-*/
 
-        /*
-        if (isset($spotifyApiResult->popularity) && is_numeric($spotifyApiResult->popularity)) {
-            $this->addScore(
-                $score,
-                $weightTotal,
-                'popularity',
-                $this->scorePopularity($spotifyApiResult->popularity),
-                1
-            );
-        }
-        */
+
         $score['total'] = $this->finalizeScore($score['total'], $weightTotal);
         $spotifyApiResult->score = $score['total'];
         $spotifyApiResult->score_breakdown = $score;

@@ -2,6 +2,8 @@
 
 namespace App\Dto\Spotify;
 
+use App\Dto\Spotify\SpotifySearchQuery;
+
 class SpotifySearchAlbumResult
 {
     public function __construct(
@@ -11,11 +13,10 @@ class SpotifySearchAlbumResult
         public string $artist,
         public ?string $artist_sanitized,
         public int $score,
-        public string $status,
+        public string $status, // error, warning, succes, custom or unavailable
         public string $search_name,
         public string $search_artist,
         public int $album_id,
-        public ?string $source,
         public array $score_breakdown = [],
         public ?int $year = null,
         public ?string $artwork_url = null,
@@ -36,11 +37,38 @@ class SpotifySearchAlbumResult
             'search_name' => $this->search_name,
             'search_artist' => $this->search_artist,
             'album_id' => $this->album_id,
-            'source' => $this->source,
             'score_breakdown' => $this->score_breakdown,
             'year' => $this->year,
             'artwork_url' => $this->artwork_url,
             'all_restults' => $this->all_results,
         ];
+    }
+
+
+    public static function fromSpotifyApiAlbum($spotifyAlbum, SpotifySearchQuery $spotifySearchQuery): self
+    {
+
+        $releaseYear = null;
+        if (isset($spotifyAlbum->release_date)) {
+            $year = substr($spotifyAlbum->release_date, 0, 4);
+            $releaseYear = is_numeric($year) ? (int) $year : null;
+        }
+
+        return new self(
+            spotify_api_album_id: $spotifyAlbum->id ?? null,
+            name: $spotifyAlbum->name ?? '',
+            name_sanitized: $spotifyAlbum->name_sanitized ?? null,
+            artist: $spotifyAlbum->artists[0]->name ?? '',
+            artist_sanitized: $spotifyAlbum->artist_sanitized ?? null,
+            score: (int) round($spotifyAlbum->score),
+            status: $spotifyAlbum->status ?? 'error',
+            search_name: $spotifySearchQuery->name ?? '',
+            search_artist: $spotifySearchQuery->artist ?? '',
+            album_id: $spotifySearchQuery->album_id ?? 0,
+            year: $releaseYear,
+            artwork_url: $spotifyAlbum->images[0]->url ?? null,
+            score_breakdown: $spotifyAlbum->score_breakdown ?? [],
+            all_results: []
+        );
     }
 }

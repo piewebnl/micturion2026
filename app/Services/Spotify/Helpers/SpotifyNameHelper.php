@@ -45,6 +45,15 @@ class SpotifyNameHelper
         return $name;
     }
 
+
+    public function sanitzeSpotifyArtist($name)
+    {
+
+        $name = str_replace('Floor Jansen', 'After Forever', $name);
+        $name = str_replace('Ryan Adams & The Cardinals', 'Ryan Adams & The Cardinals', $name);
+        return $name;
+    }
+
     public function isRemaster($name)
     {
         if (StringHelper::findInString($name, ['Remaster', 'Remastered', '(Deluxe', ' version']) !== false) {
@@ -68,7 +77,6 @@ class SpotifyNameHelper
     public function areNamesSimilar($searchTrackName, $foundName)
     {
 
-        echo $searchTrackName . ' vs ' . $foundName . "\r\n";
         similar_text(strtolower($searchTrackName), strtolower($foundName), $perc);
 
         return $perc;
