@@ -3,14 +3,9 @@
 namespace App\Services\SpotifyApi\Mappers;
 
 use Illuminate\Support\Str;
-use App\Models\Spotify\SpotifyPlaylist;
-use App\Models\Spotify\SpotifyTrack;
-use App\Traits\Converters\ToSpotifyPlaylistTrackConverter;
-use App\Traits\Converters\ToSpotifyTrackConverter;
 
 class SpotifyApiPlaylistTrackMapper
 {
-
     public function toSpotifyTrack(object $spotifyApiPlaylistTrack): array
     {
         return [
@@ -25,8 +20,6 @@ class SpotifyApiPlaylistTrackMapper
         ];
     }
 
-
-
     /*
     public function normalizePlaylistTrack(object $spotifyApiPlaylistTrack): object
     {
@@ -38,7 +31,6 @@ class SpotifyApiPlaylistTrackMapper
         return $spotifyApiPlaylistTrack;
     }
         */
-
 
     /*
     private function generateFakeSpotifyTrackId(object $spotifyApiPlaylistTrack): string

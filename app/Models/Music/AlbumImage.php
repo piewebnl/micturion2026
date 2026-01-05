@@ -3,8 +3,8 @@
 namespace App\Models\Music;
 
 use App\Services\Images\ImageCreator;
-use App\Services\Music\AlbumImageSourceFinder;
 use App\Services\Logger\Logger;
+use App\Services\Music\AlbumImageSourceFinder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 

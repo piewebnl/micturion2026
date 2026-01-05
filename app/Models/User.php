@@ -46,7 +46,6 @@ class User extends Authenticatable
         ];
     }
 
-
     public function getAvatarNameAttribute()
     {
         $parts = explode(' ', trim($this->name));

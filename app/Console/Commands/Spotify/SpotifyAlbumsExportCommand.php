@@ -2,13 +2,11 @@
 
 namespace App\Console\Commands\Spotify;
 
+use App\Services\Logger\Logger;
 use App\Services\Spotify\Deleters\SpotifyAlbumsDeleter;
 use App\Services\Spotify\Exporters\SpotifyAlbumsExporter;
 use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
-use App\Services\SpotifyApi\Getters\SpotifyApiUserAlbumsGetter;
-use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\App;
 
 // php artisan command:SpotifyAlbumsExport
 class SpotifyAlbumsExportCommand extends Command
@@ -39,7 +37,7 @@ class SpotifyAlbumsExportCommand extends Command
         }
 
         $this->exportAlbums();
-        //$this->deleteUnwanted();
+        // $this->deleteUnwanted();
 
         // Logger::echo($this->channel);
     }
@@ -52,6 +50,7 @@ class SpotifyAlbumsExportCommand extends Command
         $this->totalAlbumsToExport = $spotifyAlbumsExporter->getTotal();
         if ($this->totalAlbumsToExport == 0) {
             Logger::log('error', $this->channel, 'No albums to export', [], $this);
+
             return;
         }
 

@@ -3,11 +3,11 @@
 namespace App\Console\Commands\Spotify;
 
 use App\Jobs\Spotify\SpotifyTracksFavouriteExportJob;
+use App\Services\Logger\Logger;
 use App\Services\Spotify\Deleters\SpotifyTracksFavouriteDeleter;
 use App\Services\Spotify\Exporters\SpotifyTracksFavouriteExporter;
 use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
 use App\Services\SpotifyApi\Getters\SpotifyApiUserFavouriteTracksGetter;
-use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 

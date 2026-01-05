@@ -45,12 +45,14 @@ class SpotifyNameHelper
         return $name;
     }
 
-
     public function sanitzeSpotifyArtist($name)
     {
 
-        $name = str_replace('Floor Jansen', 'After Forever', $name);
-        $name = str_replace('Ryan Adams & The Cardinals', 'Ryan Adams', $name);
+        $sanitizedArtistNames = config('spotify.sanitize_artist_names', []);
+        if ($sanitizedArtistNames) {
+            $name = str_replace(array_keys($sanitizedArtistNames), array_values($sanitizedArtistNames), $name);
+        }
+
         return $name;
     }
 

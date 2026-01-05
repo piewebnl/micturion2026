@@ -3,8 +3,8 @@
 namespace App\Models\Menu;
 
 use App\Services\Images\ImageCreator;
-use App\Services\Menu\MenuImageSourceFinder;
 use App\Services\Logger\Logger;
+use App\Services\Menu\MenuImageSourceFinder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 

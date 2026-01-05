@@ -2,9 +2,8 @@
 
 namespace App\Dto\Spotify;
 
-use App\Models\Music\Song;
 use App\Models\Music\Album;
-use App\Models\Spotify\SpotifySearchTrack;
+use App\Models\Music\Song;
 
 class SpotifySearchQuery
 {
@@ -33,7 +32,6 @@ class SpotifySearchQuery
             track_number: null,
         );
     }
-
 
     public static function fromSong(Song $song): self
     {

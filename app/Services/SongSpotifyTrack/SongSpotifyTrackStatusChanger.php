@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 // Change status of a SongSpotifyTrack and put it in CustomID or Unavailable table
 class SongSpotifyTrackStatusChanger
 {
-    use ToSpotifyTrackCustomIdConverter;
+    // use ToSpotifyTrackCustomIdConverter;
 
     private $response;
 

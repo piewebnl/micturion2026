@@ -2,11 +2,9 @@
 
 namespace App\Models\Spotify;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Dto\Spotify\SpotifySearchAlbumResult;
-use App\Models\Spotify\SpotifySearchResultAlbum;
 use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
-use App\Services\SpotifyApi\Getters\SpotifyApiUserAlbumsGetter;
+use Illuminate\Database\Eloquent\Model;
 
 // Spotify albums are retrieved from spotify and are stored in the database (succes or warning)
 class SpotifyAlbum extends Model
@@ -40,7 +38,6 @@ class SpotifyAlbum extends Model
     public function storeFromSpotifySearchResultAlbum(SpotifySearchAlbumResult $spotifySearchAlbumResult)
     {
 
-
         $result = SpotifyAlbum::updateOrCreate(
             [
                 'spotify_api_album_id' => $spotifySearchAlbumResult->spotify_api_album_id,
@@ -54,6 +51,7 @@ class SpotifyAlbum extends Model
 
             ]
         );
+
         return $result;
     }
 }

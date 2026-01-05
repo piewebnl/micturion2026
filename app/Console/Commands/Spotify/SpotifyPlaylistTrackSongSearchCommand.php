@@ -3,9 +3,9 @@
 namespace App\Console\Commands\Spotify;
 
 use App\Models\Spotify\SpotifyPlaylist;
+use App\Services\Logger\Logger;
 use App\Services\Spotify\Searchers\SpotifyPlaylistTrackSongSearcher;
 use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
-use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;

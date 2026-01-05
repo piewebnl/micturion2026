@@ -2,13 +2,12 @@
 
 namespace App\Services\Spotify\Searchers;
 
-use App\Models\Music\Album;
 use App\Dto\Spotify\SpotifySearchQuery;
+use App\Models\Music\Album;
 
 // Prepare a album for spotify search
 class SpotifyAlbumSearchPrepare
 {
-
     // Fill the spotify search track model with data to search properly
     public function prepareSpotifySearchAlbum(Album $album): SpotifySearchQuery
     {

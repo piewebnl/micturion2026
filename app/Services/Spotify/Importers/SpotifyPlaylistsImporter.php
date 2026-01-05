@@ -2,10 +2,10 @@
 
 namespace App\Services\Spotify\Importers;
 
-use App\Services\Logger\Logger;
 use App\Models\Spotify\SpotifyPlaylist;
-use App\Services\SpotifyApi\Mappers\SpotifyApiPlaylistMapper;
+use App\Services\Logger\Logger;
 use App\Services\SpotifyApi\Getters\SpotifyApiUserPlaylistGetter;
+use App\Services\SpotifyApi\Mappers\SpotifyApiPlaylistMapper;
 
 // Import spotify playlists to db
 class SpotifyPlaylistsImporter
@@ -54,7 +54,6 @@ class SpotifyPlaylistsImporter
 
         foreach ($playlistsToImport as $spotifyApiPlaylist) {
 
-
             if ($spotifyApiPlaylist->snapshot_id_has_changed) {
 
                 $playlists = $this->spotifyApiPlaylistMapper->toSpotifyPlaylist(
@@ -72,7 +71,6 @@ class SpotifyPlaylistsImporter
                 Logger::log('info', $this->channel, 'Spotify playlist not imported (no change): ' . $spotifyApiPlaylist->name . ' [' . $spotifyApiPlaylist->tracks->total . ' tracks]');
             }
         }
-
 
         $newPlaylistIds = collect($playlistsToImport)->pluck('id')->filter()->values()->all();
         $this->addNewPlaylistIds($newPlaylistIds);
@@ -97,7 +95,6 @@ class SpotifyPlaylistsImporter
         return $spotifyApiPlaylists;
     }
 
-
     public function deleteOldPlaylists(array $oldPlaylistIds): void
     {
         if (empty($this->allNewPlaylistIds)) {
@@ -118,7 +115,6 @@ class SpotifyPlaylistsImporter
         )));
     }
 
-
     private function hasSnapshotIdChanged(string $spotifyApiPlaylistId, string $snapshotId): bool
     {
         $storedSnapshotId = SpotifyPlaylist::where('spotify_api_playlist_id', $spotifyApiPlaylistId)
@@ -127,7 +123,8 @@ class SpotifyPlaylistsImporter
 
         if ($snapshotId !== $storedSnapshotId) {
             return true;
-        };
+        }
+
         return false;
     }
 

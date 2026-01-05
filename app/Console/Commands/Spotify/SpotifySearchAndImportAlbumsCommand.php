@@ -4,12 +4,9 @@ namespace App\Console\Commands\Spotify;
 
 use App\Models\Music\Album;
 use App\Services\Logger\Logger;
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\App;
-use App\Jobs\Spotify\SpotifyAlbumImportJob;
-use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
-use App\Services\Spotify\Importers\SpotifyPlaylistsImporter;
 use App\Services\Spotify\Importers\SpotifyAlbumSearchAndImporter;
+use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
+use Illuminate\Console\Command;
 
 // php artisan command:SpotifySearchAndImportAlbums
 class SpotifySearchAndImportAlbumsCommand extends Command
@@ -22,12 +19,10 @@ class SpotifySearchAndImportAlbumsCommand extends Command
 
     private $perPage = 50;
 
-
     public function handle()
     {
         Logger::deleteChannel($this->channel);
         Logger::echoChannel($this->channel, $this);
-
 
         $api = (new SpotifyApiConnect($this))->getApi();
 
@@ -41,7 +36,6 @@ class SpotifySearchAndImportAlbumsCommand extends Command
                 'categories' => [1],
             ]
         );
-
 
         $this->output->progressStart(count($albums));
 

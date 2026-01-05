@@ -15,7 +15,7 @@ use Illuminate\Http\JsonResponse;
 // Search for spotify track via unavailable, custom ID in DB or spotify api and then import to db
 class SpotifyTrackSearchAndImporter
 {
-    use ToSpotifyTrackConverter;
+    // use ToSpotifyTrackConverter;
 
     private $api;
 

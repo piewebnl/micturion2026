@@ -2,12 +2,11 @@
 
 namespace App\Services\SpotifyApi\Mappers;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class SpotifyApiPlaylistMapper
 {
-
     public function toSpotifyPlaylist(object $spotifyApiPlaylist, bool $snapshotChanged): array
     {
         $spotifyApiPlaylist->snapshot_id_has_changed = $snapshotChanged;

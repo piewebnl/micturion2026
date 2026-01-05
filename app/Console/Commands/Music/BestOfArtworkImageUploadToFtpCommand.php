@@ -4,8 +4,8 @@ namespace App\Console\Commands\Music;
 
 use App\Helpers\VolumeMountedCheck;
 use App\Models\Playlist\Playlist;
-use App\Services\Music\BestOfArtworkImageUploadToFtp;
 use App\Services\Logger\Logger;
+use App\Services\Music\BestOfArtworkImageUploadToFtp;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 

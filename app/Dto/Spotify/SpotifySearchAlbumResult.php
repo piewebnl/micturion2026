@@ -2,8 +2,6 @@
 
 namespace App\Dto\Spotify;
 
-use App\Dto\Spotify\SpotifySearchQuery;
-
 class SpotifySearchAlbumResult
 {
     public function __construct(
@@ -43,7 +41,6 @@ class SpotifySearchAlbumResult
             'all_restults' => $this->all_results,
         ];
     }
-
 
     public static function fromSpotifyApiAlbum($spotifyAlbum, SpotifySearchQuery $spotifySearchQuery): self
     {

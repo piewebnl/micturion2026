@@ -10,8 +10,8 @@ use App\Traits\Renamers\ToSpotifySearchTrackRenamer;
 // Prepare a song for spotify search
 class SpotifyTrackSearchPrepare
 {
-    use ToSpotifySearchAlbumRenamer;
-    use ToSpotifySearchTrackRenamer;
+    // use ToSpotifySearchAlbumRenamer;
+    // use ToSpotifySearchTrackRenamer;
 
     // Fill the spotify search track model with data to search properly
     public function prepareSpotifySearchTrack(Song $song): SpotifySearchTrack

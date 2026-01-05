@@ -20,7 +20,6 @@ class ConcertImageCreateCommand extends Command
 
     private string $channel = 'concert_create_images';
 
-
     public function handle()
     {
 

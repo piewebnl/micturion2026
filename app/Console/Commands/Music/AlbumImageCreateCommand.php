@@ -4,8 +4,8 @@ namespace App\Console\Commands\Music;
 
 use App\Helpers\VolumeMountedCheck;
 use App\Models\Music\Album;
-use App\Services\Music\AlbumImageCreator;
 use App\Services\Logger\Logger;
+use App\Services\Music\AlbumImageCreator;
 use Illuminate\Console\Command;
 
 // php artisan command:AlbumImageCreate

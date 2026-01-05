@@ -2,12 +2,12 @@
 
 namespace App\Models\AlbumSpotifyAlbum;
 
-use App\Models\Music\Album;
-use App\Scopes\GlobalScopesTrait;
-use App\Models\Spotify\SpotifyAlbum;
-use Illuminate\Database\Eloquent\Model;
-use App\Scopes\AlbumSpotifyAlbumScopesTrait;
 use App\Dto\Spotify\SpotifySearchAlbumResult;
+use App\Models\Music\Album;
+use App\Models\Spotify\SpotifyAlbum;
+use App\Scopes\AlbumSpotifyAlbumScopesTrait;
+use App\Scopes\GlobalScopesTrait;
+use Illuminate\Database\Eloquent\Model;
 
 // Relation table between albums and spotify albums
 class AlbumSpotifyAlbum extends Model
@@ -50,7 +50,6 @@ class AlbumSpotifyAlbum extends Model
     public function storeFromSpotifySearchResultAlbum(SpotifySearchAlbumResult $spotifySearchAlbumResult, SpotifyAlbum $spotifyAlbum)
     {
 
-
         $result = AlbumSpotifyAlbum::updateOrCreate(
             [
                 'album_id' => $spotifySearchAlbumResult->album_id,
@@ -66,8 +65,6 @@ class AlbumSpotifyAlbum extends Model
 
         return $result;
     }
-
-
 
     public function getAlbumSpotifyAlbumWithAlbum(int $id, array $filterValues = [])
     {

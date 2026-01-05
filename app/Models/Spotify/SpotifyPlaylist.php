@@ -5,7 +5,6 @@ namespace App\Models\Spotify;
 use App\Scopes\GlobalScopesTrait;
 use App\Scopes\SpotifyPlaylistScopesTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 // Spotify playlists that are stored in database
 class SpotifyPlaylist extends Model
@@ -68,12 +67,10 @@ class SpotifyPlaylist extends Model
         SpotifyPlaylistTrack::where('spotify_playlist_id', $spotifyPlaylistId)->delete();
     }
 
-
     public function getSpotifyPlaylistByName(string $playlistName)
     {
         return SpotifyPlaylist::where('name', $playlistName)->first();
     }
-
 
     public function getSpotifyPlaylistsToImport()
     {
@@ -85,9 +82,6 @@ class SpotifyPlaylist extends Model
             }
         })->get();
     }
-
-
-
 
     public function areSpotifyPlaylistsImported()
     {

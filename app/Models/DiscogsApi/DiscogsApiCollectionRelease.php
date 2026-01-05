@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 // Discogs collection release
 class DiscogsApiCollectionRelease extends Model
 {
-    use ToDiscogsReleaseConverter;
+    // use ToDiscogsReleaseConverter;
 
     protected $guarded = [];
 

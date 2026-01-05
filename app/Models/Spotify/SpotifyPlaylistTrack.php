@@ -2,7 +2,6 @@
 
 namespace App\Models\Spotify;
 
-use DB;
 use Illuminate\Database\Eloquent\Model;
 
 // Spotify Playlist tracks are stored in the database

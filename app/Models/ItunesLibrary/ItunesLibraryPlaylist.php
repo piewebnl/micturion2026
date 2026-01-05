@@ -3,14 +3,14 @@
 namespace App\Models\ItunesLibrary;
 
 use App\Models\Playlist\Playlist;
-use App\Traits\Converters\ToPlaylistConverter;
 use App\Services\Logger\Logger;
+use App\Traits\Converters\ToPlaylistConverter;
 use Illuminate\Database\Eloquent\Model;
 
 // Pseudo model of iTunes Playlist
 class ItunesLibraryPlaylist extends Model
 {
-    use ToPlaylistConverter;
+    // use ToPlaylistConverter;
 
     protected $guarded = [];
 

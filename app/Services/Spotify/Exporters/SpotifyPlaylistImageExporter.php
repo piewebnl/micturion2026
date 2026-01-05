@@ -4,8 +4,8 @@ namespace App\Services\Spotify\Exporters;
 
 use App\Models\Playlist\Playlist;
 use App\Models\Spotify\SpotifyPlaylist;
-use App\Services\Spotify\Creators\SpotifyPlaylistCreator;
 use App\Services\Logger\Logger;
+use App\Services\Spotify\Creators\SpotifyPlaylistCreator;
 use Illuminate\Http\JsonResponse;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;

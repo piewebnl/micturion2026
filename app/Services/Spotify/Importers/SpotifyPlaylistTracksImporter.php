@@ -5,8 +5,8 @@ namespace App\Services\Spotify\Importers;
 use App\Models\Spotify\SpotifyPlaylist;
 use App\Models\Spotify\SpotifyPlaylistTrack;
 use App\Models\Spotify\SpotifyTrack;
-use App\Services\SpotifyApi\Mappers\SpotifyApiPlaylistTrackMapper;
 use App\Services\SpotifyApi\Getters\SpotifyApiUserPlaylistTracksGetter;
+use App\Services\SpotifyApi\Mappers\SpotifyApiPlaylistTrackMapper;
 
 // Import spotify playlist tracks to db
 class SpotifyPlaylistTracksImporter
@@ -54,9 +54,8 @@ class SpotifyPlaylistTracksImporter
         foreach ($spotifyApiPlaylistTracks as $order => $spotifyApiPlaylistTrack) {
 
             // NEEDED?
-            //$spotifyApiPlaylistTrack = $this->spotifyApiPlaylistTrackMapper
+            // $spotifyApiPlaylistTrack = $this->spotifyApiPlaylistTrackMapper
             //  ->normalizePlaylistTrack($spotifyApiPlaylistTrack);
-
 
             // Save Spotify Track
             $spotifyTrackData = $this->spotifyApiPlaylistTrackMapper
@@ -67,14 +66,13 @@ class SpotifyPlaylistTracksImporter
                 $spotifyTrackData
             );
 
-
             SpotifyPlaylistTrack::updateOrCreate(
                 [
                     'spotify_playlist_id' => $this->spotifyPlaylist->id,
                     'spotify_track_id' => $spotifyTrack->id,
                 ],
                 [
-                    'order' => $order
+                    'order' => $order,
                 ]
             );
 

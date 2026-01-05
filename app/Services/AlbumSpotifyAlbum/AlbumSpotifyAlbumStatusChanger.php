@@ -2,21 +2,14 @@
 
 namespace App\Services\AlbumSpotifyAlbum;
 
-use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 use App\Models\Music\Album;
+use App\Models\Spotify\SpotifyAlbum;
 use App\Models\Spotify\SpotifyAlbumCustomId;
 use App\Models\Spotify\SpotifyAlbumUnavailable;
-use App\Traits\Converters\ToSpotifyAlbumCustomIdConverter;
-use Illuminate\Http\JsonResponse;
+use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 
 class AlbumSpotifyAlbumStatusChanger
 {
-    use ToSpotifyAlbumCustomIdConverter;
-
-    private $response;
-
-    private $resource = [];
-
     public function changeStatus(AlbumSpotifyAlbum $albumSpotifyAlbum, string $status)
     {
         $id = $albumSpotifyAlbum['id'];
@@ -26,30 +19,33 @@ class AlbumSpotifyAlbumStatusChanger
         $albumWithSpotifyAlbum = $album->getAlbumWithSpotifyAlbum($albumSpotifyAlbum['album_id']);
 
         if (!$albumWithSpotifyAlbum) {
-            dd('No spotify album');
+            return;
         }
 
-        $spotifyAlbumCustomId = $this->convertAlbumToSpotifyAlbumCustomId($albumWithSpotifyAlbum);
-
-        // dd($spotifyAlbumCustomId);
-
-        $spotifyAlbumCustomIdModel = new SpotifyAlbumCustomId;
         $spotifyAlbumUnavailable = new SpotifyAlbumUnavailable;
 
-        if ($status == 'error') {
+        if ($status === 'error') {
             $albumSpotifyAlbum = AlbumSpotifyAlbum::find($id);
-            $albumSpotifyAlbum->status = 'error';
+            $albumSpotifyAlbum->status = 'unavailable';
             $albumSpotifyAlbum->score = 0;
             $albumSpotifyAlbum->save();
 
             // Delete custom ID
-            $found = SpotifyAlbumCustomId::where('persistent_id', $spotifyAlbumCustomId['persistent_id'])->first();
+            $found = SpotifyAlbumCustomId::where('persistent_id', $albumWithSpotifyAlbum->persistent_id)->first();
             if ($found) {
-                $spotifyAlbumCustomIdModel->destroy($found['id']);
+                SpotifyAlbumCustomId::destroy($found['id']);
             }
 
-            // Add to unavailable table
-            // NAAR CONVERTER
+            SpotifyAlbum::updateOrCreate(
+                ['id' => $albumSpotifyAlbum->spotify_album_id],
+                [
+                    'spotify_api_album_id' => null,
+                    'name' => 'NOT FOUND',
+                    'name_sanitized' => null,
+                    'artist' => 'NOT FOUND',
+                    'artist_sanitized' => null,
+                ]
+            );
 
             $spotifyAlbumUnavailable->fill([
                 'persistent_id' => $albumWithSpotifyAlbum['persistent_id'],
@@ -59,11 +55,9 @@ class AlbumSpotifyAlbumStatusChanger
 
             $spotifyAlbumUnavailableModel = new SpotifyAlbumUnavailable;
             $spotifyAlbumUnavailableModel->store($spotifyAlbumUnavailable);
-        }
-
-        if ($status == 'success') {
+        } elseif ($status === 'success') {
             $albumSpotifyAlbum = AlbumSpotifyAlbum::find($id);
-            $albumSpotifyAlbum->status = $status;
+            $albumSpotifyAlbum->status = 'custom';
             $albumSpotifyAlbum->score = 100;
             $albumSpotifyAlbum->save();
 
@@ -73,18 +67,19 @@ class AlbumSpotifyAlbumStatusChanger
                 $spotifyAlbumUnavailable->destroy($found['id']);
             }
 
-            // Store custom ID
-            $spotifyAlbumCustomIdModel->store($spotifyAlbumCustomId);
+            SpotifyAlbumCustomId::updateOrCreate(
+                [
+                    'persistent_id' => $albumWithSpotifyAlbum['persistent_id'],
+                ],
+                [
+                    'spotify_api_album_custom_id' => $albumWithSpotifyAlbum['spotify_api_album_id'],
+                    'artist' => $albumWithSpotifyAlbum['artist_name'],
+                    'name' => $albumWithSpotifyAlbum['name'],
+                ]
+            );
         }
 
+        // Reload
         $albumSpotifyAlbum = new AlbumSpotifyAlbum;
-        $this->resource[] = $albumSpotifyAlbum->getAlbumSpotifyAlbumWithAlbum($id);
-
-        $this->response = response()->success('Marked as ' . $status, $this->resource);
-    }
-
-    public function getResponse(): JsonResponse
-    {
-        return $this->response;
     }
 }

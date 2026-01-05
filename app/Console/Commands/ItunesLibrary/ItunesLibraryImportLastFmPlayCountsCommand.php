@@ -3,8 +3,8 @@
 namespace App\Console\Commands\ItunesLibrary;
 
 use App\Models\Setting;
-use App\Services\Music\SongFinder;
 use App\Services\Logger\Logger;
+use App\Services\Music\SongFinder;
 use App\Traits\QueryCache\QueryCache;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
@@ -83,7 +83,7 @@ class ItunesLibraryImportLastFmPlayCountsCommand extends Command
                 $tracks = [$tracks];
             }
 
-            $tracks = array_filter($tracks, fn($t) => isset($t['date']['uts']));
+            $tracks = array_filter($tracks, fn ($t) => isset($t['date']['uts']));
             $all = array_merge($all, $tracks);
 
             $got = count($tracks);

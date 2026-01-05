@@ -5,8 +5,8 @@ namespace App\Console\Commands\Spotify;
 use App\Jobs\Spotify\SpotifyTrackImportJob;
 use App\Models\Music\Category;
 use App\Models\Music\Song;
-use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
 use App\Services\Logger\Logger;
+use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 

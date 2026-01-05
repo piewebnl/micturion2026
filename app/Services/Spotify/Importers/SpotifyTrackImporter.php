@@ -16,9 +16,9 @@ use Illuminate\Http\JsonResponse;
 // Import a spotify track by a given spotify track id and a song
 class SpotifyTrackImporter
 {
-    use ToSpotifySearchResultTrackConverter;
-    use ToSpotifyTrackConverter;
-    use ToSpotifyTrackCustomIdConverter;
+    // use ToSpotifySearchResultTrackConverter;
+    // use ToSpotifyTrackConverter;
+    // use ToSpotifyTrackCustomIdConverter;
 
     private $api;
 

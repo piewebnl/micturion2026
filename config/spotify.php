@@ -11,7 +11,6 @@ return [
     'track_search_results_success_score' => 70,
     'track_search_results_warning_score' => 60,
 
-
     'album_search_results_success_score' => 60,
     'album_search_results_warning_score' => 30,
 
@@ -20,5 +19,10 @@ return [
     'playlist_tracks_to_import_from_spotify' => ['Playlist 20%', 'Rutger Debbie'], // Just the montlty
 
     'playlist_tracks_to_search_for_songs' => ['Rutger Debbie'],
+
+    'sanitize_artist_names' => [
+        'Floor Jansen' => 'After Forever',
+        'Ryan Adams & The Cardinals' => 'Ryan Adams',
+    ],
 
 ];

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 // Pseudo model of iTunes Playlist Track
 class ItunesLibraryPlaylistTrack extends Model
 {
-    use ToPlaylistTrackConverter;
+    // use ToPlaylistTrackConverter;
 
     protected $guarded = [];
 

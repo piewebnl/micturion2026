@@ -9,14 +9,15 @@ use App\Services\Spotify\Helpers\SpotifyNameHelper;
 class SpotifyScoreSearch
 {
     private $spotifyNameHelper;
+
     private const YEAR_PROXIMITY_RANGE = 5;
+
     private const TRACK_COUNT_RANGE = 5;
 
     public function __construct()
     {
         $this->spotifyNameHelper = new SpotifyNameHelper;
     }
-
 
     public function determineStatus($scoreTotal)
     {
@@ -69,7 +70,6 @@ class SpotifyScoreSearch
             );
         }
 
-
         if ($searchName && isset($spotifyApiResult->name)) {
 
             $candidateName = $spotifyApiResult->name_sanitized ?? $spotifyApiResult->name;
@@ -91,7 +91,6 @@ class SpotifyScoreSearch
                 2
             );
         }
-
 
         if ($isTrack) {
             /*
@@ -118,7 +117,6 @@ class SpotifyScoreSearch
             }
                 */
         }
-
 
         $score['total'] = $this->finalizeScore($score['total'], $weightTotal);
         $spotifyApiResult->score = $score['total'];

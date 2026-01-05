@@ -2,20 +2,17 @@
 
 namespace App\Services\Spotify\Importers;
 
+use App\Dto\Spotify\SpotifySearchAlbumResult;
+use App\Dto\Spotify\SpotifySearchQuery;
+use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 use App\Models\Music\Album;
 use App\Models\Spotify\SpotifyAlbum;
-use App\Dto\Spotify\SpotifySearchQuery;
-use App\Models\Spotify\SpotifyAlbumCustomId;
-use App\Dto\Spotify\SpotifySearchAlbumResult;
-use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 use App\Services\SpotifyApi\Getters\SpotifyApiAlbumGetter;
 
 // Import a spotify album by a given spotify album id and a album
 class SpotifyAlbumImporter
 {
-
     private $api;
-
 
     public function __construct($api)
     {
@@ -43,15 +40,12 @@ class SpotifyAlbumImporter
             $spotifySearchQuery
         );
 
-
         // Store to album and the relation
-        $spotifyAlbumModel = new SpotifyAlbum();
+        $spotifyAlbumModel = new SpotifyAlbum;
         $spotifyAlbum = $spotifyAlbumModel->storeFromSpotifySearchResultAlbum($spotifySearchAlbumResult);
 
-
-        $albumSpotifyAlbum = new AlbumSpotifyAlbum();
+        $albumSpotifyAlbum = new AlbumSpotifyAlbum;
         $albumSpotifyAlbum->storeFromSpotifySearchResultAlbum($spotifySearchAlbumResult, $spotifyAlbum);
-
 
         return $spotifySearchAlbumResult;
     }

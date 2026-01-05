@@ -231,7 +231,7 @@ class ItunesLibraryChecker
 
         $dbPaths = $songPaths
             ->merge($skippedPaths)
-            ->map(fn($path) => strtolower($path))
+            ->map(fn ($path) => strtolower($path))
             ->filter()
             ->sort()
             ->toArray();

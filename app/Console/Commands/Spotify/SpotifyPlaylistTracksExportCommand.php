@@ -3,10 +3,10 @@
 namespace App\Console\Commands\Spotify;
 
 use App\Models\Playlist\Playlist;
+use App\Services\Logger\Logger;
 use App\Services\Spotify\Exporters\SpotifyPlaylistImageExporter;
 use App\Services\Spotify\Exporters\SpotifyPlaylistTracksExporter;
 use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
-use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 
@@ -40,7 +40,6 @@ class SpotifyPlaylistTracksExportCommand extends Command
         $search = config('spotify')['playlists_to_export_to_spotify'];
 
         $playlists = Playlist::whereIn('name', $search)->orWhereIn('parent_name', $search)->get();
-
 
         $this->output->progressStart(count($playlists));
 

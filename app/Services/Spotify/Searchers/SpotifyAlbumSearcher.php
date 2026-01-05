@@ -2,11 +2,11 @@
 
 namespace App\Services\Spotify\Searchers;
 
-use Exception;
-use App\Services\Logger\Logger;
-use App\Dto\Spotify\SpotifySearchQuery;
 use App\Dto\Spotify\SpotifySearchAlbumResult;
+use App\Dto\Spotify\SpotifySearchQuery;
+use App\Services\Logger\Logger;
 use App\Services\Spotify\Helpers\SpotifyNameHelper;
+use Exception;
 
 // Search spotify api for albums
 class SpotifyAlbumSearcher
@@ -16,6 +16,7 @@ class SpotifyAlbumSearcher
     private SpotifyNameHelper $spotifyNameHelper;
 
     private $spotifySearchString = '';
+
     private ?SpotifySearchAlbumResult $spotifySearchResultAlbum = null;
 
     public function __construct($api)
@@ -41,7 +42,7 @@ class SpotifyAlbumSearcher
             }
         } catch (Exception $e) {
             Logger::log('error', 'Spotify search and import albums', 'Spotify Api error: ' . $e);
-            die();
+            exit();
         }
 
         return $this->spotifySearchResultAlbum;
@@ -78,7 +79,6 @@ class SpotifyAlbumSearcher
         if (!$bestAlbum) {
             return null;
         }
-
 
         $releaseYear = null;
         if (isset($bestAlbum->release_date)) {

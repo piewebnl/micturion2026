@@ -2,15 +2,12 @@
 
 namespace App\Console\Commands\Spotify;
 
-use App\Jobs\Spotify\SpotifyPlaylistTracksImportJob;
 use App\Models\Spotify\SpotifyPlaylist;
 use App\Models\Spotify\SpotifyPlaylistTrack;
+use App\Services\Logger\Logger;
 use App\Services\Spotify\Importers\SpotifyPlaylistTracksImporter;
 use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
-use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cache;
 
 // php artisan command:SpotifyPlaylistTracksImport
 class SpotifyPlaylistTracksImportCommand extends Command
@@ -29,7 +26,6 @@ class SpotifyPlaylistTracksImportCommand extends Command
         Logger::deleteChannel($this->channel);
         Logger::echoChannel($this->channel, $this);
 
-
         $api = (new SpotifyApiConnect($this))->getApi();
 
         if (!$api) {
@@ -38,6 +34,7 @@ class SpotifyPlaylistTracksImportCommand extends Command
 
         if (!(new SpotifyPlaylist)->areSpotifyPlaylistsImported()) {
             Logger::log('error', $this->channel, 'No spotify playlists imported yet.', [], $this);
+
             return self::FAILURE;
         }
 
@@ -70,10 +67,6 @@ class SpotifyPlaylistTracksImportCommand extends Command
             } else {
                 Logger::log('info', $this->channel, 'Spotify playlists tracks (playlist hasn\'t changed) ' . $spotifyPlaylist->name);
             }
-
-
-
-
 
             $this->output->progressAdvance();
         }

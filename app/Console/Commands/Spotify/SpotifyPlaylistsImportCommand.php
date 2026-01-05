@@ -2,11 +2,10 @@
 
 namespace App\Console\Commands\Spotify;
 
-use App\Jobs\Spotify\SpotifyPlaylistImportJob;
 use App\Models\Spotify\SpotifyPlaylist;
+use App\Services\Logger\Logger;
 use App\Services\Spotify\Importers\SpotifyPlaylistsImporter;
 use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
-use App\Services\Logger\Logger;
 use Illuminate\Console\Command;
 
 // php artisan command:SpotifyPlaylistsImport
@@ -24,7 +23,6 @@ class SpotifyPlaylistsImportCommand extends Command
     {
         Logger::deleteChannel($this->channel);
         Logger::echoChannel($this->channel, $this);
-
 
         $api = (new SpotifyApiConnect($this))->getApi();
 
@@ -49,7 +47,6 @@ class SpotifyPlaylistsImportCommand extends Command
         }
 
         $spotifyPlaylistImporter->deleteOldPlaylists($oldPlaylistIds);
-
 
         $this->output->progressFinish();
 
