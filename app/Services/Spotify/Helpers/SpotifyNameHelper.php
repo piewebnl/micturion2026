@@ -7,7 +7,7 @@ use App\Helpers\StringHelper;
 // Do some string mutations on Spotify track names
 class SpotifyNameHelper
 {
-    public function removeUnwantedStrings($name)
+    public function santizeSpotifyName($name)
     {
 
         // Remove all between ( ) and [ ]

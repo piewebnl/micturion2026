@@ -21,14 +21,13 @@ class SpotifyScoreSearch
     public function determineStatus($scoreTotal)
     {
 
-        $config = config('spotify');
-        $this->successScore = $config['track_search_results_success_score'];
-        $this->warningScore = $config['track_search_results_warning_score'];
+        $successScore = config('spotify.track_search_results_success_score');
+        $warningScore = config('spotify.track_search_results_warning_score');
 
-        if ($scoreTotal >= $this->successScore) {
+        if ($scoreTotal >= $successScore) {
             return 'success';
         }
-        if ($scoreTotal >= $this->warningScore) {
+        if ($scoreTotal >= $warningScore) {
             return 'warning';
         }
 

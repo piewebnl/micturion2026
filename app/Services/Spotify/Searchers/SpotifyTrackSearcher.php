@@ -110,12 +110,12 @@ class SpotifyTrackSearcher
                 // Sanitize album and track name
                 if (isset($spotifyApiTracks[$count]->album->name)) {
                     $spotifyApiTracks[$count]->album->name_sanitized =
-                        $this->spotifyNameHelper->removeUnwantedStrings($spotifyApiTracks[$count]->album->name);
+                        $this->spotifyNameHelper->santizeSpotifyName($spotifyApiTracks[$count]->album->name);
                 }
 
                 if (isset($spotifyApiTracks[$count]->name)) {
                     $spotifyApiTracks[$count]->name_sanitized =
-                        $this->spotifyNameHelper->removeUnwantedStrings($spotifyApiTracks[$count]->name);
+                        $this->spotifyNameHelper->santizeSpotifyName($spotifyApiTracks[$count]->name);
                 }
 
                 $context = SpotifySearchQuery::fromTrack($spotifySearchTrack);

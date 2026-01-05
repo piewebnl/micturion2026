@@ -78,19 +78,30 @@ class SpotifyAlbumSearchAndImporter
         }
 
 
-        $spotifyAlbum = new SpotifyAlbum();
-        $spotifyAlbumResult = $spotifyAlbum->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult);
+        $spotifyAlbumModel = new SpotifyAlbum();
+        $spotifyAlbum = $spotifyAlbumModel->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult);
 
         $albumSpotifyAlbum = new AlbumSpotifyAlbum();
-        $albumSpotifyAlbum->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult, $spotifyAlbumResult);
+        $albumSpotifyAlbum->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult, $spotifyAlbum);
 
+        $loggerText = 'not found?';
+        $loggerStatus = 'error';
+        if ($this->spotifySearchAlbumResult->status == 'success') {
+            $loggerText = 'mwah';
+            $loggerStatus = 'notice';
+        }
+        if ($this->spotifySearchAlbumResult->status == 'warning') {
+            $loggerText = 'mwah';
+            $loggerStatus = 'warning';
+        }
         Logger::log(
-            'notice',
+            $loggerStatus,
             $this->channel,
-            'Spotify album found and imported:<br/>Searched for: ' .  $this->spotifySearchAlbumResult->score . ': ' . $this->spotifySearchQuery->artist . ' ' . $this->spotifySearchQuery->album . "<br/>Result:" . $this->spotifySearchAlbumResult->artist . ' - ' . $this->spotifySearchAlbumResult->name,
+            'Spotify album ' . $loggerText . ' and imported:<br/>Searched for: ' .  $this->spotifySearchAlbumResult->score . ': ' . $this->spotifySearchQuery->artist . ' ' . $this->spotifySearchQuery->album . "<br/>Result:" . $this->spotifySearchAlbumResult->artist . ' - ' . $this->spotifySearchAlbumResult->name,
             ['spotifySearchAlbumResult' => $this->spotifySearchAlbumResult]
 
         );
+        return;
     }
 
 

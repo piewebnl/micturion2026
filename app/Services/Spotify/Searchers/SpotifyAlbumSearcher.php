@@ -54,9 +54,11 @@ class SpotifyAlbumSearcher
         $highestScore = 0;
 
         foreach ($spotifyApiAlbums as $album) {
+
+            // Sanitize the names coming from spotify
             if (isset($album->name)) {
-                $album->album_sanitized =
-                    $this->spotifyNameHelper->removeUnwantedStrings($album->name);
+                $album->name_sanitized =
+                    $this->spotifyNameHelper->santizeSpotifyName($album->name);
             }
 
             $scoredAlbum = $spotifyScoreSearch->calculateScore($album, $spotifySearchQuery, false);
@@ -72,7 +74,7 @@ class SpotifyAlbumSearcher
             return null;
         }
 
-        $artworkUrl = $bestAlbum->images[0]->url ?? null;
+
         $releaseYear = null;
         if (isset($bestAlbum->release_date)) {
             $year = substr($bestAlbum->release_date, 0, 4);
@@ -92,7 +94,7 @@ class SpotifyAlbumSearcher
             album_id: $spotifySearchQuery->album_id ?? 0,
             source: 'spotify',
             year: $releaseYear,
-            artwork_url: $artworkUrl,
+            artwork_url: $bestAlbum->images[0]->url ?? null,
             score_breakdown: $bestAlbum->score_breakdown ?? [],
             all_results: $spotifyApiAlbums
         );

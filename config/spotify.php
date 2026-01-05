@@ -10,11 +10,10 @@ return [
     // Max score via search = 100%, custom or manual upped = 150%
     'track_search_results_success_score' => 70,
     'track_search_results_warning_score' => 60,
-    'track_search_results_error_score' => 0,
+
 
     'album_search_results_success_score' => 60,
     'album_search_results_warning_score' => 30,
-    'album_search_results_error_score' => 0,
 
     'playlists_to_export_to_spotify' => ['Best Of', 'Favourites'], // name or parent name
 
