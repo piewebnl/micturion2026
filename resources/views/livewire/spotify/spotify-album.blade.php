@@ -1,5 +1,6 @@
 @php
     $bgClass = '';
+    $textClass = '';
     if ($spotifyAlbum->status == 'error') {
         $bgClass = 'bg-error';
         $textClass = 'text-error';
@@ -30,7 +31,7 @@
                 target="_blank">{{ $spotifyAlbum->spotify_album_name }}</a>
         @endif
     </td>
-
+    <td>{{ $spotifyAlbum->status }} / {{ $spotifyAlbum->score }}</td>
     <td>
 
         <div class="relative mx-5 my-10">

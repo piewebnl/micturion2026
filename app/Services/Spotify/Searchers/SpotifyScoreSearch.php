@@ -59,12 +59,12 @@ class SpotifyScoreSearch
         $releaseDate = $isTrack ? ($spotifyApiResult->album->release_date ?? null) : ($spotifyApiResult->release_date ?? null);
         $spotifyReleaseYear = $this->getReleaseYear($releaseDate);
 
-        if ($searchArtist && isset($spotifyApiResult->artists[0]->name)) {
+        if ($searchArtist && isset($spotifyApiResult->artist_sanitized)) {
             $this->addScore(
                 $score,
                 $weightTotal,
                 'artist',
-                $this->spotifyNameHelper->areNamesSimilar($searchArtist, $spotifyApiResult->artists[0]->name),
+                $this->spotifyNameHelper->areNamesSimilar($searchArtist, $spotifyApiResult->artist_sanitized),
                 3
             );
         }

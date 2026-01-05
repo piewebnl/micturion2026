@@ -28,6 +28,7 @@ class SpotifyAlbum extends Model
                 'name' => $spotifyAlbum['name'],
                 'name_sanitized' => $spotifyAlbum['name_sanitized'],
                 'artist' => $spotifyAlbum['artist'],
+                'artist_sanitized' => $spotifyAlbum['artist_sanitized'],
                 'artwork_url' => $spotifyAlbum['artwork_url'],
 
             ]
@@ -48,6 +49,7 @@ class SpotifyAlbum extends Model
                 'name' => $spotifySearchAlbumResult->name,
                 'name_sanitized' => $spotifySearchAlbumResult->name_sanitized,
                 'artist' => $spotifySearchAlbumResult->artist,
+                'artist_sanitized' => $spotifySearchAlbumResult->artist_sanitized,
                 'artwork_url' => $spotifySearchAlbumResult->artwork_url,
 
             ]

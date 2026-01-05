@@ -60,8 +60,9 @@ class SpotifyAlbumSearcher
                 $album->name_sanitized =
                     $this->spotifyNameHelper->santizeSpotifyName($album->name);
             }
+
             if (isset($album->artists[0]->name)) {
-                $album->artists[0]->name =
+                $album->artist_sanitized =
                     $this->spotifyNameHelper->sanitzeSpotifyArtist($album->artists[0]->name);
             }
 

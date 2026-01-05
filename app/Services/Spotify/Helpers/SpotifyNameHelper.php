@@ -50,7 +50,7 @@ class SpotifyNameHelper
     {
 
         $name = str_replace('Floor Jansen', 'After Forever', $name);
-        $name = str_replace('Ryan Adams & The Cardinals', 'Ryan Adams & The Cardinals', $name);
+        $name = str_replace('Ryan Adams & The Cardinals', 'Ryan Adams', $name);
         return $name;
     }
 

@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('name_sanitized')->nullable();
             $table->string('artist')->nullable();
+            $table->string('artist_sanitized')->nullable();
             $table->string('artwork_url')->nullable();
             $table->timestamps();
         });

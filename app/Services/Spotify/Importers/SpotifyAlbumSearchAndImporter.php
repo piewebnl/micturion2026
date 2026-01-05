@@ -19,13 +19,10 @@ use App\Services\Spotify\Searchers\spotifyAlbumCustomIdSearcher;
 // Search for spotify album via api and then import to db
 class SpotifyAlbumSearchAndImporter
 {
-    use ToSpotifyAlbumConverter;
 
     private $api;
 
     private $response;
-
-    private $resource = [];
 
     private ?SpotifySearchAlbumResult $spotifySearchAlbumResult = null; // Best found spotify album
 
@@ -52,9 +49,11 @@ class SpotifyAlbumSearchAndImporter
 
         $found = false;
 
-        if ($this->spotifySearchAlbumResult?->status == 'unavailabe') {
+        if ($this->spotifySearchAlbumResult?->status == 'unavailable') {
             $found = true;
         }
+
+
 
         if (!$found) {
             // Search for customId in own DB first
@@ -72,9 +71,8 @@ class SpotifyAlbumSearchAndImporter
         }
         */
 
-
         // Try Spotify API to find match (if not customId)
-        if (!$this->spotifySearchAlbumResult) {
+        if (!$found) {
             $spotifyAlbumSearcher = new SpotifyAlbumSearcher($this->api);
             $this->spotifySearchAlbumResult = $spotifyAlbumSearcher->search($this->spotifySearchQuery);
             if ($this->spotifySearchAlbumResult->status) {
@@ -127,12 +125,12 @@ class SpotifyAlbumSearchAndImporter
 
             $this->spotifySearchAlbumResult = new SpotifySearchAlbumResult(
                 spotify_api_album_id: null,
-                name: '',
+                name: 'NOT FOUND',
                 name_sanitized: null,
-                artist: '',
+                artist: 'NOT FOUND',
                 artist_sanitized: null,
                 score: 0,
-                status: 'error',
+                status: 'unavailable',
                 search_name: $found['name'],
                 search_artist: $found['artist'],
                 album_id: $this->album->id,
