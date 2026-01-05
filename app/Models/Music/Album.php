@@ -172,6 +172,7 @@ class Album extends Model
             ->join('categories', 'categories.id', '=', 'albums.category_id')
             ->orderBy('artists.sort_name')
             ->orderBy('albums.sort_name')
+            ->whereId($filterValues, 'albums.id', 'id')
             ->whereId($filterValues, 'artist_id', 'artist_id')
             ->whereId($filterValues, 'category_id', 'categories')
             ->where('album_spotify_album.id', null)

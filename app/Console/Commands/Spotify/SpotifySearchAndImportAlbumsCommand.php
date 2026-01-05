@@ -17,7 +17,7 @@ class SpotifySearchAndImportAlbumsCommand extends Command
 
     private string $channel = 'spotify_search_and_import_albums';
 
-    private $perPage = 50;
+    //private $perPage = 50;
 
     public function handle()
     {
@@ -32,8 +32,9 @@ class SpotifySearchAndImportAlbumsCommand extends Command
 
         $albums = (new Album)->getAlbumsWithoutSpotifyAlbum(
             [
-                'limit' => $this->perPage,
+                //'limit' => $this->perPage,
                 'categories' => [1],
+                'id' => 760
             ]
         );
 

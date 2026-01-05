@@ -25,4 +25,7 @@ return [
         'Ryan Adams & The Cardinals' => 'Ryan Adams',
     ],
 
+    'api_auto_retry' => true,
+    'api_request_delay_ms' => 150,
+
 ];

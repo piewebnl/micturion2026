@@ -51,7 +51,15 @@ class SpotifyApiConnect
 
     public function setupConnection()
     {
-        $this->api = new \SpotifyWebAPI\SpotifyWebAPI;
+        $delayMs = (int) config('spotify.api_request_delay_ms', 0);
+        $request = new SpotifyApiRequest($delayMs);
+        $this->api = new \SpotifyWebAPI\SpotifyWebAPI(
+            [
+                'auto_retry' => (bool) config('spotify.api_auto_retry', true),
+            ],
+            null,
+            $request
+        );
 
         $refreshToken = Setting::getSetting('spotify_refresh_token');
         if ($this->refreshToken) {

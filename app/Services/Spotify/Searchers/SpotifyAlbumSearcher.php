@@ -76,9 +76,11 @@ class SpotifyAlbumSearcher
             }
         }
 
+        /*
         if (!$bestAlbum) {
             return null;
         }
+            */
 
         $releaseYear = null;
         if (isset($bestAlbum->release_date)) {
@@ -94,7 +96,7 @@ class SpotifyAlbumSearcher
             artist_sanitized: $bestAlbum->artist_sanitized ?? null,
             score: (int) round($bestAlbum->score),
             status: $bestAlbum->status ?? 'error',
-            search_name: $spotifySearchQuery->name ?? '',
+            search_name: $spotifySearchQuery->album ?? '',
             search_artist: $spotifySearchQuery->artist ?? '',
             album_id: $spotifySearchQuery->album_id ?? 0,
             year: $releaseYear,
