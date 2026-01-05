@@ -101,12 +101,11 @@ class SpotifyAlbumSearchAndImporter
             'Spotify album ' . $loggerText . ': ' . $this->spotifySearchQuery->artist . ' ' . $this->spotifySearchQuery->album,
             [
                 ['Score: ' . $this->spotifySearchAlbumResult->score],
-                ['Search string: ' . $this->spotifySearchAlbumResult->artist . ' - ' . $this->spotifySearchAlbumResult->name],
+                ['Found: ' . $this->spotifySearchAlbumResult->artist . ' - ' . $this->spotifySearchAlbumResult->name],
                 ['spotifySearchAlbumResult' => $this->spotifySearchAlbumResult],
             ]
 
         );
-
     }
 
     private function searchUnavailable()
@@ -122,10 +121,13 @@ class SpotifyAlbumSearchAndImporter
                 artist: 'NOT FOUND',
                 artist_sanitized: null,
                 score: 0,
+                score_breakdown: [],
                 status: 'unavailable',
                 search_name: $found['name'],
                 search_artist: $found['artist'],
+                year: null,
                 album_id: $this->album->id,
+                artwork_url: null,
                 all_results: null
             );
         }

@@ -52,6 +52,7 @@ class AlbumSpotifyAlbumStatusChanger
                 'name_sanitized' => null,
                 'artist' => 'NOT FOUND',
                 'artist_sanitized' => null,
+                'artwork_url' => null,
             ]
         );
 
