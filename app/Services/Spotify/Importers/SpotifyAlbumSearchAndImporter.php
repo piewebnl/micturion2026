@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Models\Spotify\SpotifyAlbum;
 use App\Dto\Spotify\SpotifySearchAlbumResult;
 use App\Dto\Spotify\SpotifySearchQuery;
+use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 use App\Models\Spotify\SpotifyAlbumUnavailable;
 use App\Models\Spotify\SpotifySearchResultAlbum;
 use App\Traits\Converters\ToSpotifyAlbumConverter;
@@ -60,8 +61,8 @@ class SpotifyAlbumSearchAndImporter
 
         if (!$this->spotifySearchAlbumResult) {
             // Search for customId in own DB first
-            $spotifyAlbumCustomIdSearcher = new spotifyAlbumCustomIdSearcher($this->api);
-            $this->spotifySearchAlbumResult = $spotifyAlbumCustomIdSearcher->search($this->spotifySearchQuery);
+            //$spotifyAlbumCustomIdSearcher = new spotifyAlbumCustomIdSearcher($this->api);
+            //$this->spotifySearchAlbumResult = $spotifyAlbumCustomIdSearcher->search($this->spotifySearchQuery);
         }
         /*
         if (!$this->spotifySearchAlbumResult) {
@@ -70,15 +71,26 @@ class SpotifyAlbumSearchAndImporter
         }
             */
 
+
         // Try Spotify API to find match (if not customId)
         if (!$this->spotifySearchAlbumResult) {
             $this->spotifySearchAlbumResult = $this->searchSpotifyApi();
         }
 
 
-        // All good use the SpotifyAlbumImporter?
         $spotifyAlbum = new SpotifyAlbum();
-        $spotifyAlbum->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult);
+        $spotifyAlbumResult = $spotifyAlbum->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult);
+
+        $albumSpotifyAlbum = new AlbumSpotifyAlbum();
+        $albumSpotifyAlbum->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult, $spotifyAlbumResult);
+
+        Logger::log(
+            'notice',
+            $this->channel,
+            'Spotify album found and imported:<br/>Searched for: ' .  $this->spotifySearchAlbumResult->score . ': ' . $this->spotifySearchQuery->artist . ' ' . $this->spotifySearchQuery->album . "<br/>Result:" . $this->spotifySearchAlbumResult->artist . ' - ' . $this->spotifySearchAlbumResult->name,
+            ['spotifySearchAlbumResult' => $this->spotifySearchAlbumResult]
+
+        );
     }
 
 
@@ -94,12 +106,14 @@ class SpotifyAlbumSearchAndImporter
                 name: '',
                 name_sanitized: null,
                 artist: '',
+                artist_sanitized: null,
                 score: 0,
                 status: 'error',
                 search_name: $found['name'],
                 search_artist: $found['artist'],
                 album_id: $this->album->id,
-                source: 'unavailabe'
+                source: 'unavailabe',
+                all_results: null
             );
         }
     }

@@ -9,6 +9,7 @@ class SpotifySearchAlbumResult
         public string $name,
         public ?string $name_sanitized,
         public string $artist,
+        public ?string $artist_sanitized,
         public int $score,
         public string $status,
         public string $search_name,
@@ -18,6 +19,7 @@ class SpotifySearchAlbumResult
         public array $score_breakdown = [],
         public ?int $year = null,
         public ?string $artwork_url = null,
+        public ?array $all_results = []
         // Unavailabe, Custom ID, Spotify
     ) {}
 
@@ -28,6 +30,7 @@ class SpotifySearchAlbumResult
             'name' => $this->name,
             'name_sanitized' => $this->name_sanitized,
             'artist' => $this->artist,
+            'artist_sanitized' => $this->artist_sanitized,
             'score' => $this->score,
             'status' => $this->status,
             'search_name' => $this->search_name,
@@ -37,6 +40,7 @@ class SpotifySearchAlbumResult
             'score_breakdown' => $this->score_breakdown,
             'year' => $this->year,
             'artwork_url' => $this->artwork_url,
+            'all_restults' => $this->all_results,
         ];
     }
 }

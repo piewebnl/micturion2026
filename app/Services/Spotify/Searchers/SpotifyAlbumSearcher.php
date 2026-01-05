@@ -24,10 +24,11 @@ class SpotifyAlbumSearcher
         $this->spotifyNameHelper = new SpotifyNameHelper;
     }
 
-    public function search(SpotifySearchQuery $spotifySearchQuery)
+    public function search(SpotifySearchQuery $spotifySearchQuery): SpotifySearchAlbumResult
     {
 
-        $this->spotifySearchString = $spotifySearchQuery->artist . ' ' . $spotifySearchQuery->name;
+        // Use album name
+        $this->spotifySearchString = $spotifySearchQuery->artist . ' ' . $spotifySearchQuery->album;
 
         try {
             $spotifyResults = $this->api->search($this->spotifySearchString, 'album', ['limit' => 10, 'market' => 'NL']);
@@ -40,7 +41,7 @@ class SpotifyAlbumSearcher
             }
         } catch (Exception $e) {
             Logger::log('error', 'Spotify search and import albums', 'Spotify Api error: ' . $e);
-            return;
+            die();
         }
 
         return $this->spotifySearchResultAlbum;
@@ -54,7 +55,7 @@ class SpotifyAlbumSearcher
 
         foreach ($spotifyApiAlbums as $album) {
             if (isset($album->name)) {
-                $album->name_sanitized =
+                $album->album_sanitized =
                     $this->spotifyNameHelper->removeUnwantedStrings($album->name);
             }
 
@@ -83,6 +84,7 @@ class SpotifyAlbumSearcher
             name: $bestAlbum->name ?? '',
             name_sanitized: $bestAlbum->name_sanitized ?? null,
             artist: $bestAlbum->artists[0]->name ?? '',
+            artist_sanitized: $bestAlbum->artist_sanitized ?? null,
             score: (int) round($bestAlbum->score),
             status: $bestAlbum->status ?? 'error',
             search_name: $spotifySearchQuery->name ?? '',
@@ -91,7 +93,8 @@ class SpotifyAlbumSearcher
             source: 'spotify',
             year: $releaseYear,
             artwork_url: $artworkUrl,
-            score_breakdown: $bestAlbum->score_breakdown ?? []
+            score_breakdown: $bestAlbum->score_breakdown ?? [],
+            all_results: $spotifyApiAlbums
         );
     }
 }
