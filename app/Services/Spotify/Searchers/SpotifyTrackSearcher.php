@@ -28,13 +28,11 @@ class SpotifyTrackSearcher
     public function search(SpotifySearchQuery $spotifySearchQuery): SpotifySearchTrackResult
     {
 
-        // Use album name
-        $this->spotifySearchString = $spotifySearchQuery->artist . ' ' . $spotifySearchQuery->album;
-
+        // Use track name
+        $this->spotifySearchString = $spotifySearchQuery->artist . ' ' . $spotifySearchQuery->name;
 
         try {
-            $spotifyResults = $this->api->search($this->spotifySearchString, 'track', ['limit' => 10, 'market' => 'NL']);
-
+            $spotifyResults = $this->api->search($this->spotifySearchString, 'track', ['limit' => 8, 'market' => 'NL']);
             if (isset($spotifyResults->tracks->items)) {
                 $this->spotifySearchResultTrack = $this->scoreAndPickBest(
                     $spotifyResults->tracks->items,
@@ -55,20 +53,24 @@ class SpotifyTrackSearcher
         $bestTrack = null;
         $highestScore = 0;
 
-        foreach ($spotifyApiTracks as $album) {
+        foreach ($spotifyApiTracks as $track) {
 
             // Sanitize the names coming from spotify
-            if (isset($album->name)) {
-                $album->name_sanitized =
-                    $this->spotifyNameHelper->santizeSpotifyName($album->name);
+            if (isset($track->name)) {
+                $track->name_sanitized =
+                    $this->spotifyNameHelper->santizeSpotifyName($track->name);
             }
 
-            if (isset($album->artists[0]->name)) {
-                $album->artist_sanitized =
-                    $this->spotifyNameHelper->sanitzeSpotifyArtist($album->artists[0]->name);
+            if (isset($track->album->name)) {
+                $track->album_sanitized =
+                    $this->spotifyNameHelper->santizeSpotifyName($track->album->name);
+            }
+            if (isset($track->artists[0]->name)) {
+                $track->artist_sanitized =
+                    $this->spotifyNameHelper->sanitzeSpotifyArtist($track->artists[0]->name);
             }
 
-            $scoredTrack = $spotifyScoreSearch->calculateScore($album, $spotifySearchQuery, false);
+            $scoredTrack = $spotifyScoreSearch->calculateScore($track, $spotifySearchQuery, false);
             $scoredTrack->status = $spotifyScoreSearch->determineStatus($scoredTrack->score);
 
             if ($scoredTrack->score > $highestScore) {
@@ -91,15 +93,17 @@ class SpotifyTrackSearcher
 
         return new SpotifySearchTrackResult(
             spotify_api_track_id: $bestTrack->id ?? null,
+            spotify_api_album_id: $bestTrack->album_id ?? null,
             name: $bestTrack->name ?? '',
             name_sanitized: $bestTrack->name_sanitized ?? null,
-            album: $bestTrack->albums[0]->name ?? '',
+            album: $bestTrack->album->name ?? '',
             album_sanitized: $bestTrack->album_sanitized ?? null,
             artist: $bestTrack->artists[0]->name ?? '',
             artist_sanitized: $bestTrack->artist_sanitized ?? null,
             score: (int) round($bestTrack->score),
             status: $bestTrack->status ?? 'error',
-            search_name: $spotifySearchQuery->album ?? '',
+            search_name: $spotifySearchQuery->name ?? '',
+            search_album: $spotifySearchQuery->album ?? '',
             search_artist: $spotifySearchQuery->artist ?? '',
             song_id: $spotifySearchQuery->song_id ?? 0,
             year: $releaseYear,

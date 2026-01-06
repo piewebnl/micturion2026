@@ -103,7 +103,10 @@ class SpotifyTrack extends Model
                 'artist_sanitized' => $spotifySearchTrackResult->artist_sanitized,
                 'artwork_url' => $spotifySearchTrackResult->artwork_url,
                 'score' => $spotifySearchTrackResult->score,
+                'track_number' => $spotifySearchTrackResult->track_number,
+                'disc_number' => $spotifySearchTrackResult->disc_number,
                 'search_name' => $spotifySearchTrackResult->search_name,
+                'search_album' => $spotifySearchTrackResult->search_album,
                 'search_artist' => $spotifySearchTrackResult->search_artist,
 
             ]

@@ -26,15 +26,18 @@ class SpotifyTrackSearchPrepare
             $album = $albumName;
         }
 
-        if (is_string($song->artist ?? null)) {
-            $artist = $song->artist;
+        if (is_string($song->artist_name ?? null)) {
+            $artist = $song->artist_name;
         }
-        if (is_string($song->album ?? null)) {
-            $album = $song->album;
+
+        if (is_string($song->album_name ?? null)) {
+            $album = $song->album_name;
         }
+
         if ($artist == 'Various Artists' && isset($song['album_artist'])) {
             $artist = $song['album_artist'];
         }
+
 
         $song->artist = $artist;
         $song->album = $album;

@@ -14,9 +14,10 @@ class SpotifySearchQuery
         public ?int $year,
         public ?string $album_persistent_id,
         public ?string $artist,
+        public ?string $album,
         public ?string $name,
         public ?string $song_persistent_id,
-        public mixed $album,
+
 
     ) {}
 

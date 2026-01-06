@@ -33,8 +33,7 @@ class SpotifyAlbumSearcher
 
 
         try {
-            $spotifyResults = $this->api->search($this->spotifySearchString, 'album', ['limit' => 10, 'market' => 'NL']);
-
+            $spotifyResults = $this->api->search($this->spotifySearchString, 'album', ['limit' => 8, 'market' => 'NL']);
             if (isset($spotifyResults->albums->items)) {
                 $this->spotifySearchResultAlbum = $this->scoreAndPickBest(
                     $spotifyResults->albums->items,
