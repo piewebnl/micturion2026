@@ -33,7 +33,7 @@ class SpotifyApiUserAlbumsGetter
         $ids = [];
         for ($page = 1; $page <= $lastPage; $page++) {
             $ids = array_merge($ids, $this->getPerPage($page));
-            sleep(1);
+            // sleep(1);
         }
 
         return $ids;

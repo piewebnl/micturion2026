@@ -44,7 +44,7 @@ class DiscogsCollectionImportCommand extends Command
             $idsFromApi = array_merge($idsFromApi, $importedIds);
 
             $this->output->progressAdvance();
-            sleep(1);
+            // sleep(1);
         }
 
         $this->output->progressFinish();

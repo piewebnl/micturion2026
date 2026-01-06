@@ -130,7 +130,7 @@ class MusicToHibyCommand extends Command
                 $msg = strtolower($e->getMessage());
                 if (!(str_contains($msg, 'exists') || str_contains($msg, 'file already'))) {
                     // brief backoff then one more try
-                    usleep(200000);
+                    u// sleep(200000);
                     try {
                         $disk->createDirectory($path);
                     } catch (\Throwable $e2) { /* swallow */
@@ -176,7 +176,7 @@ class MusicToHibyCommand extends Command
                 if ($attempt >= $tries) {
                     throw $e;
                 }
-                usleep(300000); // 300 ms
+                u// sleep(300000); // 300 ms
             } finally {
                 if (is_resource($stream)) {
                     @fclose($stream);

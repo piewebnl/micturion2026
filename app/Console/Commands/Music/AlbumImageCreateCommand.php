@@ -6,11 +6,15 @@ use App\Helpers\VolumeMountedCheck;
 use App\Models\Music\Album;
 use App\Services\Logger\Logger;
 use App\Services\Music\AlbumImageCreator;
+use App\Traits\QueryCache\QueryCache;
 use Illuminate\Console\Command;
 
 // php artisan command:AlbumImageCreate
 class AlbumImageCreateCommand extends Command
 {
+
+    use QueryCache;
+
     protected $signature = 'command:AlbumImageCreate';
 
     private string $channel = 'album_create_images';

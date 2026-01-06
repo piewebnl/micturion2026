@@ -43,7 +43,7 @@ class SpotifySearchAndImportAlbumsCommand extends Command
         foreach ($albums as $album) {
             $spotifyAlbumSearchAndImporter = new SpotifyAlbumSearchAndImporter($api);
             $spotifyAlbumSearchAndImporter->import($album);
-            sleep(1);
+            // sleep(1);
             $this->output->progressAdvance();
         }
 

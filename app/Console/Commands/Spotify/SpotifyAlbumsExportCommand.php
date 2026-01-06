@@ -3,17 +3,18 @@
 namespace App\Console\Commands\Spotify;
 
 use App\Services\Logger\Logger;
+use Illuminate\Console\Command;
+use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
 use App\Services\Spotify\Deleters\SpotifyAlbumsDeleter;
 use App\Services\Spotify\Exporters\SpotifyAlbumsExporter;
-use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
-use Illuminate\Console\Command;
+use App\Services\SpotifyApi\Getters\SpotifyApiUserAlbumsGetter;
 
 // php artisan command:SpotifyAlbumsExport
 class SpotifyAlbumsExportCommand extends Command
 {
     protected $signature = 'command:SpotifyAlbumsExport';
 
-    protected $description = 'Export all iTunes album to Spotify albums via its api';
+    protected $description = 'Export all iTunes album to Spotify albums via its api and delete unwanted';
 
     private string $channel = 'spotify_albums_export';
 
@@ -21,9 +22,8 @@ class SpotifyAlbumsExportCommand extends Command
 
     private $api;
 
-    private $totalAlbumsToExport = 0;
+    private $exportedIds = [];
 
-    private array $fetchedUserAlbumIds = [];
 
     public function handle()
     {
@@ -37,48 +37,46 @@ class SpotifyAlbumsExportCommand extends Command
         }
 
         $this->exportAlbums();
-        // $this->deleteUnwanted();
-
-        // Logger::echo($this->channel);
+        $this->deleteUnwanted();
     }
 
-    private function exportAlbums()
+
+    private function exportAlbums(): void
     {
-        $spotifyAlbumsExporter = new SpotifyAlbumsExporter($this->api, $this->perPage);
+        $spotifyAlbumsExporter = new SpotifyAlbumsExporter($this->api, $this->perPage, $this);
         $lastPage = $spotifyAlbumsExporter->getLastPage();
-
-        $this->totalAlbumsToExport = $spotifyAlbumsExporter->getTotal();
-        if ($this->totalAlbumsToExport == 0) {
-            Logger::log('error', $this->channel, 'No albums to export', [], $this);
-
-            return;
-        }
 
         $this->output->progressStart($lastPage);
 
         for ($page = 1; $page <= $lastPage; $page++) {
-            $spotifyAlbumsExporter->export($page);
-            sleep(1);
+            $exportedIds = $spotifyAlbumsExporter->export($page);
+            if (!empty($exportedIds)) {
+                $this->exportedIds = array_merge($this->exportedIds, $exportedIds);
+            }
             $this->output->progressAdvance();
         }
         $this->output->progressFinish();
     }
 
-    /*
     private function deleteUnwanted()
     {
 
-        if (!$this->totalAlbumsToExport) {
-            return;
+        // Get online Ids        
+        $spotifyApiUserAlbumsGetter = new SpotifyApiUserAlbumsGetter($this->api, $this->perPage);
+        $lastPage = $spotifyApiUserAlbumsGetter->getLastPage();
+
+        $ids = [];
+        for ($page = 1; $page <= $lastPage; $page++) {
+            $spotifyApiUserAlbumsGetter = new SpotifyApiUserAlbumsGetter($this->api, $this->perPage);
+            $ids = array_merge($ids, $spotifyApiUserAlbumsGetter->getPerPage($page));
         }
 
-        $this->fetchAllUserAlbums();
 
-        $spotifyAlbumsExporter = new SpotifyAlbumsExporter($this->api, $this->perPage);
+        $spotifyAlbumsExporter = new SpotifyAlbumsExporter($this->api, $this->perPage, $this);
         $all = $spotifyAlbumsExporter->getAlbums();
         $allAlbums = $all->pluck('spotify_api_album_id')->toArray();
 
-        $eraseFromSpotify = array_diff($this->fetchedUserAlbumIds, $allAlbums);
+        $eraseFromSpotify = array_diff($ids, $allAlbums);
         if (empty($eraseFromSpotify)) {
             return;
         }
@@ -92,10 +90,8 @@ class SpotifyAlbumsExportCommand extends Command
         for ($page = 1; $page <= $lastPage; $page++) {
             $spotifyAlbumsDeleter->delete($page);
             $this->output->progressAdvance();
-            sleep(0.5);
         }
 
         $this->output->progressFinish();
     }
-        */
 }

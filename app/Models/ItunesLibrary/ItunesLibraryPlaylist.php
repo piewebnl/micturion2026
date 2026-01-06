@@ -26,7 +26,6 @@ class ItunesLibraryPlaylist extends Model
     public function store($itunesLibraryPlaylist)
     {
 
-
         $result = Playlist::storeFromItunesPlaylist($itunesLibraryPlaylist);
 
         $this->resource[] = [

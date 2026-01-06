@@ -39,7 +39,7 @@ class DiscogsReleaseInfoImportCommand extends Command
             $discogsReleaseInfoImporter = new DiscogsReleaseInfoImporter($discogsRelease);
             $discogsReleaseInfoImporter->import();
             $this->output->progressAdvance();
-            sleep(3);
+            // sleep(3);
         }
 
         $this->output->progressFinish();

@@ -65,7 +65,7 @@ class SpotifySearchAndImportTracksCommand extends Command
                 $song->id
             );
             if ($index == $this->perPage) {
-                sleep(30);
+                // sleep(30);
             }
             $this->output->progressAdvance();
         }

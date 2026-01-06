@@ -86,7 +86,7 @@ class HtmlScraper
             return true;
         }
         */
-        sleep(1);
+        // sleep(1);
 
         return false;
     }

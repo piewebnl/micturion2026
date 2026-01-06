@@ -34,10 +34,12 @@ class ItunesLibraryPlaylistTrack extends Model
             return null;
         }
 
-        $converted = $this->convertItunesLibraryPlaylistTrackToPlaylistTrack($song, $itunesLibraryPlaylistTrack, $playlistId);
-
-        $playlistTrackModel = new PlaylistTrack;
-        $playlistTrack = $playlistTrackModel->store($converted);
+        $playlistTrack = PlaylistTrack::updateOrCreate([
+            'playlist_id' => $playlistId,
+            'song_id' => $song['id'],
+            'order' => $itunesLibraryPlaylistTrack['order'],
+            'has_changed' => false,
+        ]);
 
         $this->resource[] = [
             'status' => 'success',

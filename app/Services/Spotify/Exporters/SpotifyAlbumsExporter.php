@@ -2,17 +2,16 @@
 
 namespace App\Services\Spotify\Exporters;
 
-use App\Helpers\PaginationHelper;
 use App\Models\Music\Album;
+use App\Services\Logger\Logger;
+use Illuminate\Console\Command;
+use App\Helpers\PaginationHelper;
 use App\Services\SpotifyApi\Posters\SpotifyApiUserAlbumsPoster;
-use Illuminate\Http\JsonResponse;
 
 // Export albums to spotify
 class SpotifyAlbumsExporter
 {
     private $api;
-
-    private $response;
 
     private $perPage = 0;
 
@@ -28,27 +27,29 @@ class SpotifyAlbumsExporter
 
     private $spotifyAlbumIdsToExport = [];
 
-    private $spotifyAlbumIdsExists = [];
 
     private $total;
 
     private Album $album;
 
-    private $resource;
+    private $command;
 
-    public function __construct($api, int $perPage)
+    private string $channel = 'spotify_albums_export';
+
+
+    public function __construct($api, int $perPage, Command $command)
     {
         $this->api = $api;
         $this->perPage = $perPage;
         $this->album = new Album;
+        $this->command = $command;
     }
 
-    public function export(int $page)
+    public function export(int $page): array
     {
         $this->page = $page;
         $this->spotifyAlbumIds = [];
         $this->spotifyAlbumIdsToExport = [];
-        $this->spotifyAlbumIdsExists = [];
 
         $this->getAlbumPerPage();
         $this->calculateLastPage();
@@ -58,42 +59,32 @@ class SpotifyAlbumsExporter
         }
 
         if (count($this->spotifyAlbumIds) == 0) {
-            $this->response = response()->error('No Spotify Favourite Albums to export');
-
-            return;
+            Logger::log('error', $this->channel, 'No valid spotify API connection', [], $this->command);
+            return [];
         }
 
         $this->determineAlbumsToExport();
 
         if (!empty($this->spotifyAlbumIdsToExport)) {
             $spotifyAlbumPoster = new SpotifyApiUserAlbumsPoster($this->api);
-            $spotifyAlbumPoster->post($this->spotifyAlbumIdsToExport);
-
-            $this->resource = [
-                'album_ids' => $this->spotifyAlbumIdsToExport,
-                'total' => $this->total,
-            ];
-            $this->response = response()->success('Spotify albums exported', $this->resource);
+            $done = $spotifyAlbumPoster->post($this->spotifyAlbumIdsToExport);
+            $imported = $done ? $this->spotifyAlbumIdsToExport : [];
+            Logger::log('notify', $this->channel, 'Added');
+            return $imported;
         } else {
-            $this->resource = [
-                'album_ids' => $this->spotifyAlbumIdsExists,
-                'total' => $this->total,
-            ];
-            $this->response = response()->success('Spotify albums already exist', $this->resource);
+            Logger::log('info', $this->channel, 'exists');
         }
+
+        return [];
     }
 
     // Only export if not exists
     private function determineAlbumsToExport()
     {
-
         $whichAlbumIdsExistOnSpotify = $this->api->myAlbumsContains($this->spotifyAlbumIds);
-
         foreach ($this->albumsPerPage as $key => $album) {
             if (!$whichAlbumIdsExistOnSpotify[$key]) {
                 $this->spotifyAlbumIdsToExport[] = $album->spotify_api_album_id;
-            } else {
-                $this->spotifyAlbumIdsExists[] = $album->spotify_api_album_id;
             }
         }
     }
@@ -120,7 +111,11 @@ class SpotifyAlbumsExporter
             ]
         );
 
-        $this->total = $this->albumsPerPage->total();
+        if (is_object($this->albumsPerPage) && method_exists($this->albumsPerPage, 'total')) {
+            $this->total = $this->albumsPerPage->total();
+        } else {
+            $this->total = count($this->albumsPerPage);
+        }
     }
 
     public function getAlbums()
@@ -134,10 +129,5 @@ class SpotifyAlbumsExporter
     public function getTotal(): ?int
     {
         return $this->total;
-    }
-
-    public function getResponse(): JsonResponse
-    {
-        return $this->response;
     }
 }

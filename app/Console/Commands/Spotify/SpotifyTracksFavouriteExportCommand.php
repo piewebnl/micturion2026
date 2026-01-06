@@ -84,7 +84,7 @@ class SpotifyTracksFavouriteExportCommand extends Command
                 $this->perPage
 
             );
-            sleep(0.5);
+            // sleep(0.5);
             $this->output->progressAdvance();
         }
         $this->output->progressFinish();
@@ -103,7 +103,7 @@ class SpotifyTracksFavouriteExportCommand extends Command
         for ($page = 1; $page <= $lastPage; $page++) {
             $spotifyApiUserFavouriteTracksGetter = new SpotifyApiUserFavouriteTracksGetter($this->api, $this->perPage);
             $ids = array_merge($ids, $spotifyApiUserFavouriteTracksGetter->getPerPage($page));
-            sleep(0.5);
+            // sleep(0.5);
             $this->output->progressAdvance();
         }
 
@@ -128,7 +128,7 @@ class SpotifyTracksFavouriteExportCommand extends Command
         for ($page = 1; $page <= $lastPage; $page++) {
             $spotifyTracksFavouriteDeleter->delete($page);
             $this->output->progressAdvance();
-            sleep(0.5);
+            // sleep(0.5);
         }
 
         $this->output->progressFinish();

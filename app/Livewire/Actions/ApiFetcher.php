@@ -52,7 +52,7 @@ class ApiFetcher extends Component
         if ($this->doing <= $this->total) {
             $this->item = $this->data[$this->doing - 1];
             $this->dispatch('api-fetch-run-' . $this->id, ['url' => $this->url, 'data' => $this->item, 'token' => $this->token]);
-            sleep(1);
+            // sleep(1);
         }
 
         $this->percentage = ceil((100 / $this->total) * ($this->doing - 1));
