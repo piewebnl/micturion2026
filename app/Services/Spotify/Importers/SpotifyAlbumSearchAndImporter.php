@@ -59,12 +59,6 @@ class SpotifyAlbumSearchAndImporter
             }
         }
 
-        /*
-        if (!$this->spotifySearchAlbumResult) {
-            // Already in DB?
-            $this->searchAlbumId();
-        }
-        */
 
         // Try Spotify API to find match (if not customId)
         if (!$found) {
@@ -80,7 +74,7 @@ class SpotifyAlbumSearchAndImporter
         }
 
         $spotifyAlbumModel = new SpotifyAlbum;
-        $spotifyAlbum = $spotifyAlbumModel->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult, $this->album);
+        $spotifyAlbumModel->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult, $this->album);
 
 
         $loggerText = 'Not found';
@@ -106,6 +100,7 @@ class SpotifyAlbumSearchAndImporter
         );
     }
 
+    // TO MODEL?
     private function searchUnavailable()
     {
         $found = SpotifyAlbumUnavailable::where('persistent_id', $this->spotifySearchQuery->album_persistent_id)->first();

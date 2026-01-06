@@ -17,9 +17,6 @@ class SpotifyAlbum extends Model
 
 
 
-
-
-
     public function getSpotifyAlbumWithAlbum(array $filterValues)
     {
 

@@ -18,7 +18,14 @@ return new class extends Migration
             $table->string('name_sanitized')->nullable();
             $table->string('artist')->nullable();
             $table->string('artist_sanitized')->nullable();
+
+            $table->string('search_name')->nullable();
+            $table->string('search_artist')->nullable();
+
+
             $table->string('status');
+
+
             $table->unsignedInteger('score')->nullable();
             $table->string('artwork_url')->nullable();
 

@@ -33,7 +33,6 @@
     </td>
     <td>{{ $spotifyAlbum->status }} / {{ $spotifyAlbum->score }}</td>
     <td>
-
         <div class="relative mx-5 my-10">
             <div
                 class="to-grreen-500 relative mb-4 flex h-2 w-[110px] overflow-hidden rounded bg-gray-500 bg-gradient-to-r from-red-800 via-yellow-800 to-green-800 text-xs">

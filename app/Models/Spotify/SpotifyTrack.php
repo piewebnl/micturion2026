@@ -3,8 +3,10 @@
 namespace App\Models\Spotify;
 
 use App\Models\Music\Song;
+use App\Models\Music\Album;
 use App\Scopes\GlobalScopesTrait;
 use Illuminate\Database\Eloquent\Model;
+use App\Dto\Spotify\SpotifySearchTrackResult;
 
 // Spotify tracks are retrieved from spotify and are stored in the database (succes or warning)
 class SpotifyTrack extends Model
@@ -81,5 +83,32 @@ class SpotifyTrack extends Model
             ->whereId($filterValues, 'category_id', 'categories')
             ->whereId($filterValues, 'album_id', 'album_id')
             ->customPaginateOrLimit($filterValues);
+    }
+
+
+    public function storeFromSpotifySearchResultTrack(SpotifySearchTrackResult $spotifySearchTrackResult, Song $song)
+    {
+
+        $result = SpotifyTrack::updateOrCreate(
+            [
+                'spotify_api_track_id' => $spotifySearchTrackResult->spotify_api_track_id,
+            ],
+            [
+                'song_id' => $song->id,
+                'name' => $spotifySearchTrackResult->name,
+                'name_sanitized' => $spotifySearchTrackResult->name_sanitized,
+                'album' => $spotifySearchTrackResult->album,
+                'album_sanitized' => $spotifySearchTrackResult->album_sanitized,
+                'artist' => $spotifySearchTrackResult->artist,
+                'artist_sanitized' => $spotifySearchTrackResult->artist_sanitized,
+                'artwork_url' => $spotifySearchTrackResult->artwork_url,
+                'score' => $spotifySearchTrackResult->score,
+                'search_name' => $spotifySearchTrackResult->search_name,
+                'search_artist' => $spotifySearchTrackResult->search_artist,
+
+            ]
+        );
+
+        return $result;
     }
 }

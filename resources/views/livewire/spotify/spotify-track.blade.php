@@ -1,5 +1,6 @@
 @php
     $bgClass = '';
+    $textClass = '';
     if ($spotifyTrack->status == 'error') {
         $bgClass = 'bg-error';
         $textClass = 'text-error';
@@ -24,6 +25,7 @@
         @endif
 
     </td>
+
     <td class="min-w-32">{{ $spotifyTrack->album_name }}
         @if ($spotifyTrack->spotify_track_album != '')
             <br /><a href="https://open.spotify.com/album/{{ $spotifyTrack->spotify_track_spotify_api_album_id }}"
@@ -38,30 +40,30 @@
             </a>
         @endif
     </td>
+    <td>{{ $spotifyTrack->status }} / {{ $spotifyTrack->score }}</td>
     <td>
         <div class="relative mx-5 my-10">
-            <div
-                class="to-grreen-500 relative mb-4 flex h-5 w-[110px] overflow-hidden rounded bg-gray-100 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 text-xs">
-                <div style="width: 10px; height: 100%; left: {{ $spotifyTrack->score }}px"
-                    class="absolute border border-gray-500 bg-white">
+            <div class="relative mx-5 my-10">
+                <div
+                    class="to-grreen-500 relative mb-4 flex h-2 w-[110px] overflow-hidden rounded bg-gray-500 bg-gradient-to-r from-red-800 via-yellow-800 to-green-800 text-xs">
+                    <div style="width: 10px; height: 100%; left: {{ $spotifyTrack->score }}px"
+                        class="absolute border border-gray-700 bg-gray-300">
+                    </div>
                 </div>
+                @if ($spotifyTrack->status == 'custom')
+                    <div class="mb-2 flex w-[110px] justify-center text-xs">
+                        <strong class="{{ $textClass }}">Custom match</strong>
+                    </div>
+                @endif
+                @if ($spotifyTrack->score == 'unavailable')
+                    <div class="mb-2 flex w-[110px] justify-center text-xs">
+                        <strong class="{{ $textClass }}">Marked not available</strong>
+                    </div>
+                @endif
+                @if ($spotifyTrack->spotify_album_spotify_api_album_id == null)
+                    No spotify match
+                @endif
             </div>
-            @if ($spotifyTrack->score == 100)
-                <div class="mb-2 flex w-[110px] justify-center text-xs">
-                    <strong class="{{ $textClass }}">Custom match</strong>
-                </div>
-            @endif
-            @if ($spotifyTrack->score == 0)
-                <div class="mb-2 flex w-[110px] justify-center text-xs">
-                    <strong class="{{ $textClass }}">Marked not available</strong>
-                </div>
-            @endif
-            <div class="mb-2 flex w-[110px] justify-center text-xs">
-                {{ $spotifyTrack->score }}
-            </div>
-            @if ($spotifyTrack->spotify_track_spotify_api_track_id == null)
-                No spotify match
-            @endif
         </div>
     </td>
     <td>

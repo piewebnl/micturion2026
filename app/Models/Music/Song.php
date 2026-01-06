@@ -152,9 +152,9 @@ class Song extends Model
             'albums.category_id as category_id',
             'artists.name as artist_name',
             'artists.sort_name as artist_sort_name',
-            'spotify_track.id as spotify_track_id'
+            'spotify_tracks.id as spotify_track_id'
 
-        )->join('spotify_tracks', 'spotify_tracks.song_id', '=', 'songs.id')
+        )->leftjoin('spotify_tracks', 'spotify_tracks.song_id', '=', 'songs.id')
             ->join('albums', 'songs.album_id', '=', 'albums.id')
             ->join('artists', 'albums.artist_id', '=', 'artists.id')
             ->orderBy('artists.sort_name')
@@ -164,7 +164,7 @@ class Song extends Model
             ->orderBy('songs.track_number')
             ->whereId($filterValues, 'category_id', 'categories')
             ->whereId($filterValues, 'album_id', 'album_id')
-            ->whereNull('spotify_track_id', null)
+            ->whereNull('spotify_tracks.song_id')
             ->customPaginateOrLimit($filterValues);
     }
 

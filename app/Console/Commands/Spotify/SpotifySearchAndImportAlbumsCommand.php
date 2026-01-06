@@ -32,9 +32,7 @@ class SpotifySearchAndImportAlbumsCommand extends Command
 
         $albums = (new Album)->getAlbumsWithoutSpotifyAlbum(
             [
-                //'limit' => $this->perPage,
                 'categories' => [1],
-                //'id' => 760
             ]
         );
 
@@ -43,7 +41,6 @@ class SpotifySearchAndImportAlbumsCommand extends Command
         foreach ($albums as $album) {
             $spotifyAlbumSearchAndImporter = new SpotifyAlbumSearchAndImporter($api);
             $spotifyAlbumSearchAndImporter->import($album);
-            // sleep(1);
             $this->output->progressAdvance();
         }
 
