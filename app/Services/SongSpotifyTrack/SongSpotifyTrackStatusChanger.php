@@ -1,40 +1,39 @@
 <?php
 
-namespace App\Services\SongSpotifyTrack;
+namespace App\Services\SpotifyTrack;
 
 use App\Models\Music\Song;
-use App\Models\SongSpotifyTrack\SongSpotifyTrack;
+use App\Models\SpotifyTrack\SpotifyTrack;
 use App\Models\Spotify\SpotifyTrackCustomId;
 use App\Models\Spotify\SpotifyTrackUnavailable;
 use App\Traits\Converters\ToSpotifyTrackCustomIdConverter;
 use Illuminate\Http\JsonResponse;
 
-// Change status of a SongSpotifyTrack and put it in CustomID or Unavailable table
-class SongSpotifyTrackStatusChanger
+// Change status of a SpotifyTrack and put it in CustomID or Unavailable table
+class SpotifyTrackStatusChanger
 {
-    // use ToSpotifyTrackCustomIdConverter;
 
     private $response;
 
     private $resource = [];
 
-    public function changeStatus(SongSpotifyTrack $songSpotifyTrack, string $status)
+    public function changeStatus(SpotifyTrack $spotifyTrack, string $status)
     {
-        $id = $songSpotifyTrack['id'];
+        $id = $spotifyTrack['id'];
 
         // Get song
         $song = new Song;
-        $songWithSpotifyTrack = $song->getSongWithSpotifyTrack($songSpotifyTrack['song_id']);
+        $songWithSpotifyTrack = $song->getSongWithSpotifyTrack($spotifyTrack['song_id']);
         $spotifyTrackCustomId = $this->convertSongToSpotifyTrackCustomId($songWithSpotifyTrack);
 
         $spotifyTrackCustomIdModel = new SpotifyTrackCustomId;
         $spotifyTrackUnavailable = new SpotifyTrackUnavailable;
 
         if ($status == 'error') {
-            $songSpotifyTrack = SongSpotifyTrack::find($id);
-            $songSpotifyTrack->status = 'error';
-            $songSpotifyTrack->score = 0;
-            $songSpotifyTrack->save();
+            $spotifyTrack = SpotifyTrack::find($id);
+            $spotifyTrack->status = 'error';
+            $spotifyTrack->score = 0;
+            $spotifyTrack->save();
 
             // Delete custom ID
             $found = SpotifyTrackCustomId::where('persistent_id', $spotifyTrackCustomId['persistent_id'])->first();
@@ -57,10 +56,10 @@ class SongSpotifyTrackStatusChanger
         }
 
         if ($status == 'success') {
-            $songSpotifyTrack = SongSpotifyTrack::find($id);
-            $songSpotifyTrack->status = $status;
-            $songSpotifyTrack->score = 100;
-            $songSpotifyTrack->save();
+            $spotifyTrack = SpotifyTrack::find($id);
+            $spotifyTrack->status = $status;
+            $spotifyTrack->score = 100;
+            $spotifyTrack->save();
 
             // Delete from Unavailable
             $found = SpotifyTrackUnavailable::where('persistent_id', $songWithSpotifyTrack['persistent_id'])->first();
@@ -75,8 +74,8 @@ class SongSpotifyTrackStatusChanger
             }
         }
 
-        $songSpotifyTrack = new SongSpotifyTrack;
-        $this->resource[] = $songSpotifyTrack->getSongSpotifyTrackWithSong($id);
+        $spotifyTrack = new SpotifyTrack;
+        $this->resource[] = $spotifyTrack->getSpotifyTrackWithSong($id);
 
         $this->response = response()->success('Marked as ' . $status, $this->resource);
     }

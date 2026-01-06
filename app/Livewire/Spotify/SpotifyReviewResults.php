@@ -8,13 +8,13 @@ use App\Models\Music\Album;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use App\Models\Spotify\SpotifyAlbum;
+use App\Models\Spotify\SpotifyTrack;
 use App\Traits\QueryCache\QueryCache;
-use App\Models\SongSpotifyTrack\SongSpotifyTrack;
 use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
 use App\Services\Spotify\Importers\SpotifyAlbumImporter;
 use App\Services\Spotify\Importers\SpotifyTrackImporter;
+use App\Services\SpotifyTrack\SpotifyTrackStatusChanger;
 use App\Livewire\Forms\Spotify\SpotifyReviewSearchFormInit;
-use App\Services\SongSpotifyTrack\SongSpotifyTrackStatusChanger;
 use App\Services\Spotify\Changers\SpotifyAlbumStatusChanger;
 
 class SpotifyReviewResults extends Component
@@ -40,9 +40,9 @@ class SpotifyReviewResults extends Component
     #[On('spotify-review-results-change-track-status')]
     public function changeTrackStatus($spotifyTrackId, string $status)
     {
-        $songSpotifyTrack = SongSpotifyTrack::find($spotifyTrackId);
+        $songSpotifyTrack = SpotifyTrack::find($spotifyTrackId);
 
-        $songSpotifyTrackStatusChanger = new SongSpotifyTrackStatusChanger;
+        $songSpotifyTrackStatusChanger = new SpotifyTrackStatusChanger;
         $songSpotifyTrackStatusChanger->changeStatus($songSpotifyTrack, $status);
 
         $this->render();
@@ -89,7 +89,7 @@ class SpotifyReviewResults extends Component
     public function deleteTrack($spotifyTrackId)
     {
 
-        $songSpotifyTrack = SongSpotifyTrack::find($spotifyTrackId);
+        $songSpotifyTrack = SpotifyTrack::find($spotifyTrackId);
 
         if ($songSpotifyTrack) {
             $songSpotifyTrack->delete();
@@ -107,8 +107,8 @@ class SpotifyReviewResults extends Component
     {
 
         if ($this->filterValues['view'] == 'track') {
-            $songSpotifyTrack = new SongSpotifyTrack;
-            $tracks = $songSpotifyTrack->getSongSpotifyTracksWithSongs($this->filterValues);
+            $songSpotifyTrack = new SpotifyTrack;
+            $tracks = $songSpotifyTrack->getSpotifyTracksWithSong($this->filterValues);
 
             return view('livewire.spotify.spotify-review-results-tracks', compact('tracks'));
         }

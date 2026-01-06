@@ -3,7 +3,6 @@
 namespace App\Models\Spotify;
 
 use App\Models\Music\Song;
-use App\Models\SongSpotifyTrack\SongSpotifyTrack;
 use App\Scopes\GlobalScopesTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,22 +13,12 @@ class SpotifyTrack extends Model
 
     protected $guarded = [];
 
-    public function songSpotifyTrack()
-    {
-        return $this->hasOne(SongSpotifyTrack::class, 'spotify_track_id', 'id');
-    }
 
     public function song()
     {
-        return $this->hasOneThrough(
-            Song::class,
-            SongSpotifyTrack::class,
-            'spotify_track_id', // Foreign key on song_spotify_track
-            'id',               // Foreign key on songs
-            'id',               // Local key on spotify_tracks
-            'song_id'           // Local key on song_spotify_track
-        );
+        return $this->belongsTo(Song::class, 'artist_id');
     }
+
 
     public function store(SpotifyTrack $spotifyTrack)
     {
@@ -79,10 +68,9 @@ class SpotifyTrack extends Model
             'artists.name as artist_name',
             'artists.sort_name as artist_sort_name',
 
-            'song_spotify_track.id as song_spotify_track_id'
+            'spotify_tracks.id as spotify_track_id'
         )
-            ->join('song_spotify_track', 'song_spotify_track.spotify_track_id', '=', 'spotify_tracks.id')
-            ->join('songs', 'songs.id', '=', 'song_spotify_track.song_id')
+            ->join('songs', 'songs.id', '=', 'spotify_tracks.song_id')
             ->join('albums', 'songs.album_id', '=', 'albums.id')
             ->join('artists', 'albums.artist_id', '=', 'artists.id')
             ->orderBy('artists.sort_name')

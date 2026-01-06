@@ -3,7 +3,6 @@
 namespace App\Models\Playlist;
 
 use App\Models\Music\Song;
-use App\Models\SongSpotifyTrack\SongSpotifyTrack;
 use App\Scopes\GlobalScopesTrait;
 use DB;
 use Illuminate\Database\Eloquent\Model;
@@ -24,10 +23,7 @@ class PlaylistTrack extends Model
         return $this->hasOne(Song::class, 'id', 'song_id');
     }
 
-    public function songSpotifyTrack()
-    {
-        return $this->hasOne(SongSpotifyTrack::class, 'song_id', 'song_id');
-    }
+
 
     public function store(array $playlistTrack): PlaylistTrack
     {

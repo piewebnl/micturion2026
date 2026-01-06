@@ -117,7 +117,7 @@ class SpotifyPlaylistTracksExporter
 
         // Custom Spotify Ids
         if ($playlistTrack['songSpotifyTrack']['spotify_custom_id'] != '') {
-            $this->spotifyIds[] = $playlistTrack['SongSpotifyTrack']['spotify_custom_id'];
+            $this->spotifyIds[] = $playlistTrack['spotify_track']['spotify_custom_id'];
             $this->spotifyPlaylistTracks[] = [
                 'status' => 'success',
                 'resource' => [
@@ -130,8 +130,8 @@ class SpotifyPlaylistTracksExporter
         }
 
         // Searched spotify ids
-        if ($playlistTrack['SongSpotifyTrack']['spotifyTrack']['spotify_api_track_id'] != '') {
-            $this->spotifyIds[] = $playlistTrack['SongSpotifyTrack']['spotifyTrack']['spotify_api_track_id'];
+        if ($playlistTrack['spotify_track']['spotifyTrack']['spotify_api_track_id'] != '') {
+            $this->spotifyIds[] = $playlistTrack['spotify_track']['spotifyTrack']['spotify_api_track_id'];
             $this->spotifyPlaylistTracks[] = [
                 'status' => 'success',
                 'resource' => [

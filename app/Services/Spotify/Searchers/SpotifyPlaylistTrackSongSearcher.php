@@ -2,7 +2,6 @@
 
 namespace App\Services\Spotify\Searchers;
 
-use App\Models\SongSpotifyTrack\SongSpotifyTrack;
 use App\Models\Spotify\SpotifyPlaylist;
 use App\Services\Music\SongFinder;
 
@@ -45,7 +44,7 @@ class SpotifyPlaylistTrackSongSearcher
 
         // NAAR CONERTER
         if (isset($result['song']['id'])) {
-            $songSpotifyTrack = new SongSpotifyTrack;
+            $songSpotifyTrack = new SpotifyTrack;
             $songSpotifyTrack->song_id = $result['song']['id'];
             $songSpotifyTrack->spotify_track_id = $spotifyTrack->spotifyTrack->id;
             $songSpotifyTrack->search_artist = $spotifyTrack->spotifyTrack->name;

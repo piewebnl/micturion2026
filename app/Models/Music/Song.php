@@ -2,7 +2,6 @@
 
 namespace App\Models\Music;
 
-use App\Models\SongSpotifyTrack\SongSpotifyTrack;
 use App\Models\Spotify\SpotifyTrack;
 use App\Scopes\GlobalScopesTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -57,13 +56,9 @@ class Song extends Model
 
     public function spotifyTrack()
     {
-        return $this->hasOneThrough(SpotifyTrack::class, SongSpotifyTrack::class, 'song_id', 'id', 'id', 'spotify_track_id');
+        return $this->hasOne(Song::class, 'song_id', 'id');
     }
 
-    public function songSpotifyTrack()
-    {
-        return $this->hasOne(SongSpotifyTrack::class, 'song_id', 'id');
-    }
 
     public function storeItunesLibraryTrack(object $itunesTrack)
     {
@@ -157,9 +152,9 @@ class Song extends Model
             'albums.category_id as category_id',
             'artists.name as artist_name',
             'artists.sort_name as artist_sort_name',
-            'song_spotify_track.id as song_spotify_track_id'
+            'spotify_track.id as spotify_track_id'
 
-        )->leftJoin('song_spotify_track', 'song_spotify_track.song_id', '=', 'songs.id')
+        )->join('spotify_tracks', 'spotify_tracks.song_id', '=', 'songs.id')
             ->join('albums', 'songs.album_id', '=', 'albums.id')
             ->join('artists', 'albums.artist_id', '=', 'artists.id')
             ->orderBy('artists.sort_name')
@@ -169,7 +164,7 @@ class Song extends Model
             ->orderBy('songs.track_number')
             ->whereId($filterValues, 'category_id', 'categories')
             ->whereId($filterValues, 'album_id', 'album_id')
-            ->where('song_spotify_track.id', null)
+            ->whereNull('spotify_track_id', null)
             ->customPaginateOrLimit($filterValues);
     }
 
@@ -197,7 +192,7 @@ class Song extends Model
             'songs.name as name',
             'songs.track_number as track_number',
             'songs.favourite as favourite',
-            'song_spotify_track.id as song_spotify_track_id',
+            //'song_spotify_track.id as song_spotify_track_id',
             'spotify_tracks.spotify_api_track_id as spotify_api_track_id',
             'albums.name as album_name',
             'albums.sort_name as album_sort_name',
@@ -206,8 +201,7 @@ class Song extends Model
             'albums.rating as album_rating',
             'artists.name as artist_name',
             'artists.sort_name as artist_sort_name',
-        )->leftJoin('song_spotify_track', 'song_spotify_track.song_id', '=', 'songs.id')
-            ->join('spotify_tracks', 'song_spotify_track.spotify_track_id', '=', 'spotify_tracks.id')
+        )->join('spotify_tracks', 'spotify_tracks.song_id', '=', 'songs.id')
             ->join('albums', 'songs.album_id', '=', 'albums.id')
             ->join('artists', 'albums.artist_id', '=', 'artists.id')
             ->whereId($filterValues, 'songs.id', 'id')

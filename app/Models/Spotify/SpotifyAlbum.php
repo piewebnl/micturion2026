@@ -15,10 +15,8 @@ class SpotifyAlbum extends Model
 
     use GlobalScopesTrait;
 
-    public function albumSpotifyAlbum()
-    {
-        return $this->hasOne(AlbumSpotifyAlbum::class, 'spotify_album_id', 'id');
-    }
+
+
 
 
 

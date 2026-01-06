@@ -75,19 +75,7 @@ class SpotifyTrackImporter
         $spotifySearchResultTrack = new SpotifySearchResultTrack;
         $spotifyTrack = $spotifySearchResultTrack->store($this->spotifySearchResultTrack);
 
-        $this->resource = SpotifyTrack::with('SongSpotifyTrack.song.album.artist')->find($spotifyTrack->id)->toArray();
-
-        if ($this->resource['song_spotify_track']['status'] == 'success') {
-            $this->response = response()->success('Spotify track found', $this->resource);
-
-            return;
-        }
-        if ($this->resource['song_spotify_track']['status'] == 'warning') {
-            $this->response = response()->warning('Spotify track found (low scoring)', $this->resource);
-
-            return;
-        }
-        $this->response = response()->warning('Spotify track found very low scoring', $this->resource);
+        $this->resource = SpotifyTrack::with('SpotifyTrack.song.album.artist')->find($spotifyTrack->id)->toArray();
     }
 
     public function getResponse(): JsonResponse
