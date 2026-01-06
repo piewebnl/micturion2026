@@ -223,7 +223,7 @@
                             @endforeach
                         </td>
                         <td>
-                            {{ $artist['album_spotify_album_status'] }}
+                            {{ $artist['spotify_album_status'] }}
                         </td>
 
                     @endauth

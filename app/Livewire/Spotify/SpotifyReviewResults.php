@@ -10,13 +10,12 @@ use Livewire\Attributes\Url;
 use App\Models\Spotify\SpotifyAlbum;
 use App\Traits\QueryCache\QueryCache;
 use App\Models\SongSpotifyTrack\SongSpotifyTrack;
-use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
 use App\Services\Spotify\Importers\SpotifyAlbumImporter;
 use App\Services\Spotify\Importers\SpotifyTrackImporter;
 use App\Livewire\Forms\Spotify\SpotifyReviewSearchFormInit;
 use App\Services\SongSpotifyTrack\SongSpotifyTrackStatusChanger;
-use App\Services\AlbumSpotifyAlbum\AlbumSpotifyAlbumStatusChanger;
+use App\Services\Spotify\Changers\SpotifyAlbumStatusChanger;
 
 class SpotifyReviewResults extends Component
 {
@@ -52,9 +51,9 @@ class SpotifyReviewResults extends Component
     #[On('spotify-review-results-change-album-status')]
     public function changeAlbumStatus($spotifyAlbumId, string $status)
     {
-        $spotifyAlbum = AlbumSpotifyAlbum::find($spotifyAlbumId);
+        $spotifyAlbum = SpotifyAlbum::find($spotifyAlbumId);
 
-        $songSpotifyTrackStatusChanger = new AlbumSpotifyAlbumStatusChanger;
+        $songSpotifyTrackStatusChanger = new SpotifyAlbumStatusChanger;
         $songSpotifyTrackStatusChanger->changeStatus($spotifyAlbum, $status);
 
         $this->render();

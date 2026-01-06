@@ -17,22 +17,28 @@ class Playlist extends Model
         return $this->hasMany(PlaylistTrack::class);
     }
 
-    public function store(Playlist $playlist)
+    public static function storeFromItunesPlaylist($itunesLibraryPlaylist,): self
     {
-        $result = Playlist::updateOrCreate(
-            ['persistent_id' => $playlist->persistent_id],
-            [
-                'name' => $playlist->name,
-                'parent_name' => $playlist->parent_name,
-                'persistent_id' => $playlist->persistent_id,
-                'has_changed' => true,
-                'parent_persistent_id' => $playlist->parent_persistent_id,
+        $persistentId = data_get($itunesLibraryPlaylist, 'persistent_id');
 
+        return static::updateOrCreate(
+            ['persistent_id' => $persistentId],
+            [
+                'name' => data_get($itunesLibraryPlaylist, 'name'),
+                'parent_name' => data_get($itunesLibraryPlaylist, 'parent_name'),
+                'persistent_id' => $persistentId,
+                'has_changed' => false,
+                'parent_persistent_id' => data_get($itunesLibraryPlaylist, 'parent_persistent_id'),
             ]
         );
-
-        return $result['id'];
     }
+
+    /*
+    public function store(Playlist $playlist)
+    {
+        return static::storeFromItunesPlaylist($playlist)->id;
+    }
+        */
 
     public function getTotalPlaylists(array $filterValues): int
     {

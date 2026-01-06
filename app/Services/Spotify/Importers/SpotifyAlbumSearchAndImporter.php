@@ -82,8 +82,6 @@ class SpotifyAlbumSearchAndImporter
         $spotifyAlbumModel = new SpotifyAlbum;
         $spotifyAlbum = $spotifyAlbumModel->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult, $this->album);
 
-        //$albumSpotifyAlbum = new AlbumSpotifyAlbum;
-        //$albumSpotifyAlbum->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult, $spotifyAlbum);
 
         $loggerText = 'Not found';
         $loggerStatus = 'error';

@@ -26,10 +26,8 @@ class ItunesLibraryPlaylist extends Model
     public function store($itunesLibraryPlaylist)
     {
 
-        $converted = $this->convertItunesLibraryPlaylistToPlaylist($itunesLibraryPlaylist);
 
-        $playlist = new Playlist;
-        $id = $playlist->store($converted);
+        $result = Playlist::storeFromItunesPlaylist($itunesLibraryPlaylist);
 
         $this->resource[] = [
             'status' => 'success',
@@ -42,7 +40,7 @@ class ItunesLibraryPlaylist extends Model
 
         Logger::log('info', 'itunes_library_import_playlists', 'iTunes library playlist imported: ' . $itunesLibraryPlaylist['name']);
 
-        return $id;
+        return $result->id;
     }
 
     public function getResource(): array

@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Services\AlbumSpotifyAlbum;
+namespace App\Services\Spotify\Changers;
 
-use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 use App\Models\Music\Album;
 use App\Models\Spotify\SpotifyAlbum;
 use App\Models\Spotify\SpotifyAlbumCustomId;
 use App\Models\Spotify\SpotifyAlbumUnavailable;
 
-class AlbumSpotifyAlbumStatusChanger
+class SpotifyAlbumStatusChanger
 {
-    public function changeStatus(AlbumSpotifyAlbum $albumSpotifyAlbum, string $status)
+    public function changeStatus(SpotifyAlbum $albumSpotifyAlbum, string $status)
     {
         $id = $albumSpotifyAlbum['id'];
 
@@ -28,12 +27,12 @@ class AlbumSpotifyAlbumStatusChanger
         }
 
         // Reload
-        $albumSpotifyAlbum = new AlbumSpotifyAlbum;
+        $albumSpotifyAlbum = new SpotifyAlbum;
     }
 
     private function handleErrorStatus(int $id, $albumWithSpotifyAlbum): void
     {
-        $albumSpotifyAlbum = AlbumSpotifyAlbum::find($id);
+        $albumSpotifyAlbum = SpotifyAlbum::find($id);
         $albumSpotifyAlbum->status = 'unavailable';
         $albumSpotifyAlbum->score = 0;
         $albumSpotifyAlbum->save();
@@ -69,7 +68,7 @@ class AlbumSpotifyAlbumStatusChanger
 
     private function handleSuccessStatus(int $id, $albumWithSpotifyAlbum): void
     {
-        $albumSpotifyAlbum = AlbumSpotifyAlbum::find($id);
+        $albumSpotifyAlbum = SpotifyAlbum::find($id);
         $albumSpotifyAlbum->status = 'custom';
         $albumSpotifyAlbum->score = 100;
         $albumSpotifyAlbum->save();

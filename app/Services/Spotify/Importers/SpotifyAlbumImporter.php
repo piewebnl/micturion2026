@@ -42,10 +42,8 @@ class SpotifyAlbumImporter
 
         // Store to album and the relation
         $spotifyAlbumModel = new SpotifyAlbum;
-        $spotifyAlbum = $spotifyAlbumModel->storeFromSpotifySearchResultAlbum($spotifySearchAlbumResult);
+        $spotifyAlbum = $spotifyAlbumModel->storeFromSpotifySearchResultAlbum($spotifySearchAlbumResult, $album);
 
-        $albumSpotifyAlbum = new AlbumSpotifyAlbum;
-        $albumSpotifyAlbum->storeFromSpotifySearchResultAlbum($spotifySearchAlbumResult, $spotifyAlbum);
 
         return $spotifySearchAlbumResult;
     }

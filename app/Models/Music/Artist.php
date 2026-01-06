@@ -99,7 +99,7 @@ class Artist extends Model
                 'albums.play_count as album_play_count',
                 'albums.notes as album_notes',
                 'albums.genre_id as album_genre_id',
-                'album_spotify_album.status as album_spotify_album_status',
+                'spotify_albums.status as spotify_albums_status',
                 'album_images.slug as album_image_slug',
                 'album_images.largest_width as album_image_largest_width',
                 'album_images.hash as album_image_hash',
@@ -126,7 +126,7 @@ class Artist extends Model
                 ->leftjoin('spine_images', 'spine_images.album_id', '=', 'albums.id')
                 ->leftjoin('album_formats', 'album_formats.album_id', '=', 'albums.id')
                 ->leftjoin('formats', 'formats.id', '=', 'album_formats.format_id')
-                ->leftjoin('album_spotify_album', 'album_spotify_album.album_id', '=', 'albums.id')
+                ->leftjoin('spotify_albums', 'spotify_albums.album_id', '=', 'albums.id')
                 ->leftjoin('tiermaker_artists', 'tiermaker_artists.artist_name', '=', 'artists.name')
 
                 // ->whereId($filterValues, 'category_id', 'categories')

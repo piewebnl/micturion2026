@@ -134,17 +134,16 @@ class Album extends Model
             'albums.category_id as category_id',
             'artists.name as artist_name',
             'artists.sort_name as artist_sort_name',
-            'album_spotify_album.id as album_spotify_album_id',
-            'album_spotify_album.status as album_spotify_album_status',
+            'spotify_albums.id as spotify_albums_id',
+            'spotify_albums.status as spotify_albums_status',
             'spotify_albums.spotify_api_album_id'
         )
             ->join('artists', 'albums.artist_id', '=', 'artists.id')
-            ->join('album_spotify_album', 'album_spotify_album.album_id', '=', 'albums.id')
-            ->join('spotify_albums', 'spotify_albums.id', '=', 'album_spotify_album.spotify_album_id')
+            ->join('spotify_albums', 'spotify_albums.album_id', '=', 'albums.id')
             ->join('categories', 'categories.id', '=', 'albums.category_id')
             ->whereId($filterValues, 'albums.id', 'id')
             ->whereId($filterValues, 'category_id', 'categories')
-            ->whereId($filterValues, 'album_spotify_album.status', 'status')
+            ->whereId($filterValues, 'spotify_albums.status', 'status')
             ->whereNotNull('spotify_albums.spotify_api_album_id')
             ->orderBy('artists.sort_name')
             ->orderBy('albums.sort_name')
