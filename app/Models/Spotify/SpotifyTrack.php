@@ -39,6 +39,7 @@ class SpotifyTrack extends Model
                 'disc_number' => $spotifyTrack['disc_number'],
                 'spotify_api_album_id' => $spotifyTrack['spotify_api_album_id'],
                 'artwork_url' => $spotifyTrack['artwork_url'],
+                'status' => $spotifyTrack['status'] ?? 'error',
             ]
         );
 
@@ -48,16 +49,22 @@ class SpotifyTrack extends Model
     public function getSpotifyTracksWithSong($filterValues)
     {
         return SpotifyTrack::select(
-            'spotify_tracks.id as spotify_track_id',
-            'spotify_tracks.name as spotify_track_name',
-            // 'spotify_tracks.uri as spotify_track_uri',
+            'spotify_tracks.id as id',
+            'spotify_tracks.name as name',
+            'spotify_tracks.status as status',
+            'spotify_tracks.track_number as track_number',
+            'spotify_tracks.disc_number as disc_number',
+            'spotify_tracks.score as score',
+            'spotify_tracks.spotify_api_track_id as spotify_api_track_id',
+            'spotify_tracks.artist as artist',
+            'spotify_tracks.album as album',
 
             'songs.id as song_id',
             'songs.name as song_name',
-            'songs.album_artist as album_artist',
-            'songs.disc_number as disc_number',
-            'songs.disc_count as disc_count',
-            'songs.track_number as track_number',
+            'songs.album_artist as song_album_artist',
+            'songs.disc_number as song_disc_number',
+            'songs.disc_count as song_disc_count',
+            'songs.track_number as song_track_number',
 
             'albums.id as album_id',
             'albums.name as album_name',
@@ -70,7 +77,7 @@ class SpotifyTrack extends Model
             'artists.name as artist_name',
             'artists.sort_name as artist_sort_name',
 
-            'spotify_tracks.id as spotify_track_id'
+
         )
             ->join('songs', 'songs.id', '=', 'spotify_tracks.song_id')
             ->join('albums', 'songs.album_id', '=', 'albums.id')
@@ -108,6 +115,7 @@ class SpotifyTrack extends Model
                 'search_name' => $spotifySearchTrackResult->search_name,
                 'search_album' => $spotifySearchTrackResult->search_album,
                 'search_artist' => $spotifySearchTrackResult->search_artist,
+                'status' => $spotifySearchTrackResult->status,
 
             ]
         );

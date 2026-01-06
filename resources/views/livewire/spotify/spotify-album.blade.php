@@ -1,6 +1,10 @@
 @php
     $bgClass = '';
     $textClass = '';
+    if ($spotifyTrack->status == 'warning') {
+        $bgClass = 'bg-warning';
+        $textClass = 'text-warning';
+    }
     if ($spotifyAlbum->status == 'error') {
         $bgClass = 'bg-error';
         $textClass = 'text-error';

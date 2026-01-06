@@ -93,9 +93,9 @@ class SpotifyScoreSearch
         }
 
         if ($isTrack) {
-            /*
-            $searchAlbum = $spotifySearchQuery->album_name;
-            if ($searchAlbum && isset($spotifyApiResult->album->name)) {
+
+            $searchAlbum = $spotifySearchQuery->album;
+            if ($searchAlbum && isset($spotifyApiResult->album)) {
                 $candidateAlbum = $spotifyApiResult->album->name_sanitized ?? $spotifyApiResult->album->name;
                 $this->addScore(
                     $score,
@@ -115,7 +115,6 @@ class SpotifyScoreSearch
                     2
                 );
             }
-                */
         }
 
         $score['total'] = $this->finalizeScore($score['total'], $weightTotal);

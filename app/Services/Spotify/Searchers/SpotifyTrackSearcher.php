@@ -70,7 +70,7 @@ class SpotifyTrackSearcher
                     $this->spotifyNameHelper->sanitzeSpotifyArtist($track->artists[0]->name);
             }
 
-            $scoredTrack = $spotifyScoreSearch->calculateScore($track, $spotifySearchQuery, false);
+            $scoredTrack = $spotifyScoreSearch->calculateScore($track, $spotifySearchQuery, true);
             $scoredTrack->status = $spotifyScoreSearch->determineStatus($scoredTrack->score);
 
             if ($scoredTrack->score > $highestScore) {
@@ -107,6 +107,8 @@ class SpotifyTrackSearcher
             search_artist: $spotifySearchQuery->artist ?? '',
             song_id: $spotifySearchQuery->song_id ?? 0,
             year: $releaseYear,
+            track_number: $bestTrack->track_number ?? $spotifySearchQuery->track_number ?? null,
+            disc_number: $bestTrack->disc_number ?? null,
             artwork_url: $bestTrack->images[0]->url ?? null,
             score_breakdown: $bestTrack->score_breakdown ?? [],
             all_results: $spotifyApiTracks

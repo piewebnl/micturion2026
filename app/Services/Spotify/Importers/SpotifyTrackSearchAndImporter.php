@@ -97,10 +97,10 @@ class SpotifyTrackSearchAndImporter
         Logger::log(
             $loggerStatus,
             $this->channel,
-            'Spotify song ' . $loggerText . ': ' . $this->spotifySearchQuery->artist . ' ' . $this->spotifySearchQuery->name,
+            'Spotify track ' . $loggerText . ': ' . $this->spotifySearchQuery->artist . ' - ' . $this->spotifySearchQuery->album . ' - ' . $this->spotifySearchQuery->name,
             [
                 ['Score: ' . $this->spotifySearchTrackResult->score],
-                ['Found: ' . $this->spotifySearchTrackResult->artist . ' - ' . $this->spotifySearchTrackResult->name],
+                ['Found: ' . $this->spotifySearchTrackResult->artist . ' - ' . $this->spotifySearchTrackResult->album . ' - ' . $this->spotifySearchTrackResult->name],
                 ['spotifySearchTrackResult' => $this->spotifySearchTrackResult],
             ]
 

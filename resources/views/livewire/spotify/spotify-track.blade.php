@@ -1,6 +1,10 @@
 @php
     $bgClass = '';
     $textClass = '';
+    if ($spotifyTrack->status == 'warning') {
+        $bgClass = 'bg-warning';
+        $textClass = 'text-warning';
+    }
     if ($spotifyTrack->status == 'error') {
         $bgClass = 'bg-error';
         $textClass = 'text-error';
@@ -10,6 +14,7 @@
         $textClass = 'text-success';
     }
 @endphp
+
 <tr>
     <td class="{{ $bgClass }} "></td>
     <td>
@@ -19,24 +24,24 @@
             alt="{{ $spotifyTrack->name }} - {{ $spotifyTrack->album_name }} Album Cover" />
     </td>
     <td class="min-w-32">{{ $spotifyTrack->artist_name }}
-        @if ($spotifyTrack->spotify_track_artist != '')
-            <br /><a href="https://open.spotify.com/track/{{ $spotifyTrack->spotify_track_spotify_api_track_id }}"
-                target="_blank">{{ $spotifyTrack->spotify_track_artist }}</a>
+        @if ($spotifyTrack->artist != '')
+            <br /><a href="https://open.spotify.com/track/{{ $spotifyTrack->spotify_api_track_id }}"
+                target="_blank">{{ $spotifyTrack->artist }}</a>
         @endif
 
     </td>
 
     <td class="min-w-32">{{ $spotifyTrack->album_name }}
-        @if ($spotifyTrack->spotify_track_album != '')
-            <br /><a href="https://open.spotify.com/album/{{ $spotifyTrack->spotify_track_spotify_api_album_id }}"
-                target="_blank">{{ $spotifyTrack->spotify_track_album }}</a>
+        @if ($spotifyTrack->album != '')
+            <br /><a href="https://open.spotify.com/album/{{ $spotifyTrack->spotify_api_album_id }}"
+                target="_blank">{{ $spotifyTrack->album }}</a>
         @endif
     </td>
     <td class="min-w-64">{{ $spotifyTrack->song_track_number }}. {{ $spotifyTrack->song_name }}
-        @if ($spotifyTrack->spotify_track_name != '')
+        @if ($spotifyTrack->name != '')
             <br />
-            <a href="https://open.spotify.com/track/{{ $spotifyTrack->spotify_track_spotify_api_track_id }}"
-                target="_blank">{{ $spotifyTrack->spotify_track_number }}. {{ $spotifyTrack->spotify_track_name }}</a>
+            <a href="https://open.spotify.com/track/{{ $spotifyTrack->spotify_api_track_id }}"
+                target="_blank">{{ $spotifyTrack->track_number }}. {{ $spotifyTrack->name }}</a>
             </a>
         @endif
     </td>
