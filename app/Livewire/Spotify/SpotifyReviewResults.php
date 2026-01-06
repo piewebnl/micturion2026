@@ -2,20 +2,21 @@
 
 namespace App\Livewire\Spotify;
 
-use App\Livewire\Forms\Spotify\SpotifyReviewSearchFormInit;
-use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
-use App\Models\Music\Album;
+use Livewire\Component;
 use App\Models\Music\Song;
-use App\Models\SongSpotifyTrack\SongSpotifyTrack;
-use App\Services\AlbumSpotifyAlbum\AlbumSpotifyAlbumStatusChanger;
-use App\Services\SongSpotifyTrack\SongSpotifyTrackStatusChanger;
-use App\Services\Spotify\Importers\SpotifyAlbumImporter;
-use App\Services\Spotify\Importers\SpotifyTrackImporter;
-use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
-use App\Traits\QueryCache\QueryCache;
+use App\Models\Music\Album;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
-use Livewire\Component;
+use App\Models\Spotify\SpotifyAlbum;
+use App\Traits\QueryCache\QueryCache;
+use App\Models\SongSpotifyTrack\SongSpotifyTrack;
+use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
+use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
+use App\Services\Spotify\Importers\SpotifyAlbumImporter;
+use App\Services\Spotify\Importers\SpotifyTrackImporter;
+use App\Livewire\Forms\Spotify\SpotifyReviewSearchFormInit;
+use App\Services\SongSpotifyTrack\SongSpotifyTrackStatusChanger;
+use App\Services\AlbumSpotifyAlbum\AlbumSpotifyAlbumStatusChanger;
 
 class SpotifyReviewResults extends Component
 {
@@ -51,10 +52,10 @@ class SpotifyReviewResults extends Component
     #[On('spotify-review-results-change-album-status')]
     public function changeAlbumStatus($spotifyAlbumId, string $status)
     {
-        $albumSpotifyAlbum = AlbumSpotifyAlbum::find($spotifyAlbumId);
+        $spotifyAlbum = AlbumSpotifyAlbum::find($spotifyAlbumId);
 
         $songSpotifyTrackStatusChanger = new AlbumSpotifyAlbumStatusChanger;
-        $songSpotifyTrackStatusChanger->changeStatus($albumSpotifyAlbum, $status);
+        $songSpotifyTrackStatusChanger->changeStatus($spotifyAlbum, $status);
 
         $this->render();
     }
@@ -114,8 +115,8 @@ class SpotifyReviewResults extends Component
         }
 
         if ($this->filterValues['view'] == 'album') {
-            $albumSpotifyAlbum = new AlbumSpotifyAlbum;
-            $albums = $albumSpotifyAlbum->getAlbumSpotifyAlbumWithAlbums($this->filterValues);
+            $spotifyAlbum = new SpotifyAlbum;
+            $albums = $spotifyAlbum->getSpotifyAlbumWithAlbum($this->filterValues);
 
             return view('livewire.spotify.spotify-review-results-albums', compact('albums'));
         }

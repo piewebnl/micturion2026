@@ -11,11 +11,17 @@ return new class extends Migration
             $table->id();
 
             $table->string('spotify_api_album_id')->unique()->nullable();
+
+            $table->foreignId('album_id')->constrained('albums')->onDelete('cascade');
+
             $table->string('name')->nullable();
             $table->string('name_sanitized')->nullable();
             $table->string('artist')->nullable();
             $table->string('artist_sanitized')->nullable();
+            $table->string('status');
+            $table->unsignedInteger('score')->nullable();
             $table->string('artwork_url')->nullable();
+
             $table->timestamps();
         });
     }

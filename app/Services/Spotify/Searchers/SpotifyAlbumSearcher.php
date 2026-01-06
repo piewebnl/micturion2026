@@ -31,6 +31,7 @@ class SpotifyAlbumSearcher
         // Use album name
         $this->spotifySearchString = $spotifySearchQuery->artist . ' ' . $spotifySearchQuery->album;
 
+
         try {
             $spotifyResults = $this->api->search($this->spotifySearchString, 'album', ['limit' => 10, 'market' => 'NL']);
 

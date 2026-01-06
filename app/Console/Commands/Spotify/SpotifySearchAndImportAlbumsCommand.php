@@ -34,7 +34,7 @@ class SpotifySearchAndImportAlbumsCommand extends Command
             [
                 //'limit' => $this->perPage,
                 'categories' => [1],
-                'id' => 760
+                //'id' => 760
             ]
         );
 

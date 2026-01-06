@@ -66,7 +66,7 @@ class SpotifyScoreSearch
                 $weightTotal,
                 'artist',
                 $this->spotifyNameHelper->areNamesSimilar($searchArtist, $spotifyApiResult->artist_sanitized),
-                3
+                4
             );
         }
 
@@ -88,7 +88,7 @@ class SpotifyScoreSearch
                 $weightTotal,
                 'year',
                 $this->scoreProximity($searchYear, $spotifyReleaseYear, self::YEAR_PROXIMITY_RANGE),
-                2
+                1
             );
         }
 

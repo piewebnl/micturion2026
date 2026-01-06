@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 // Relation table between albums and spotify albums
 class AlbumSpotifyAlbum extends Model
 {
+
+    /*
     use AlbumSpotifyAlbumScopesTrait, GlobalScopesTrait;
 
     protected $guarded = [];
@@ -107,4 +109,5 @@ class AlbumSpotifyAlbum extends Model
             ->orderBy('artists.sort_name')
             ->customPaginateOrLimit($filterValues);
     }
+            */
 }

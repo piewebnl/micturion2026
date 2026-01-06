@@ -20,6 +20,8 @@ class SpotifyAlbumSearchPrepare
 
         $album->artist = $artist;
 
+        $album->name = str_replace(' / ', ' ', $album->name);
+
         return SpotifySearchQuery::fromAlbum($album);
     }
 }

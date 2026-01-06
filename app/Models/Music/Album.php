@@ -164,10 +164,10 @@ class Album extends Model
             'artists.sort_name as artist_sort_name',
             'albums.persistent_id as persistent_id',
             'categories.id as category_id',
-            'categories.name as category_name',
-            'album_spotify_album.id as album_spotify_album_id',
+            'categories.name as category_name'
 
-        )->leftJoin('album_spotify_album', 'album_spotify_album.album_id', '=', 'albums.id')
+
+        )->leftJoin('spotify_albums', 'album_id', '=', 'albums.id')
             ->join('artists', 'albums.artist_id', '=', 'artists.id')
             ->join('categories', 'categories.id', '=', 'albums.category_id')
             ->orderBy('artists.sort_name')
@@ -175,7 +175,7 @@ class Album extends Model
             ->whereId($filterValues, 'albums.id', 'id')
             ->whereId($filterValues, 'artist_id', 'artist_id')
             ->whereId($filterValues, 'category_id', 'categories')
-            ->where('album_spotify_album.id', null)
+            ->whereNull('spotify_albums.album_id')
             ->customPaginateOrLimit($filterValues);
     }
 
