@@ -2,11 +2,10 @@
 
 namespace App\Models\Spotify;
 
+use App\Dto\Spotify\SpotifySearchTrackResult;
 use App\Models\Music\Song;
-use App\Models\Music\Album;
 use App\Scopes\GlobalScopesTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Dto\Spotify\SpotifySearchTrackResult;
 
 // Spotify tracks are retrieved from spotify and are stored in the database (succes or warning)
 class SpotifyTrack extends Model
@@ -15,12 +14,10 @@ class SpotifyTrack extends Model
 
     protected $guarded = [];
 
-
     public function song()
     {
         return $this->belongsTo(Song::class, 'artist_id');
     }
-
 
     public function store(SpotifyTrack $spotifyTrack)
     {
@@ -92,7 +89,6 @@ class SpotifyTrack extends Model
             ->spotifyTrackWhereKeyword($filterValues)
             ->customPaginateOrLimit($filterValues);
     }
-
 
     public function storeFromSpotifySearchResultTrack(SpotifySearchTrackResult $spotifySearchTrackResult, Song $song)
     {

@@ -2,10 +2,9 @@
 
 namespace App\Services\Spotify\Searchers;
 
-use App\Dto\Spotify\SpotifySearchAlbumResult;
 use App\Dto\Spotify\SpotifySearchAlbumQuery;
+use App\Dto\Spotify\SpotifySearchAlbumResult;
 use App\Services\Logger\Logger;
-use App\Services\Spotify\Searchers\SpotifyAlbumScoreSearch;
 use Exception;
 
 // Search spotify api for albums
@@ -27,7 +26,6 @@ class SpotifyAlbumSearcher
 
         // Use album name
         $this->spotifySearchString = $spotifySearchQuery->artist . ' ' . $spotifySearchQuery->album;
-
 
         try {
             $spotifyResults = $this->api->search($this->spotifySearchString, 'album', ['limit' => 8, 'market' => 'NL']);

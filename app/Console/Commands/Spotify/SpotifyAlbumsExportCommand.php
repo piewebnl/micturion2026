@@ -3,11 +3,11 @@
 namespace App\Console\Commands\Spotify;
 
 use App\Services\Logger\Logger;
-use Illuminate\Console\Command;
-use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
 use App\Services\Spotify\Deleters\SpotifyAlbumsDeleter;
 use App\Services\Spotify\Exporters\SpotifyAlbumsExporter;
+use App\Services\SpotifyApi\Connect\SpotifyApiConnect;
 use App\Services\SpotifyApi\Getters\SpotifyApiUserAlbumsGetter;
+use Illuminate\Console\Command;
 
 // php artisan command:SpotifyAlbumsExport
 class SpotifyAlbumsExportCommand extends Command
@@ -24,7 +24,6 @@ class SpotifyAlbumsExportCommand extends Command
 
     private $exportedIds = [];
 
-
     public function handle()
     {
         Logger::deleteChannel($this->channel);
@@ -39,7 +38,6 @@ class SpotifyAlbumsExportCommand extends Command
         $this->exportAlbums();
         $this->deleteUnwanted();
     }
-
 
     private function exportAlbums(): void
     {
@@ -61,7 +59,7 @@ class SpotifyAlbumsExportCommand extends Command
     private function deleteUnwanted()
     {
 
-        // Get online Ids        
+        // Get online Ids
         $spotifyApiUserAlbumsGetter = new SpotifyApiUserAlbumsGetter($this->api, $this->perPage);
         $lastPage = $spotifyApiUserAlbumsGetter->getLastPage();
 
@@ -70,7 +68,6 @@ class SpotifyAlbumsExportCommand extends Command
             $spotifyApiUserAlbumsGetter = new SpotifyApiUserAlbumsGetter($this->api, $this->perPage);
             $ids = array_merge($ids, $spotifyApiUserAlbumsGetter->getPerPage($page));
         }
-
 
         $spotifyAlbumsExporter = new SpotifyAlbumsExporter($this->api, $this->perPage, $this);
         $all = $spotifyAlbumsExporter->getAlbums();
@@ -83,7 +80,6 @@ class SpotifyAlbumsExportCommand extends Command
 
         $spotifyAlbumsDeleter = new SpotifyAlbumsDeleter($this->api, $eraseFromSpotify);
         $lastPage = $spotifyAlbumsDeleter->getLastPage();
-
 
         $this->output->progressStart($lastPage);
 

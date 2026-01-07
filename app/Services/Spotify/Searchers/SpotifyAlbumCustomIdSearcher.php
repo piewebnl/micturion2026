@@ -2,8 +2,8 @@
 
 namespace App\Services\Spotify\Searchers;
 
-use App\Dto\Spotify\SpotifySearchAlbumResult;
 use App\Dto\Spotify\SpotifySearchAlbumQuery;
+use App\Dto\Spotify\SpotifySearchAlbumResult;
 use App\Models\Music\Album;
 use App\Models\Spotify\SpotifyAlbumCustomId;
 use App\Services\Spotify\Importers\SpotifyAlbumImporter;

@@ -20,9 +20,7 @@ return new class extends Migration
             $table->string('search_name')->nullable();
             $table->string('search_artist')->nullable();
 
-
             $table->string('status');
-
 
             $table->unsignedInteger('score')->nullable();
             $table->string('artwork_url')->nullable();

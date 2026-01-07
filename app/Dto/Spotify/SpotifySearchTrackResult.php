@@ -24,29 +24,6 @@ class SpotifySearchTrackResult
         public ?array $all_results = []
     ) {}
 
-    public function toArray(): array
-    {
-        return [
-            'spotify_api_track_id' => $this->spotify_api_track_id,
-            'spotify_api_album_id' => $this->spotify_api_album_id,
-            'name' => $this->name,
-            'album' => $this->album,
-            'artist' => $this->artist,
-            'score' => $this->score,
-            'status' => $this->status,
-            'search_name' => $this->search_name,
-            'search_album' => $this->search_album,
-            'search_artist' => $this->search_artist,
-            'song_id' => $this->song_id,
-            'score_breakdown' => $this->score_breakdown,
-            'track_number' => $this->track_number,
-            'disc_number' => $this->disc_number,
-            'year' => $this->year,
-            'artwork_url' => $this->artwork_url,
-            'all_restults' => $this->all_results,
-        ];
-    }
-
     public static function fromSpotifyApiTrack($spotifyTrack, SpotifySearchTrackQuery $spotifySearchQuery): self
     {
 

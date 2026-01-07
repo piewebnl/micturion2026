@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 
 class SpotifyApiPlaylistMapper
 {
-
     public function toSpotifyPlaylist(object $spotifyApiPlaylist, bool $snapshotChanged): array
     {
         $spotifyApiPlaylist->snapshot_id_has_changed = $snapshotChanged;

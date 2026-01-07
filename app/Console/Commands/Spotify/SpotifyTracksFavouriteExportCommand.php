@@ -16,6 +16,8 @@ class SpotifyTracksFavouriteExportCommand extends Command
 {
     protected $signature = 'command:SpotifyTracksFavouriteExport';
 
+    protected $description = 'Exports liked songs from iTunes to Spotify liked songs';
+
     private string $channel;
 
     private int $perPage = 50;

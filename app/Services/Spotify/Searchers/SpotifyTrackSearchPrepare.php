@@ -2,13 +2,12 @@
 
 namespace App\Services\Spotify\Searchers;
 
-use App\Models\Music\Song;
 use App\Dto\Spotify\SpotifySearchTrackQuery;
+use App\Models\Music\Song;
 
 // Prepare a song for spotify search
 class SpotifyTrackSearchPrepare
 {
-
     // Fill the spotify search track model with data to search properly
     public function prepareSpotifySearchTrack(Song $song): SpotifySearchTrackQuery
     {
@@ -37,7 +36,6 @@ class SpotifyTrackSearchPrepare
         if ($artist == 'Various Artists' && isset($song['album_artist'])) {
             $artist = $song['album_artist'];
         }
-
 
         $song->artist = $artist;
         $song->album = $album;

@@ -165,7 +165,6 @@ class Album extends Model
             'categories.id as category_id',
             'categories.name as category_name'
 
-
         )->leftJoin('spotify_albums', 'album_id', '=', 'albums.id')
             ->join('artists', 'albums.artist_id', '=', 'artists.id')
             ->join('categories', 'categories.id', '=', 'albums.category_id')

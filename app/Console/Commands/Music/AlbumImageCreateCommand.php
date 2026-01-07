@@ -12,7 +12,6 @@ use Illuminate\Console\Command;
 // php artisan command:AlbumImageCreate
 class AlbumImageCreateCommand extends Command
 {
-
     use QueryCache;
 
     protected $signature = 'command:AlbumImageCreate';

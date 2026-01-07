@@ -2,13 +2,12 @@
 
 namespace App\Models\Spotify;
 
+use App\Dto\Spotify\SpotifySearchAlbumResult;
 use App\Models\Music\Album;
 use App\Models\Music\Artist;
 use App\Models\Music\Song;
 use App\Scopes\GlobalScopesTrait;
 use Illuminate\Database\Eloquent\Model;
-use App\Dto\Spotify\SpotifySearchAlbumResult;
-use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
 // Spotify albums are retrieved from spotify and are stored in the database (succes or warning)
@@ -16,8 +15,8 @@ class SpotifyAlbum extends Model
 {
     protected $guarded = [];
 
-    use GlobalScopesTrait;
     use BelongsToThrough;
+    use GlobalScopesTrait;
 
     public function album()
     {
@@ -34,10 +33,8 @@ class SpotifyAlbum extends Model
         return $this->belongsToThrough(Artist::class, Album::class);
     }
 
-
     public function getSpotifyAlbumWithAlbum(array $filterValues)
     {
-
 
         return self::select(
             'spotify_albums.id as id',

@@ -2,8 +2,8 @@
 
 namespace App\Services\Spotify\Importers;
 
-use App\Dto\Spotify\SpotifySearchTrackResult;
 use App\Dto\Spotify\SpotifySearchTrackQuery;
+use App\Dto\Spotify\SpotifySearchTrackResult;
 use App\Models\Music\Song;
 use App\Models\Spotify\SpotifyAlbum;
 use App\Models\Spotify\SpotifyTrack;
@@ -42,6 +42,7 @@ class SpotifyAlbumTracksImporter
                     $this->channel,
                     'Spotify spotifyTrack not found on album: ' . $song->artist_name . ' - ' . $song->album_name . ' - ' . $song->name
                 );
+
                 continue;
             }
 
@@ -63,6 +64,7 @@ class SpotifyAlbumTracksImporter
                         ['Similarity: ' . round($nameSimilarity)],
                     ]
                 );
+
                 continue;
             }
 

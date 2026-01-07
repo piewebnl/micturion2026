@@ -2,11 +2,11 @@
 
 namespace App\Services\Spotify\Exporters;
 
+use App\Helpers\PaginationHelper;
 use App\Models\Music\Album;
 use App\Services\Logger\Logger;
-use Illuminate\Console\Command;
-use App\Helpers\PaginationHelper;
 use App\Services\SpotifyApi\Posters\SpotifyApiUserAlbumsPoster;
+use Illuminate\Console\Command;
 
 // Export albums to spotify
 class SpotifyAlbumsExporter
@@ -27,7 +27,6 @@ class SpotifyAlbumsExporter
 
     private $spotifyAlbumIdsToExport = [];
 
-
     private $total;
 
     private Album $album;
@@ -35,7 +34,6 @@ class SpotifyAlbumsExporter
     private $command;
 
     private string $channel = 'spotify_albums_export';
-
 
     public function __construct($api, int $perPage, Command $command)
     {
@@ -60,6 +58,7 @@ class SpotifyAlbumsExporter
 
         if (count($this->spotifyAlbumIds) == 0) {
             Logger::log('error', $this->channel, 'No valid spotify API connection', [], $this->command);
+
             return [];
         }
 
@@ -70,6 +69,7 @@ class SpotifyAlbumsExporter
             $done = $spotifyAlbumPoster->post($this->spotifyAlbumIdsToExport);
             $imported = $done ? $this->spotifyAlbumIdsToExport : [];
             Logger::log('notify', $this->channel, 'Added');
+
             return $imported;
         } else {
             Logger::log('info', $this->channel, 'exists');

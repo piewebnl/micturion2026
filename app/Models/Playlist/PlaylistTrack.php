@@ -23,8 +23,6 @@ class PlaylistTrack extends Model
         return $this->hasOne(Song::class, 'id', 'song_id');
     }
 
-
-
     public function store(array $playlistTrack): PlaylistTrack
     {
         $result = PlaylistTrack::updateOrCreate(

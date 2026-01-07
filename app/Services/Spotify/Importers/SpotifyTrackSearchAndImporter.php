@@ -2,21 +2,20 @@
 
 namespace App\Services\Spotify\Importers;
 
-use App\Models\Music\Song;
-use App\Services\Logger\Logger;
-use Illuminate\Http\JsonResponse;
-use App\Models\Spotify\SpotifyTrack;
 use App\Dto\Spotify\SpotifySearchTrackQuery;
 use App\Dto\Spotify\SpotifySearchTrackResult;
+use App\Models\Music\Song;
+use App\Models\Spotify\SpotifyTrack;
 use App\Models\Spotify\SpotifyTrackUnavailable;
+use App\Services\Logger\Logger;
+use App\Services\Spotify\Searchers\SpotifyTrackCustomIdSearcher;
 use App\Services\Spotify\Searchers\SpotifyTrackSearcher;
 use App\Services\Spotify\Searchers\SpotifyTrackSearchPrepare;
-use App\Services\Spotify\Searchers\SpotifyTrackCustomIdSearcher;
+use Illuminate\Http\JsonResponse;
 
 // Search for spotify track via unavailable, custom ID in DB or spotify api and then import to db
 class SpotifyTrackSearchAndImporter
 {
-
     private $api;
 
     private $response;
@@ -27,7 +26,6 @@ class SpotifyTrackSearchAndImporter
 
     private Song $song;
 
-
     private $channel = 'spotify_search_and_import_tracks';
 
     public function __construct($api)
@@ -35,19 +33,15 @@ class SpotifyTrackSearchAndImporter
         $this->api = $api;
     }
 
-
     public function import(Song $song)
     {
         $this->song = $song;
-
 
         $spotifyTrackSearchPrepare = new SpotifyTrackSearchPrepare;
         $this->spotifySearchQuery = $spotifyTrackSearchPrepare->prepareSpotifySearchTrack($this->song);
 
         // Search unavailable in own DB first
         $this->searchUnavailable();
-
-
 
         $found = false;
 
@@ -66,7 +60,6 @@ class SpotifyTrackSearchAndImporter
                 */
         }
 
-
         // Try Spotify API to find match (if not customId)
         if (!$found) {
             $spotifyTrackSearcher = new SpotifyTrackSearcher($this->api);
@@ -82,7 +75,6 @@ class SpotifyTrackSearchAndImporter
 
         $spotifyTrackModel = new SpotifyTrack;
         $spotifyTrackModel->storeFromSpotifySearchResultTrack($this->spotifySearchTrackResult, $this->song);
-
 
         $loggerText = 'Not found';
         $loggerStatus = 'error';

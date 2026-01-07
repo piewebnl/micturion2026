@@ -17,7 +17,7 @@ class Playlist extends Model
         return $this->hasMany(PlaylistTrack::class);
     }
 
-    public static function storeFromItunesPlaylist($itunesLibraryPlaylist,): self
+    public static function storeFromItunesPlaylist($itunesLibraryPlaylist): self
     {
         $persistentId = data_get($itunesLibraryPlaylist, 'persistent_id');
 

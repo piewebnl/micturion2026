@@ -2,7 +2,6 @@
 
 namespace App\Models\Music;
 
-use App\Models\Spotify\SpotifyTrack;
 use App\Scopes\GlobalScopesTrait;
 use Illuminate\Database\Eloquent\Model;
 use Znck\Eloquent\Traits\BelongsToThrough;
@@ -58,7 +57,6 @@ class Song extends Model
     {
         return $this->hasOne(Song::class, 'song_id', 'id');
     }
-
 
     public function storeItunesLibraryTrack(object $itunesTrack)
     {
@@ -192,7 +190,7 @@ class Song extends Model
             'songs.name as name',
             'songs.track_number as track_number',
             'songs.favourite as favourite',
-            //'song_spotify_track.id as song_spotify_track_id',
+            // 'song_spotify_track.id as song_spotify_track_id',
             'spotify_tracks.spotify_api_track_id as spotify_api_track_id',
             'albums.name as album_name',
             'albums.sort_name as album_sort_name',

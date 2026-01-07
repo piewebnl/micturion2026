@@ -19,24 +19,6 @@ class SpotifySearchAlbumResult
         public ?array $all_results = []
     ) {}
 
-    public function toArray(): array
-    {
-        return [
-            'spotify_api_album_id' => $this->spotify_api_album_id,
-            'name' => $this->name,
-            'artist' => $this->artist,
-            'score' => $this->score,
-            'status' => $this->status,
-            'search_name' => $this->search_name,
-            'search_artist' => $this->search_artist,
-            'album_id' => $this->album_id,
-            'score_breakdown' => $this->score_breakdown,
-            'year' => $this->year,
-            'artwork_url' => $this->artwork_url,
-            'all_restults' => $this->all_results,
-        ];
-    }
-
     public static function fromSpotifyApiAlbum($spotifyAlbum, SpotifySearchAlbumQuery $spotifySearchQuery): self
     {
 

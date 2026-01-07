@@ -20,7 +20,7 @@ class SyncCommand extends Command
         $this->call('command:AlbumImageCreate');
 
         // iTunes CSV
-        //$this->call('command:ItunesCsvPlaylistFromSpotifyPlaylist');
+        // $this->call('command:ItunesCsvPlaylistFromSpotifyPlaylist');
 
         // To FTP [Local Only]
         $this->call('command:ItunesLibraryCopyXmlToFtp');
@@ -58,7 +58,7 @@ class SyncCommand extends Command
         // Discogs
         $this->call('command:DiscogsCollectionImport');
         $this->call('command:DiscogsCollectionMatcher');
-        //$this->call('command:DiscogsReleaseInfoImport');
+        // $this->call('command:DiscogsReleaseInfoImport');
 
         // Spines
         $this->call('command:SpineImageExtractor');
@@ -69,19 +69,13 @@ class SyncCommand extends Command
         $this->call('command:SpotifyPlaylistsImport');
         $this->call('command:SpotifyPlaylistTracksImport');
         $this->call('command:SpotifySearchAndImportAlbums');
+        $this->call('command:SpotifyAlbumsExport');
 
         $this->call('command:SpotifySearchAndImportAlbumTracks');
-
-        //$this->call('command:SpotifyAlbumsExport');
-
-
-
         /*
-
         $this->call('command:SpotifyTracksFavouriteExport');
         $this->call('command:SpotifyPlaylistTrackSongSearch');
-
-        
+        $this->call('command:potifyPlaylistTracksExporter');
         */
     }
 }

@@ -2,9 +2,8 @@
 
 namespace App\Services\Spotify\Importers;
 
-use App\Dto\Spotify\SpotifySearchAlbumResult;
 use App\Dto\Spotify\SpotifySearchAlbumQuery;
-use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
+use App\Dto\Spotify\SpotifySearchAlbumResult;
 use App\Models\Music\Album;
 use App\Models\Spotify\SpotifyAlbum;
 use App\Models\Spotify\SpotifyAlbumUnavailable;
@@ -59,7 +58,6 @@ class SpotifyAlbumSearchAndImporter
             }
         }
 
-
         // Try Spotify API to find match (if not customId)
         if (!$found) {
             $spotifyAlbumSearcher = new SpotifyAlbumSearcher($this->api);
@@ -75,7 +73,6 @@ class SpotifyAlbumSearchAndImporter
 
         $spotifyAlbumModel = new SpotifyAlbum;
         $spotifyAlbumModel->storeFromSpotifySearchResultAlbum($this->spotifySearchAlbumResult, $this->album);
-
 
         $loggerText = 'Not found';
         $loggerStatus = 'error';

@@ -5,7 +5,6 @@ namespace App\Services\Spotify\Searchers;
 use App\Dto\Spotify\SpotifySearchAlbumTrackResult;
 use App\Dto\Spotify\SpotifySearchTrackQuery;
 use App\Services\Logger\Logger;
-use App\Services\Spotify\Searchers\SpotifyTrackScoreSearch;
 use Exception;
 
 // Search spotify api for tracks
