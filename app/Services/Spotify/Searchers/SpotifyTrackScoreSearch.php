@@ -54,24 +54,27 @@ class SpotifyTrackScoreSearch
         $releaseDate = $spotifyApiResult->album->release_date ?? null;
         $spotifyReleaseYear = $this->getReleaseYear($releaseDate);
 
-        if ($searchArtist && isset($spotifyApiResult->artist_sanitized)) {
+        if ($searchArtist && isset($spotifyApiResult->artists[0]->name)) {
+            $candidateArtist = $this->spotifyNameHelper->sanitzeSpotifyArtist($spotifyApiResult->artists[0]->name);
             $this->addScore(
                 $score,
                 $weightTotal,
                 'artist',
-                $this->spotifyNameHelper->areNamesSimilar($searchArtist, $spotifyApiResult->artist_sanitized),
+                $this->spotifyNameHelper->areNamesSimilar($searchArtist, $candidateArtist),
                 4
             );
         }
 
         if ($searchName && isset($spotifyApiResult->name)) {
 
-            $candidateName = $spotifyApiResult->name_sanitized ?? $spotifyApiResult->name;
+            $candidateName = $this->spotifyNameHelper->santizeSpotifyName($spotifyApiResult->name);
+            $nameSimilarity = $this->spotifyNameHelper->areNamesSimilar($searchName, $candidateName);
+            $score['name_raw'] = $nameSimilarity;
             $this->addScore(
                 $score,
                 $weightTotal,
                 'name',
-                $this->spotifyNameHelper->areNamesSimilar($searchName, $candidateName),
+                $nameSimilarity,
                 3
             );
         }
@@ -86,8 +89,8 @@ class SpotifyTrackScoreSearch
             );
         }
 
-        if ($searchAlbum && isset($spotifyApiResult->album)) {
-            $candidateAlbum = $spotifyApiResult->album->name_sanitized ?? $spotifyApiResult->album->name;
+        if ($searchAlbum && isset($spotifyApiResult->album->name)) {
+            $candidateAlbum = $this->spotifyNameHelper->santizeSpotifyName($spotifyApiResult->album->name);
             $this->addScore(
                 $score,
                 $weightTotal,

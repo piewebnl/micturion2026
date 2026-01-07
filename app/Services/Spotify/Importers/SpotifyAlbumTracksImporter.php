@@ -8,81 +8,81 @@ use App\Models\Music\Song;
 use App\Models\Spotify\SpotifyAlbum;
 use App\Models\Spotify\SpotifyTrack;
 use App\Services\Logger\Logger;
-use App\Services\Spotify\Helpers\SpotifyNameHelper;
-use App\Services\Spotify\Matchers\SpotifyTrackMatchScorer;
 use App\Services\Spotify\Searchers\SpotifyTrackScoreSearch;
 use App\Services\SpotifyApi\Getters\SpotifyApiAlbumTracksGetter;
+use Illuminate\Support\Collection;
 
-// Import tracks for a spotify album and match by disc/track number
+// Import spotifyTracks for a spotify album and match by disc/spotifyTrack number
 class SpotifyAlbumTracksImporter
 {
     private $api;
 
-    private SpotifyNameHelper $spotifyNameHelper;
+    private string $channel = 'spotify_search_and_import_spotifyTracks';
 
-    private string $channel = 'spotify_search_and_import_tracks';
+    private const MIN_NAME_SIMILARITY = 50;
 
     public function __construct($api)
     {
         $this->api = $api;
-        $this->spotifyNameHelper = new SpotifyNameHelper;
     }
 
-    public function importAlbumTracks(int $albumId, string $spotifyApiAlbumId, iterable $songs): void
+    public function import(SpotifyAlbum $spotifyAlbum): void
     {
-        $tracksGetter = new SpotifyApiAlbumTracksGetter($this->api);
-        $spotifyTracks = $tracksGetter->getAll($spotifyApiAlbumId);
+        $spotifyApiAlbumId = $spotifyAlbum->spotify_api_album_id;
+        $spotifyTracksGetter = new SpotifyApiAlbumTracksGetter($this->api);
+        $spotifyTracks = $spotifyTracksGetter->getAll($spotifyApiAlbumId);
 
-        $trackMap = $this->mapTracks($spotifyTracks);
-        $spotifyAlbum = SpotifyAlbum::where('album_id', $albumId)->first(['artwork_url', 'name']);
-        $artworkUrl = $spotifyAlbum?->artwork_url;
-        $spotifyAlbumName = $spotifyAlbum?->name;
-        $spotifyScoreSearch = new SpotifyTrackScoreSearch;
-        $trackMatchScorer = new SpotifyTrackMatchScorer;
+        $spotifyTrackMap = $this->mapFoundSpotifyTracks($spotifyTracks);
 
-        foreach ($songs as $song) {
-            $track = $this->findTrack($trackMap, $song);
-            if (!$track) {
+        foreach ($spotifyAlbum->songs as $song) {
+            $spotifyTrack = $this->findMatchingSpotifyTrack($spotifyTrackMap, $song);
+            if (!$spotifyTrack) {
                 Logger::log(
                     'warning',
                     $this->channel,
-                    'Spotify track not found on album: ' . $song->artist_name . ' - ' . $song->album_name . ' - ' . $song->name
+                    'Spotify spotifyTrack not found on album: ' . $song->artist_name . ' - ' . $song->album_name . ' - ' . $song->name
                 );
                 continue;
             }
 
             $spotifySearchQuery = SpotifySearchTrackQuery::fromSong($song);
-            $scoredTrack = $trackMatchScorer->scoreTrackMatch(
-                $track,
-                $spotifySearchQuery,
-                $spotifyAlbumName,
-                $spotifyScoreSearch
-            );
 
-            $trackArtist = $track->artists[0]->name ?? $song->artist_name ?? '';
-            $trackName = $track->name ?? '';
-            $albumName = $song->album_name ?? '';
+            $spotifyScoreSearch = new SpotifyTrackScoreSearch;
+            $scoredTrack = $spotifyScoreSearch->calculateScore($spotifyTrack, $spotifySearchQuery);
+            $scoredTrack->status = $spotifyScoreSearch->determineStatus($scoredTrack->score ?? 0);
+
+            $nameSimilarity = $scoredTrack->score_breakdown['name_raw'] ?? null;
+            if ($nameSimilarity !== null && $nameSimilarity < self::MIN_NAME_SIMILARITY) {
+                Logger::log(
+                    'warning',
+                    $this->channel,
+                    'Spotify spotifyTrack name mismatch on album: ' . $song->album_name . ' - ' . $song->name,
+                    [
+                        ['iTunes spotifyTrack: ' . ($song->name ?? '')],
+                        ['Spotify spotifyTrack: ' . $spotifyTrack->name],
+                        ['Similarity: ' . round($nameSimilarity)],
+                    ]
+                );
+                continue;
+            }
 
             $spotifySearchTrackResult = new SpotifySearchTrackResult(
-                spotify_api_track_id: $track->id ?? null,
+                spotify_api_track_id: $spotifyTrack->id ?? null,
                 spotify_api_album_id: $spotifyApiAlbumId,
-                name: $trackName,
-                name_sanitized: $this->spotifyNameHelper->santizeSpotifyName($trackName),
-                album: $albumName,
-                album_sanitized: $this->spotifyNameHelper->santizeSpotifyName($albumName),
-                artist: $trackArtist,
-                artist_sanitized: $this->spotifyNameHelper->sanitzeSpotifyArtist($trackArtist),
+                name: $spotifyTrack->name,
+                album: $spotifyAlbum->name,
+                artist: $spotifyTrack->artists[0]->name ?? $song->artist_name ?? '',
                 score: (int) round($scoredTrack->score ?? 0),
                 status: $scoredTrack->status ?? 'error',
                 search_name: $song->name ?? '',
-                search_album: $albumName,
-                search_artist: $song->artist_name ?? '',
+                search_album: null,
+                search_artist: null,
                 song_id: $song->id ?? 0,
                 score_breakdown: $scoredTrack->score_breakdown ?? [],
-                track_number: $track->track_number ?? $song->track_number ?? null,
-                disc_number: $track->disc_number ?? $song->disc_number ?? null,
+                track_number: $spotifyTrack->track_number ?? $song->track_number ?? null,
+                disc_number: $spotifyTrack->disc_number ?? $song->disc_number ?? null,
                 year: is_numeric($song->album_year ?? null) ? (int) $song->album_year : null,
-                artwork_url: $artworkUrl,
+                artwork_url: $spotifyAlbum?->artwork_url,
                 all_results: []
             );
 
@@ -91,30 +91,36 @@ class SpotifyAlbumTracksImporter
         }
     }
 
-    private function mapTracks(array $spotifyTracks): array
+    private function mapFoundSpotifyTracks(array $spotifyTracks): Collection
     {
-        $trackMap = [];
-        foreach ($spotifyTracks as $track) {
-            $disc = $track->disc_number ?? 1;
-            $trackNumber = $track->track_number ?? null;
-            if ($trackNumber === null) {
+        $spotifyTrackMap = collect();
+        foreach ($spotifyTracks as $spotifyTrack) {
+            $disc = $spotifyTrack->disc_number ?? 1;
+            $spotifyTrackNumber = $spotifyTrack->track_number ?? null;
+            if ($spotifyTrackNumber === null) {
                 continue;
             }
-            $trackMap[$disc][$trackNumber] = $track;
+            $discKey = (string) $disc;
+            if (!$spotifyTrackMap->has($discKey)) {
+                $spotifyTrackMap->put($discKey, collect());
+            }
+            $spotifyTrackMap->get($discKey)->put((string) $spotifyTrackNumber, $spotifyTrack);
         }
 
-        return $trackMap;
+        return $spotifyTrackMap;
     }
 
-    private function findTrack(array $trackMap, Song $song)
+    private function findMatchingSpotifyTrack(Collection $spotifyTrackMap, Song $song)
     {
         $disc = $song->disc_number ?? 1;
-        $trackNumber = $song->track_number ?? null;
-        if ($trackNumber === null) {
+        $spotifyTrackNumber = $song->track_number ?? null;
+        if ($spotifyTrackNumber === null) {
             return null;
         }
 
-        return $trackMap[$disc][$trackNumber] ?? null;
-    }
+        $discKey = (string) $disc;
+        $spotifyTrackKey = (string) $spotifyTrackNumber;
 
+        return $spotifyTrackMap->get($discKey)?->get($spotifyTrackKey);
+    }
 }

@@ -48,9 +48,7 @@ class SpotifyAlbumStatusChanger
             [
                 'spotify_api_album_id' => null,
                 'name' => 'NOT FOUND',
-                'name_sanitized' => null,
                 'artist' => 'NOT FOUND',
-                'artist_sanitized' => null,
                 'artwork_url' => null,
             ]
         );

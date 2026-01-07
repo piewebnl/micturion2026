@@ -13,11 +13,8 @@ return new class extends Migration
             $table->string('spotify_api_track_id')->unique()->nullable();
             $table->string('spotify_api_album_id')->nullable();
             $table->string('artist')->nullable();
-            $table->string('artist_sanitized')->nullable();
             $table->string('album')->nullable();
-            $table->string('album_sanitized')->nullable();
             $table->string('name')->nullable();
-            $table->string('name_sanitized')->nullable();
             $table->unsignedInteger('track_number')->nullable();
             $table->unsignedInteger('disc_number')->nullable();
             $table->string('artwork_url')->nullable();

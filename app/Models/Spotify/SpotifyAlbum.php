@@ -3,10 +3,13 @@
 namespace App\Models\Spotify;
 
 use App\Models\Music\Album;
+use App\Models\Music\Artist;
+use App\Models\Music\Song;
 use App\Scopes\GlobalScopesTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Dto\Spotify\SpotifySearchAlbumResult;
 use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
+use Znck\Eloquent\Traits\BelongsToThrough;
 
 // Spotify albums are retrieved from spotify and are stored in the database (succes or warning)
 class SpotifyAlbum extends Model
@@ -14,7 +17,22 @@ class SpotifyAlbum extends Model
     protected $guarded = [];
 
     use GlobalScopesTrait;
+    use BelongsToThrough;
 
+    public function album()
+    {
+        return $this->belongsTo(Album::class, 'album_id');
+    }
+
+    public function songs()
+    {
+        return $this->hasMany(Song::class, 'album_id', 'album_id');
+    }
+
+    public function artist()
+    {
+        return $this->belongsToThrough(Artist::class, Album::class);
+    }
 
 
     public function getSpotifyAlbumWithAlbum(array $filterValues)
@@ -60,9 +78,7 @@ class SpotifyAlbum extends Model
             ],
             [
                 'name' => $spotifyAlbum['name'],
-                'name_sanitized' => $spotifyAlbum['name_sanitized'],
                 'artist' => $spotifyAlbum['artist'],
-                'artist_sanitized' => $spotifyAlbum['artist_sanitized'],
                 'artwork_url' => $spotifyAlbum['artwork_url'],
 
             ]
@@ -81,9 +97,7 @@ class SpotifyAlbum extends Model
             [
                 'album_id' => $album->id,
                 'name' => $spotifySearchAlbumResult->name,
-                'name_sanitized' => $spotifySearchAlbumResult->name_sanitized,
                 'artist' => $spotifySearchAlbumResult->artist,
-                'artist_sanitized' => $spotifySearchAlbumResult->artist_sanitized,
                 'artwork_url' => $spotifySearchAlbumResult->artwork_url,
                 'score' => $spotifySearchAlbumResult->score,
                 'search_name' => $spotifySearchAlbumResult->search_name,

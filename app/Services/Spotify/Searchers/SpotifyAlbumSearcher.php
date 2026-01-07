@@ -5,7 +5,6 @@ namespace App\Services\Spotify\Searchers;
 use App\Dto\Spotify\SpotifySearchAlbumResult;
 use App\Dto\Spotify\SpotifySearchAlbumQuery;
 use App\Services\Logger\Logger;
-use App\Services\Spotify\Helpers\SpotifyNameHelper;
 use App\Services\Spotify\Searchers\SpotifyAlbumScoreSearch;
 use Exception;
 
@@ -14,8 +13,6 @@ class SpotifyAlbumSearcher
 {
     private $api;
 
-    private SpotifyNameHelper $spotifyNameHelper;
-
     private $spotifySearchString = '';
 
     private ?SpotifySearchAlbumResult $spotifySearchResultAlbum = null;
@@ -23,7 +20,6 @@ class SpotifyAlbumSearcher
     public function __construct($api)
     {
         $this->api = $api;
-        $this->spotifyNameHelper = new SpotifyNameHelper;
     }
 
     public function search(SpotifySearchAlbumQuery $spotifySearchQuery): SpotifySearchAlbumResult
@@ -57,17 +53,6 @@ class SpotifyAlbumSearcher
 
         foreach ($spotifyApiAlbums as $album) {
 
-            // Sanitize the names coming from spotify
-            if (isset($album->name)) {
-                $album->name_sanitized =
-                    $this->spotifyNameHelper->santizeSpotifyName($album->name);
-            }
-
-            if (isset($album->artists[0]->name)) {
-                $album->artist_sanitized =
-                    $this->spotifyNameHelper->sanitzeSpotifyArtist($album->artists[0]->name);
-            }
-
             $scoredAlbum = $spotifyScoreSearch->calculateScore($album, $spotifySearchQuery);
             $scoredAlbum->status = $spotifyScoreSearch->determineStatus($scoredAlbum->score);
 
@@ -92,9 +77,7 @@ class SpotifyAlbumSearcher
         return new SpotifySearchAlbumResult(
             spotify_api_album_id: $bestAlbum->id ?? null,
             name: $bestAlbum->name ?? '',
-            name_sanitized: $bestAlbum->name_sanitized ?? null,
             artist: $bestAlbum->artists[0]->name ?? '',
-            artist_sanitized: $bestAlbum->artist_sanitized ?? null,
             score: (int) round($bestAlbum->score),
             status: $bestAlbum->status ?? 'error',
             search_name: $spotifySearchQuery->album ?? '',

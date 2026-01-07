@@ -110,9 +110,7 @@ class SpotifyAlbumSearchAndImporter
             $this->spotifySearchAlbumResult = new SpotifySearchAlbumResult(
                 spotify_api_album_id: null,
                 name: 'NOT FOUND',
-                name_sanitized: null,
                 artist: 'NOT FOUND',
-                artist_sanitized: null,
                 score: 0,
                 score_breakdown: [],
                 status: 'unavailable',

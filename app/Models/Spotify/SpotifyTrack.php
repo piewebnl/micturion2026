@@ -31,9 +31,7 @@ class SpotifyTrack extends Model
             [
                 'artist' => $spotifyTrack['artist'],
                 'album' => $spotifyTrack['album'],
-                'album_sanitized' => $spotifyTrack['album_sanitized'],
                 'name' => $spotifyTrack['name'],
-                'name_sanitized' => $spotifyTrack['name_sanitized'],
                 'track_number' => $spotifyTrack['track_number'],
                 'disc_number' => $spotifyTrack['disc_number'],
                 'spotify_api_album_id' => $spotifyTrack['spotify_api_album_id'],
@@ -72,7 +70,10 @@ class SpotifyTrack extends Model
             'albums.year as album_year',
             'albums.rating as album_rating',
             'albums.category_id as category_id',
-
+            'album_images.id as album_image_id',
+            'album_images.slug as album_image_slug',
+            'album_images.largest_width as album_image_largest_width',
+            'album_images.hash as album_image_hash',
             'artists.name as artist_name',
             'artists.sort_name as artist_sort_name',
 
@@ -80,6 +81,7 @@ class SpotifyTrack extends Model
         )
             ->join('songs', 'songs.id', '=', 'spotify_tracks.song_id')
             ->join('albums', 'songs.album_id', '=', 'albums.id')
+            ->leftjoin('album_images', 'album_images.album_id', '=', 'albums.id')
             ->join('artists', 'albums.artist_id', '=', 'artists.id')
             ->orderBy('artists.sort_name')
             ->orderBy('albums.sort_name')
@@ -103,11 +105,8 @@ class SpotifyTrack extends Model
                 'spotify_api_album_id' => $spotifySearchTrackResult->spotify_api_album_id,
                 'song_id' => $song->id,
                 'name' => $spotifySearchTrackResult->name,
-                'name_sanitized' => $spotifySearchTrackResult->name_sanitized,
                 'album' => $spotifySearchTrackResult->album,
-                'album_sanitized' => $spotifySearchTrackResult->album_sanitized,
                 'artist' => $spotifySearchTrackResult->artist,
-                'artist_sanitized' => $spotifySearchTrackResult->artist_sanitized,
                 'artwork_url' => $spotifySearchTrackResult->artwork_url,
                 'score' => $spotifySearchTrackResult->score,
                 'track_number' => $spotifySearchTrackResult->track_number,
