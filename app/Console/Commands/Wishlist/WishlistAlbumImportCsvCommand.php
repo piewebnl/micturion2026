@@ -39,6 +39,5 @@ class WishlistAlbumImportCsvCommand extends Command
         $this->output->progressAdvance();
 
         $this->output->progressFinish();
-        // Logger::echo($this->channel);
     }
 }

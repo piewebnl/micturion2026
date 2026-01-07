@@ -44,14 +44,14 @@ class ItunesLibraryImportPlaylistTracksCommand extends Command
             $lastPage = $playlistTracksImporter->getLastPage();
 
             for ($page = 1; $page <= $lastPage; $page++) {
-                ItunesLibraryImportPlaylistTracksJob::dispatchSync(
-                    $playlistTracksImporter,
-                    [
-                        'page' => $page,
-                        'per_page' => $this->perPage,
-                        'playlist' => $playlist,
-                    ]
-                );
+
+                /*
+                if (isset($this->filterValues['import_favourite'])) {
+                    $playlistTracksImporter->setImportFavourite(true);
+                }
+                    */
+
+                $playlistTracksImporter->importPerPage($page);
             }
             $this->output->progressAdvance();
             unset($playlistTracksImporter);

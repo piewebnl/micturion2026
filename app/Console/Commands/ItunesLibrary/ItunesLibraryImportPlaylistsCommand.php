@@ -41,19 +41,13 @@ class ItunesLibraryImportPlaylistsCommand extends Command
 
         $this->output->progressStart($lastPage);
 
+
         for ($page = 1; $page <= $lastPage; $page++) {
-            ItunesLibraryImportPlaylistsJob::dispatchSync(
-                [
-                    'page' => $page,
-                    'per_page' => $filterValues['per_page'],
-                ]
-            );
+            $playlistsImporter->import($page, $this->perPage);
             $this->output->progressAdvance();
         }
         unset($itunesLibrary);
 
         $this->output->progressFinish();
-
-        // Logger::echo($this->channel);
     }
 }

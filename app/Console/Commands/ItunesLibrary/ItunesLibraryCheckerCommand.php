@@ -24,7 +24,14 @@ class ItunesLibraryCheckerCommand extends Command
 
         Logger::deleteChannel($this->channel);
 
-        ItunesLibraryCheckerJob::dispatchSync();
+        $itunesLibraryChecker = new ItunesLibraryChecker;
+        // $itunesLibraryChecker->checkEmptyFolders();
+        // $itunesLibraryChecker->checkFolderImages();
+        $itunesLibraryChecker->checkForLostFiles();
+        // $itunesLibraryChecker->checkSongs();
+        // $itunesLibraryChecker->checkForMix();
+        // $itunesLibraryChecker->checkDiscSet();
+        // $itunesLibraryChecker->checkTrackNumbers();
 
         // Logger::echo($this->channel);
     }

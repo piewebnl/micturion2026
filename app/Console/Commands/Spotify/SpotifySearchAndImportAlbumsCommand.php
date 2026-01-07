@@ -17,8 +17,6 @@ class SpotifySearchAndImportAlbumsCommand extends Command
 
     private string $channel = 'spotify_search_and_import_albums';
 
-    // private $perPage = 50;
-
     public function handle()
     {
         Logger::deleteChannel($this->channel);
