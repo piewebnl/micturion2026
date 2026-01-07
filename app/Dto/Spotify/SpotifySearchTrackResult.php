@@ -64,10 +64,10 @@ class SpotifySearchTrackResult
 
         return new self(
             spotify_api_track_id: $spotifyTrack->id ?? null,
-            spotify_api_album_id: $spotifyTrack->album_id ?? null,
+            spotify_api_album_id: $spotifyTrack->album->id ?? null,
             name: $spotifyTrack->name ?? '',
             name_sanitized: $spotifyTrack->name_sanitized ?? null,
-            album: $spotifyTrack->albums[0]->name ?? '',
+            album: $spotifyTrack->album->name ?? '',
             album_sanitized: $spotifyTrack->album_sanitized ?? null,
             artist: $spotifyTrack->artists[0]->name ?? '',
             artist_sanitized: $spotifyTrack->artist_sanitized ?? null,

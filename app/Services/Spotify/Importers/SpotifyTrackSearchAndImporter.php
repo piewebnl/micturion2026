@@ -116,14 +116,18 @@ class SpotifyTrackSearchAndImporter
 
             $this->spotifySearchTrackResult = new SpotifySearchTrackResult(
                 spotify_api_track_id: null,
+                spotify_api_album_id: null,
                 name: 'NOT FOUND',
                 name_sanitized: null,
+                album: $this->spotifySearchQuery->album ?? '',
+                album_sanitized: null,
                 artist: 'NOT FOUND',
                 artist_sanitized: null,
                 score: 0,
                 score_breakdown: [],
                 status: 'unavailable',
                 search_name: $found['name'],
+                search_album: $this->spotifySearchQuery->album ?? '',
                 search_artist: $found['artist'],
                 year: null,
                 song_id: $this->song->id,

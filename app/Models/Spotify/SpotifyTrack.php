@@ -24,7 +24,6 @@ class SpotifyTrack extends Model
 
     public function store(SpotifyTrack $spotifyTrack)
     {
-
         $result = SpotifyTrack::updateOrCreate(
             [
                 'spotify_api_track_id' => $spotifyTrack['spotify_api_track_id'],
@@ -101,6 +100,7 @@ class SpotifyTrack extends Model
                 'spotify_api_track_id' => $spotifySearchTrackResult->spotify_api_track_id,
             ],
             [
+                'spotify_api_album_id' => $spotifySearchTrackResult->spotify_api_album_id,
                 'song_id' => $song->id,
                 'name' => $spotifySearchTrackResult->name,
                 'name_sanitized' => $spotifySearchTrackResult->name_sanitized,

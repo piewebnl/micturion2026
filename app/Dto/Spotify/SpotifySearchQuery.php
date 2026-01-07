@@ -38,16 +38,26 @@ class SpotifySearchQuery
 
     public static function fromSong(Song $song): self
     {
+        $albumName = $song->album_name ?? $song->album?->name ?? $song->album ?? null;
+        $artistName = $song->artist_name
+            ?? $song->artist?->name
+            ?? $song->album?->artist?->name
+            ?? $song->album_artist
+            ?? $song->artist
+            ?? null;
+        $albumPersistentId = $song->album_persistent_id ?? $song->album?->persistent_id ?? null;
+        $albumYear = $song->album_year ?? $song->album?->year ?? null;
+
         return new self(
             album_id: $song->album_id,
-            album_persistent_id: $song->album_persistent_id,
-            album: $song->album_name,
-            artist: $song->artist_name,
+            album_persistent_id: $albumPersistentId,
+            album: $albumName,
+            artist: $artistName,
             name: $song->name,
             song_id: $song->id,
             song_persistent_id: $song->persistent_id,
             track_number: $song->track_number,
-            year: is_numeric($song->album_year) ? (int) $song->album_year : null,
+            year: is_numeric($albumYear) ? (int) $albumYear : null,
         );
     }
 }

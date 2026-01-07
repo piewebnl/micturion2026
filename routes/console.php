@@ -29,7 +29,7 @@ Schedule::command('command:SpotifyPlaylistTracksExport')->everySixHours();
 Schedule::command('command:SpotifyTracksFavouriteExport')->everySixHours();
 Schedule::command('command:SpotifyAlbumsExport')->everySixHours();
 Schedule::command('command:SpotifySearchAndImportAlbums')->hourly();
-Schedule::command('command:SpotifySearchAndImportTracks')->hourly();
+Schedule::command('command:SpotifySearchAndImportAlbumTracks')->hourly();
 */
 
 // Backups

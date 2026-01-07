@@ -1,7 +1,7 @@
 @php
     $bgClass = '';
     $textClass = '';
-    if ($spotifyTrack->status == 'warning') {
+    if ($spotifyAlbum->status == 'warning') {
         $bgClass = 'bg-warning';
         $textClass = 'text-warning';
     }
@@ -49,7 +49,7 @@
                     <strong class="{{ $textClass }}">Custom match</strong>
                 </div>
             @endif
-            @if ($spotifyAlbum->score == 'unavailable')
+            @if ($spotifyAlbum->status == 'unavailable')
                 <div class="mb-2 flex w-[110px] justify-center text-xs">
                     <strong class="{{ $textClass }}">Marked not available</strong>
                 </div>

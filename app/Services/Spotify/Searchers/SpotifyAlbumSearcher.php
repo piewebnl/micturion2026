@@ -6,6 +6,7 @@ use App\Dto\Spotify\SpotifySearchAlbumResult;
 use App\Dto\Spotify\SpotifySearchQuery;
 use App\Services\Logger\Logger;
 use App\Services\Spotify\Helpers\SpotifyNameHelper;
+use App\Services\Spotify\Searchers\SpotifyAlbumScoreSearch;
 use Exception;
 
 // Search spotify api for albums
@@ -50,7 +51,7 @@ class SpotifyAlbumSearcher
 
     private function scoreAndPickBest(array $spotifyApiAlbums, SpotifySearchQuery $spotifySearchQuery): ?SpotifySearchAlbumResult
     {
-        $spotifyScoreSearch = new SpotifyScoreSearch;
+        $spotifyScoreSearch = new SpotifyAlbumScoreSearch;
         $bestAlbum = null;
         $highestScore = 0;
 
@@ -67,7 +68,7 @@ class SpotifyAlbumSearcher
                     $this->spotifyNameHelper->sanitzeSpotifyArtist($album->artists[0]->name);
             }
 
-            $scoredAlbum = $spotifyScoreSearch->calculateScore($album, $spotifySearchQuery, false);
+            $scoredAlbum = $spotifyScoreSearch->calculateScore($album, $spotifySearchQuery);
             $scoredAlbum->status = $spotifyScoreSearch->determineStatus($scoredAlbum->score);
 
             if ($scoredAlbum->score > $highestScore) {

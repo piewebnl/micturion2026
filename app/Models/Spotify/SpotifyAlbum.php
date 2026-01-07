@@ -20,6 +20,7 @@ class SpotifyAlbum extends Model
     public function getSpotifyAlbumWithAlbum(array $filterValues)
     {
 
+
         return self::select(
             'spotify_albums.id as id',
             'spotify_albums.name as spotify_album_name',
@@ -44,8 +45,8 @@ class SpotifyAlbum extends Model
         )->join('albums', 'spotify_albums.album_id', '=', 'albums.id')
             ->leftjoin('album_images', 'album_images.album_id', '=', 'albums.id')
             ->join('artists', 'albums.artist_id', '=', 'artists.id')
-            ->whereId($filterValues, 'spotify_album.status', 'status')
-            ->whereId($filterValues, 'spotify_album.id', 'id')
+            ->whereId($filterValues, 'status', 'status')
+            ->whereId($filterValues, 'spotify_albums.id', 'id')
             //->albumSpotifyAlbumWhereKeyword($filterValues)
             ->orderBy('artists.sort_name')
             ->customPaginateOrLimit($filterValues);
@@ -87,6 +88,7 @@ class SpotifyAlbum extends Model
                 'score' => $spotifySearchAlbumResult->score,
                 'search_name' => $spotifySearchAlbumResult->search_name,
                 'search_artist' => $spotifySearchAlbumResult->search_artist,
+                'status' => $spotifySearchAlbumResult->status,
 
             ]
         );

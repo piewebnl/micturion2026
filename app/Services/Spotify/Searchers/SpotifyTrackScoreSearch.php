@@ -5,14 +5,12 @@ namespace App\Services\Spotify\Searchers;
 use App\Dto\Spotify\SpotifySearchQuery;
 use App\Services\Spotify\Helpers\SpotifyNameHelper;
 
-// Search spotify api for albums
-class SpotifyScoreSearch
+// Score spotify track search results
+class SpotifyTrackScoreSearch
 {
     private $spotifyNameHelper;
 
     private const YEAR_PROXIMITY_RANGE = 5;
-
-    private const TRACK_COUNT_RANGE = 5;
 
     public function __construct()
     {
@@ -21,7 +19,6 @@ class SpotifyScoreSearch
 
     public function determineStatus($scoreTotal)
     {
-
         $successScore = config('spotify.track_search_results_success_score');
         $warningScore = config('spotify.track_search_results_warning_score');
 
@@ -44,20 +41,17 @@ class SpotifyScoreSearch
         return $scoreTotal / $weightTotal;
     }
 
-    public function calculateScore($spotifyApiResult, SpotifySearchQuery $spotifySearchQuery, bool $isTrack)
+    public function calculateScore($spotifyApiResult, SpotifySearchQuery $spotifySearchQuery)
     {
         $score = ['total' => 0];
         $weightTotal = 0;
 
-        if ($isTrack) {
-            $searchName = $spotifySearchQuery->name;
-        } else {
-            $searchName = $spotifySearchQuery->album;
-        }
+        $searchName = $spotifySearchQuery->name;
         $searchArtist = $spotifySearchQuery->artist;
         $searchYear = $spotifySearchQuery->year;
+        $searchAlbum = $spotifySearchQuery->album;
 
-        $releaseDate = $isTrack ? ($spotifyApiResult->album->release_date ?? null) : ($spotifyApiResult->release_date ?? null);
+        $releaseDate = $spotifyApiResult->album->release_date ?? null;
         $spotifyReleaseYear = $this->getReleaseYear($releaseDate);
 
         if ($searchArtist && isset($spotifyApiResult->artist_sanitized)) {
@@ -92,29 +86,25 @@ class SpotifyScoreSearch
             );
         }
 
-        if ($isTrack) {
+        if ($searchAlbum && isset($spotifyApiResult->album)) {
+            $candidateAlbum = $spotifyApiResult->album->name_sanitized ?? $spotifyApiResult->album->name;
+            $this->addScore(
+                $score,
+                $weightTotal,
+                'album',
+                $this->spotifyNameHelper->areNamesSimilar($searchAlbum, $candidateAlbum),
+                2
+            );
+        }
 
-            $searchAlbum = $spotifySearchQuery->album;
-            if ($searchAlbum && isset($spotifyApiResult->album)) {
-                $candidateAlbum = $spotifyApiResult->album->name_sanitized ?? $spotifyApiResult->album->name;
-                $this->addScore(
-                    $score,
-                    $weightTotal,
-                    'album',
-                    $this->spotifyNameHelper->areNamesSimilar($searchAlbum, $candidateAlbum),
-                    2
-                );
-            }
-
-            if ($spotifySearchQuery->track_number && isset($spotifyApiResult->track_number)) {
-                $this->addScore(
-                    $score,
-                    $weightTotal,
-                    'track_number',
-                    $spotifyApiResult->track_number == $spotifySearchQuery->track_number ? 100 : 0,
-                    2
-                );
-            }
+        if ($spotifySearchQuery->track_number && isset($spotifyApiResult->track_number)) {
+            $this->addScore(
+                $score,
+                $weightTotal,
+                'track_number',
+                $spotifyApiResult->track_number == $spotifySearchQuery->track_number ? 100 : 0,
+                2
+            );
         }
 
         $score['total'] = $this->finalizeScore($score['total'], $weightTotal);
