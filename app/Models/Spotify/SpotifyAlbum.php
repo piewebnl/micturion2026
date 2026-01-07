@@ -7,6 +7,7 @@ use App\Models\Music\Album;
 use App\Models\Music\Artist;
 use App\Models\Music\Song;
 use App\Scopes\GlobalScopesTrait;
+use App\Scopes\SpotifyScopesTrait;
 use Illuminate\Database\Eloquent\Model;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -17,6 +18,7 @@ class SpotifyAlbum extends Model
 
     use BelongsToThrough;
     use GlobalScopesTrait;
+    use SpotifyScopesTrait;
 
     public function album()
     {

@@ -2,6 +2,7 @@
 
 namespace App\Models\Concert;
 
+use App\Scopes\ConcertScopesTrait;
 use App\Scopes\GlobalScopesTrait;
 use App\Traits\QueryCache\QueryCache;
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Concert extends Model
 {
     use GlobalScopesTrait;
+    use ConcertScopesTrait;
     use QueryCache;
 
     protected $guarded = [];

@@ -5,12 +5,14 @@ namespace App\Models\Spotify;
 use App\Dto\Spotify\SpotifySearchTrackResult;
 use App\Models\Music\Song;
 use App\Scopes\GlobalScopesTrait;
+use App\Scopes\SpotifyScopesTrait;
 use Illuminate\Database\Eloquent\Model;
 
 // Spotify tracks are retrieved from spotify and are stored in the database (succes or warning)
 class SpotifyTrack extends Model
 {
     use GlobalScopesTrait;
+    use SpotifyScopesTrait;
 
     protected $guarded = [];
 

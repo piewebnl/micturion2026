@@ -4,6 +4,7 @@ namespace App\Models\Music;
 
 use App\Models\Discogs\DiscogsRelease;
 use App\Models\ItunesLibrary\ItunesLibraryTrack;
+use App\Scopes\AlbumScopesTrait;
 use App\Scopes\GlobalScopesTrait;
 use App\Traits\QueryCache\QueryCache;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ use Illuminate\Support\Carbon;
 class Album extends Model
 {
     use GlobalScopesTrait;
+    use AlbumScopesTrait;
     use QueryCache;
 
     // iTunes field with corresponing model fields

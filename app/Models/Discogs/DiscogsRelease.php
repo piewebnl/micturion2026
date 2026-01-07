@@ -3,6 +3,7 @@
 namespace App\Models\Discogs;
 
 use App\Models\Music\Album;
+use App\Scopes\DiscogsReleaseScopesTrait;
 use App\Scopes\GlobalScopesTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -10,6 +11,7 @@ use Illuminate\Support\Collection;
 class DiscogsRelease extends Model
 {
     use GlobalScopesTrait;
+    use DiscogsReleaseScopesTrait;
 
     protected $guarded = [];
 

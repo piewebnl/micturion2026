@@ -5,12 +5,14 @@ namespace App\Models\Wishlist;
 use App\Models\Music\Album;
 use App\Models\Music\Artist;
 use App\Scopes\GlobalScopesTrait;
+use App\Scopes\WishlistAlbumScopesTrait;
 use App\Traits\QueryCache\QueryCache;
 use Illuminate\Database\Eloquent\Model;
 
 class WishlistAlbum extends Model
 {
     use GlobalScopesTrait;
+    use WishlistAlbumScopesTrait;
     use QueryCache;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 
