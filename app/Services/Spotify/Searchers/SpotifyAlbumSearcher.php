@@ -3,7 +3,7 @@
 namespace App\Services\Spotify\Searchers;
 
 use App\Dto\Spotify\SpotifySearchAlbumResult;
-use App\Dto\Spotify\SpotifySearchQuery;
+use App\Dto\Spotify\SpotifySearchAlbumQuery;
 use App\Services\Logger\Logger;
 use App\Services\Spotify\Helpers\SpotifyNameHelper;
 use App\Services\Spotify\Searchers\SpotifyAlbumScoreSearch;
@@ -26,7 +26,7 @@ class SpotifyAlbumSearcher
         $this->spotifyNameHelper = new SpotifyNameHelper;
     }
 
-    public function search(SpotifySearchQuery $spotifySearchQuery): SpotifySearchAlbumResult
+    public function search(SpotifySearchAlbumQuery $spotifySearchQuery): SpotifySearchAlbumResult
     {
 
         // Use album name
@@ -49,7 +49,7 @@ class SpotifyAlbumSearcher
         return $this->spotifySearchResultAlbum;
     }
 
-    private function scoreAndPickBest(array $spotifyApiAlbums, SpotifySearchQuery $spotifySearchQuery): ?SpotifySearchAlbumResult
+    private function scoreAndPickBest(array $spotifyApiAlbums, SpotifySearchAlbumQuery $spotifySearchQuery): ?SpotifySearchAlbumResult
     {
         $spotifyScoreSearch = new SpotifyAlbumScoreSearch;
         $bestAlbum = null;

@@ -6,7 +6,7 @@ use App\Models\Music\Song;
 use App\Services\Logger\Logger;
 use Illuminate\Http\JsonResponse;
 use App\Models\Spotify\SpotifyTrack;
-use App\Dto\Spotify\SpotifySearchQuery;
+use App\Dto\Spotify\SpotifySearchTrackQuery;
 use App\Dto\Spotify\SpotifySearchTrackResult;
 use App\Models\Spotify\SpotifyTrackUnavailable;
 use App\Services\Spotify\Searchers\SpotifyTrackSearcher;
@@ -23,7 +23,7 @@ class SpotifyTrackSearchAndImporter
 
     private ?SpotifySearchTrackResult $spotifySearchTrackResult = null; // Best found spotify song
 
-    private SpotifySearchQuery $spotifySearchQuery;
+    private SpotifySearchTrackQuery $spotifySearchQuery;
 
     private Song $song;
 

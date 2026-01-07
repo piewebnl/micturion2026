@@ -3,7 +3,7 @@
 namespace App\Services\Spotify\Importers;
 
 use App\Dto\Spotify\SpotifySearchAlbumResult;
-use App\Dto\Spotify\SpotifySearchQuery;
+use App\Dto\Spotify\SpotifySearchAlbumQuery;
 use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 use App\Models\Music\Album;
 use App\Models\Spotify\SpotifyAlbum;
@@ -23,7 +23,7 @@ class SpotifyAlbumSearchAndImporter
 
     private ?SpotifySearchAlbumResult $spotifySearchAlbumResult = null; // Best found spotify album
 
-    private SpotifySearchQuery $spotifySearchQuery;
+    private SpotifySearchAlbumQuery $spotifySearchQuery;
 
     private Album $album;
 

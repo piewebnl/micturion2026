@@ -3,7 +3,7 @@
 namespace App\Services\Spotify\Searchers;
 
 use App\Dto\Spotify\SpotifySearchTrackResult;
-use App\Dto\Spotify\SpotifySearchQuery;
+use App\Dto\Spotify\SpotifySearchTrackQuery;
 use App\Services\Logger\Logger;
 use App\Services\Spotify\Helpers\SpotifyNameHelper;
 use App\Services\Spotify\Searchers\SpotifyTrackScoreSearch;
@@ -26,7 +26,7 @@ class SpotifyTrackSearcher
         $this->spotifyNameHelper = new SpotifyNameHelper;
     }
 
-    public function search(SpotifySearchQuery $spotifySearchQuery): SpotifySearchTrackResult
+    public function search(SpotifySearchTrackQuery $spotifySearchQuery): SpotifySearchTrackResult
     {
 
         // Prefer a fielded query to avoid wrong versions (e.g. live takes)
@@ -52,7 +52,7 @@ class SpotifyTrackSearcher
         return $this->spotifySearchResultTrack;
     }
 
-    private function buildSearchString(SpotifySearchQuery $spotifySearchQuery, bool $includeAlbum): string
+    private function buildSearchString(SpotifySearchTrackQuery $spotifySearchQuery, bool $includeAlbum): string
     {
         $terms = [];
 
@@ -82,7 +82,7 @@ class SpotifyTrackSearcher
         return str_replace('"', '\"', $value);
     }
 
-    private function scoreAndPickBest(array $spotifyApiTracks, SpotifySearchQuery $spotifySearchQuery): ?SpotifySearchTrackResult
+    private function scoreAndPickBest(array $spotifyApiTracks, SpotifySearchTrackQuery $spotifySearchQuery): ?SpotifySearchTrackResult
     {
         $spotifyScoreSearch = new SpotifyTrackScoreSearch;
         $bestTrack = null;

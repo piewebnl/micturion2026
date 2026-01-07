@@ -53,7 +53,7 @@ class SpotifySearchTrackResult
         ];
     }
 
-    public static function fromSpotifyApiTrack($spotifyTrack, SpotifySearchQuery $spotifySearchQuery): self
+    public static function fromSpotifyApiTrack($spotifyTrack, SpotifySearchTrackQuery $spotifySearchQuery): self
     {
 
         $releaseYear = null;

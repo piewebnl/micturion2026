@@ -2,7 +2,7 @@
 
 namespace App\Services\Spotify\Searchers;
 
-use App\Dto\Spotify\SpotifySearchQuery;
+use App\Dto\Spotify\SpotifySearchAlbumQuery;
 use App\Services\Spotify\Helpers\SpotifyNameHelper;
 
 // Score spotify album search results
@@ -42,7 +42,7 @@ class SpotifyAlbumScoreSearch
         return $scoreTotal / $weightTotal;
     }
 
-    public function calculateScore($spotifyApiResult, SpotifySearchQuery $spotifySearchQuery)
+    public function calculateScore($spotifyApiResult, SpotifySearchAlbumQuery $spotifySearchQuery)
     {
         $score = ['total' => 0];
         $weightTotal = 0;

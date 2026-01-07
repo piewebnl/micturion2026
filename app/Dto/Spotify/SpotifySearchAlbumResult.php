@@ -41,7 +41,7 @@ class SpotifySearchAlbumResult
         ];
     }
 
-    public static function fromSpotifyApiAlbum($spotifyAlbum, SpotifySearchQuery $spotifySearchQuery): self
+    public static function fromSpotifyApiAlbum($spotifyAlbum, SpotifySearchAlbumQuery $spotifySearchQuery): self
     {
 
         $releaseYear = null;
@@ -58,7 +58,7 @@ class SpotifySearchAlbumResult
             artist_sanitized: $spotifyAlbum->artist_sanitized ?? null,
             score: (int) round($spotifyAlbum->score),
             status: $spotifyAlbum->status ?? 'error',
-            search_name: $spotifySearchQuery->name ?? '',
+            search_name: $spotifySearchQuery->album ?? '',
             search_artist: $spotifySearchQuery->artist ?? '',
             album_id: $spotifySearchQuery->album_id ?? 0,
             year: $releaseYear,

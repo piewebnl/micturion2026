@@ -3,14 +3,14 @@
 namespace App\Services\Spotify\Searchers;
 
 use App\Models\Music\Song;
-use App\Dto\Spotify\SpotifySearchQuery;
+use App\Dto\Spotify\SpotifySearchTrackQuery;
 
 // Prepare a song for spotify search
 class SpotifyTrackSearchPrepare
 {
 
     // Fill the spotify search track model with data to search properly
-    public function prepareSpotifySearchTrack(Song $song): SpotifySearchQuery
+    public function prepareSpotifySearchTrack(Song $song): SpotifySearchTrackQuery
     {
 
         $artist = '';
@@ -44,6 +44,6 @@ class SpotifyTrackSearchPrepare
 
         $song->name = str_replace(' / ', ' ', $song->name);
 
-        return SpotifySearchQuery::fromSong($song);
+        return SpotifySearchTrackQuery::fromSong($song);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Services\Spotify\Importers;
 
 use App\Dto\Spotify\SpotifySearchTrackResult;
-use App\Dto\Spotify\SpotifySearchQuery;
+use App\Dto\Spotify\SpotifySearchTrackQuery;
 use App\Models\Music\Song;
 use App\Models\Spotify\SpotifyAlbum;
 use App\Models\Spotify\SpotifyTrack;
@@ -51,7 +51,7 @@ class SpotifyAlbumTracksImporter
                 continue;
             }
 
-            $spotifySearchQuery = SpotifySearchQuery::fromSong($song);
+            $spotifySearchQuery = SpotifySearchTrackQuery::fromSong($song);
             $scoredTrack = $trackMatchScorer->scoreTrackMatch(
                 $track,
                 $spotifySearchQuery,

@@ -3,7 +3,7 @@
 namespace App\Services\Spotify\Importers;
 
 use App\Dto\Spotify\SpotifySearchAlbumResult;
-use App\Dto\Spotify\SpotifySearchQuery;
+use App\Dto\Spotify\SpotifySearchAlbumQuery;
 use App\Models\AlbumSpotifyAlbum\AlbumSpotifyAlbum;
 use App\Models\Music\Album;
 use App\Models\Spotify\SpotifyAlbum;
@@ -30,7 +30,7 @@ class SpotifyAlbumImporter
             return null;
         }
 
-        $spotifySearchQuery = SpotifySearchQuery::fromAlbum($album);
+        $spotifySearchQuery = SpotifySearchAlbumQuery::fromAlbum($album);
 
         $spotifyApiAlbum->status = 'custom';
         $spotifyApiAlbum->score = 100;

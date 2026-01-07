@@ -2,7 +2,7 @@
 
 namespace App\Services\Spotify\Searchers;
 
-use App\Dto\Spotify\SpotifySearchQuery;
+use App\Dto\Spotify\SpotifySearchTrackQuery;
 use App\Services\Spotify\Helpers\SpotifyNameHelper;
 
 // Score spotify track search results
@@ -41,7 +41,7 @@ class SpotifyTrackScoreSearch
         return $scoreTotal / $weightTotal;
     }
 
-    public function calculateScore($spotifyApiResult, SpotifySearchQuery $spotifySearchQuery)
+    public function calculateScore($spotifyApiResult, SpotifySearchTrackQuery $spotifySearchQuery)
     {
         $score = ['total' => 0];
         $weightTotal = 0;

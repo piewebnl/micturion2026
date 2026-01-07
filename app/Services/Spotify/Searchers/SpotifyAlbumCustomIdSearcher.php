@@ -3,7 +3,7 @@
 namespace App\Services\Spotify\Searchers;
 
 use App\Dto\Spotify\SpotifySearchAlbumResult;
-use App\Dto\Spotify\SpotifySearchQuery;
+use App\Dto\Spotify\SpotifySearchAlbumQuery;
 use App\Models\Music\Album;
 use App\Models\Spotify\SpotifyAlbumCustomId;
 use App\Services\Spotify\Importers\SpotifyAlbumImporter;
@@ -18,7 +18,7 @@ class SpotifyAlbumCustomIdSearcher
         $this->api = $api;
     }
 
-    public function search(SpotifySearchQuery $spotifySearchQuery): ?SpotifySearchAlbumResult
+    public function search(SpotifySearchAlbumQuery $spotifySearchQuery): ?SpotifySearchAlbumResult
     {
         $spotifyAlbumCustomId = SpotifyAlbumCustomId::where('persistent_id', $spotifySearchQuery->album_persistent_id)->first();
 

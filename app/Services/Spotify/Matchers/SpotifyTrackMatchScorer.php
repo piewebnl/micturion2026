@@ -2,7 +2,7 @@
 
 namespace App\Services\Spotify\Matchers;
 
-use App\Dto\Spotify\SpotifySearchQuery;
+use App\Dto\Spotify\SpotifySearchTrackQuery;
 use App\Services\Spotify\Helpers\SpotifyNameHelper;
 use App\Services\Spotify\Searchers\SpotifyTrackScoreSearch;
 
@@ -18,7 +18,7 @@ class SpotifyTrackMatchScorer
 
     public function scoreTrackMatch(
         object $track,
-        SpotifySearchQuery $spotifySearchQuery,
+        SpotifySearchTrackQuery $spotifySearchQuery,
         ?string $spotifyAlbumName,
         SpotifyTrackScoreSearch $spotifyScoreSearch
     ): object {
