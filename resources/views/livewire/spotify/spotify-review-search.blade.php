@@ -19,7 +19,7 @@
                 :options="$searchFormData['status']" placeholder="" :values="$filterValues['status']" />
 
 
-            . @if ($beenFiltered)
+            @if ($beenFiltered)
                 <button @click="searchOpen = false" wire:click="clear" type="button" class="btn" name="clear"
                     id="clear">
                     <x-icons.close />Clear

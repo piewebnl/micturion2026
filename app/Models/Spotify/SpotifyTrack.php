@@ -76,8 +76,6 @@ class SpotifyTrack extends Model
             'album_images.hash as album_image_hash',
             'artists.name as artist_name',
             'artists.sort_name as artist_sort_name',
-
-
         )
             ->join('songs', 'songs.id', '=', 'spotify_tracks.song_id')
             ->join('albums', 'songs.album_id', '=', 'albums.id')
@@ -89,7 +87,9 @@ class SpotifyTrack extends Model
             ->orderBy('songs.disc_number')
             ->orderBy('songs.track_number')
             ->whereId($filterValues, 'category_id', 'categories')
+            ->whereId($filterValues, 'status', 'status')
             ->whereId($filterValues, 'album_id', 'album_id')
+            ->spotifyTrackWhereKeyword($filterValues)
             ->customPaginateOrLimit($filterValues);
     }
 

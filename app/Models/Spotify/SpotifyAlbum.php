@@ -65,7 +65,7 @@ class SpotifyAlbum extends Model
             ->join('artists', 'albums.artist_id', '=', 'artists.id')
             ->whereId($filterValues, 'status', 'status')
             ->whereId($filterValues, 'spotify_albums.id', 'id')
-            //->albumSpotifyAlbumWhereKeyword($filterValues)
+            ->spotifyAlbumWhereKeyword($filterValues)
             ->orderBy('artists.sort_name')
             ->customPaginateOrLimit($filterValues);
     }

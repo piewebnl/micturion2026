@@ -5,13 +5,13 @@
         $bgClass = 'bg-warning';
         $textClass = 'text-warning';
     }
-    if ($spotifyAlbum->status == 'error') {
-        $bgClass = 'bg-error';
-        $textClass = 'text-error';
-    }
-    if ($spotifyAlbum->status == 'success') {
+    if ($spotifyAlbum->status == 'success' || $spotifyAlbum->status == 'custom') {
         $bgClass = 'bg-success';
         $textClass = 'text-success';
+    }
+    if ($spotifyAlbum->status == 'error' || $spotifyAlbum->status == 'unavailable') {
+        $bgClass = 'bg-error';
+        $textClass = 'text-error';
     }
 @endphp
 <tr>
@@ -35,7 +35,6 @@
                 target="_blank">{{ $spotifyAlbum->spotify_album_name }}</a>
         @endif
     </td>
-    <td>{{ $spotifyAlbum->status }} / {{ $spotifyAlbum->score }}</td>
     <td>
         <div class="relative mx-5 my-10">
             <div
@@ -54,9 +53,7 @@
                     <strong class="{{ $textClass }}">Marked not available</strong>
                 </div>
             @endif
-            @if ($spotifyAlbum->spotify_album_spotify_api_album_id == null)
-                No spotify match
-            @endif
+            <span class="flex justify-center">{{ $spotifyAlbum->score }}</span>
         </div>
     </td>
     <td>

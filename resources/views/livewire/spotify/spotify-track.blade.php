@@ -5,13 +5,13 @@
         $bgClass = 'bg-warning';
         $textClass = 'text-warning';
     }
-    if ($spotifyTrack->status == 'error') {
-        $bgClass = 'bg-error';
-        $textClass = 'text-error';
-    }
-    if ($spotifyTrack->status == 'success') {
+    if ($spotifyTrack->status == 'success' || $spotifyTrack->status == 'custom') {
         $bgClass = 'bg-success';
         $textClass = 'text-success';
+    }
+    if ($spotifyTrack->status == 'error' || $spotifyTrack->status == 'unavailable') {
+        $bgClass = 'bg-error';
+        $textClass = 'text-error';
     }
 @endphp
 
@@ -45,7 +45,6 @@
             </a>
         @endif
     </td>
-    <td>{{ $spotifyTrack->status }} / {{ $spotifyTrack->score }}</td>
     <td>
         <div class="relative mx-5 my-10">
             <div class="relative mx-5 my-10">
@@ -65,9 +64,7 @@
                         <strong class="{{ $textClass }}">Marked not available</strong>
                     </div>
                 @endif
-                @if ($spotifyTrack->spotify_album_spotify_api_album_id == null)
-                    No spotify match
-                @endif
+                <span class="flex justify-center">{{ $spotifyTrack->score }}</span>
             </div>
         </div>
     </td>
