@@ -27,9 +27,7 @@ class ApiWishlistAlbumsController extends Controller
     {
         $scrapeResult = $request->input('scrape_result', $request->all());
 
-
         Logger::log('info', $this->channel, 'Stored', ['scrape_result' => $scrapeResult]);
-
 
         $wishlistAlbumPrice = new WishlistAlbumPrice();
         $wishlistAlbumPrice->storeFromScrapeResult($scrapeResult);
