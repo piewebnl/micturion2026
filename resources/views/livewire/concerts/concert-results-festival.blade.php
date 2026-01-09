@@ -32,6 +32,6 @@
 
 
     @auth
-        <a href="{{ route('filament.admin.resources.concerts.edit', $concert['id']) }}">Edit</a>
+        <a href="{{ \App\Filament\Resources\ConcertResource::getUrl('edit', ['record' => $concert['id']]) }}">Edit</a>
     @endauth
 </div>

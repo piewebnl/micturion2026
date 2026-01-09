@@ -58,7 +58,7 @@
         <div class="mt-4">
 
             @auth
-                <a href="{{ route('filament.admin.resources.wishlist-albums.create') }}" class="btn btn-primary">Add
+                    <a href="{{ \App\Filament\Resources\WishlistAlbumResource::getUrl('create') }}" class="btn btn-primary">Add
                     wishlist album</a>
             @endauth
         </div>

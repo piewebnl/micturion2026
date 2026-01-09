@@ -12,24 +12,25 @@ use App\Models\Wishlist\MusicStore;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use BackedEnum;
 
 class AlbumPurchaseResource extends Resource
 {
     protected static ?string $model = AlbumPurchase::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         $albumPurchaseSearchFormData = new AlbumPurchaseSearchFormData;
         $searchFormData = $albumPurchaseSearchFormData->generate();
 
-        return $form
+        return $schema
             ->schema([
                 Select::make('album_id')->searchable()->options(
                     collect($searchFormData['albums_filament'])

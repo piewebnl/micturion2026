@@ -84,6 +84,7 @@ class WishlistAlbum extends Model
         wishlist_album_prices.score as wishlist_album_price_score,
         wishlist_album_prices.format as wishlist_album_price_format,
         wishlist_album_prices.url as wishlist_album_price_url,
+        wishlist_album_prices.updated_at as wishlist_album_price_updated_at,
         albums.name as album_name,
         albums.sort_name as album_sort_name,
         albums.year as album_year,

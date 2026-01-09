@@ -6,21 +6,22 @@ use App\Filament\Resources\MusicStoreResource\Pages;
 use App\Filament\Resources\MusicStoreResource\Pages\ListMusicStores;
 use App\Models\Wishlist\MusicStore;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use BackedEnum;
 
 class MusicStoreResource extends Resource
 {
     protected static ?string $model = MusicStore::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 TextInput::make('name')->required(),
                 TextInput::make('key')->required(),

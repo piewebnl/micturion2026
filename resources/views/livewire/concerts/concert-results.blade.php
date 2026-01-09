@@ -88,7 +88,7 @@
                                 @endif
                             @endforeach
                             @auth
-                                <a href="{{ route('filament.admin.resources.concerts.edit', $concert['id']) }}">Edit</a>
+                                <a href="{{ \App\Filament\Resources\ConcertResource::getUrl('edit', ['record' => $concert['id']]) }}">Edit</a>
                             @endauth
                         @endif
 
@@ -150,7 +150,7 @@
                             @auth
                                 <td>
                                     <a
-                                        href="{{ route('filament.admin.resources.concerts.edit', $concert['id']) }}">Edit</a>
+                                        href="{{ \App\Filament\Resources\ConcertResource::getUrl('edit', ['record' => $concert['id']]) }}">Edit</a>
                                 </td>
                             @endauth
                         </tr>

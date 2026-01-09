@@ -10,7 +10,7 @@
             @foreach ($wishlistAlbums as $index => $wishlistAlbum)
                 @if (($index > 0 && $wishlistAlbum['album_name'] != $wishlistAlbums[$index - 1]['album_name']) || $index == 0)
                     <tr>
-                        <td colspan="4">
+                        <td colspan="5">
                             <div class="flex w-full flex-wrap items-center gap-4 py-4">
                                 @if ($wishlistAlbum['album_image_slug'] ?? false)
                                     <x-images.image type="album" slug="{{ $wishlistAlbum['album_image_slug'] }}"
@@ -69,6 +69,7 @@
                     </td>
                     <td>{{ $wishlistAlbum['wishlist_album_price_format'] }}</td>
                     <td>{{ $wishlistAlbum['wishlist_album_price_score'] }}</td>
+                    <td>{{ $wishlistAlbum['wishlist_album_price_updated_at'] }}</td>
                 </tr>
             @endforeach
         </tbody>
