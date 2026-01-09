@@ -9,8 +9,3 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('admin.wishlist');
 });
-
-Route::group(['prefix' => 'api'], function () {
-    Route::get('/wishlist/wishlist-albums', [ApiWishlistAlbumsController::class, 'index']);
-    Route::get('/wishlist/music-stores', [ApiMusicStoresController::class, 'index']);
-});

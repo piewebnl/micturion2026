@@ -51,18 +51,18 @@ class WishlistAlbumPrice extends Model
     }
 
     // NORMAL STORE
-    public function storeScrapeResult(array $result)
+    public function storeFromScrapeResult(array $result)
     {
         return WishlistAlbumPrice::updateOrCreate(
             [
-                'wishlist_album_id' => $result['wishlist_album_id'],
-                'music_store_id' => $result['music_store_id'],
-                'format' => $result['format'],
+                'wishlist_album_id' => $result['wishlist_album']['id'],
+                'music_store_id' => $result['music_store']['id'],
+                'format' => $result['best_match']['format'],
             ],
             [
-                'price' => $result['price'],
-                'score' => $result['score'],
-                'url' => $result['url'],
+                'price' => $result['best_match']['price'] ?? null,
+                'score' => $result['best_match']['score'] ?? null,
+                'url' => $result['best_match']['page_url'] ?? null,
                 'updated_at' => now(),
             ]
         );

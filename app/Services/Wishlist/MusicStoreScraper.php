@@ -94,11 +94,11 @@ class MusicStoreScraper
 
         foreach ($scrapedItems as $key => $item) {
 
-            $this->foundItems[$key]['artist'] = $this->santizeSpotifyName($this->htmlScraper->grabNested($this->musicStoreConfig[$this->resultsOrProduct]['search_item_artist'], $item));
+            $this->foundItems[$key]['artist'] = $this->santizeName($this->htmlScraper->grabNested($this->musicStoreConfig[$this->resultsOrProduct]['search_item_artist'], $item));
 
-            $this->foundItems[$key]['album'] = $this->santizeSpotifyName($this->htmlScraper->grabNested($this->musicStoreConfig[$this->resultsOrProduct]['search_item_album'], $item));
+            $this->foundItems[$key]['album'] = $this->santizeName($this->htmlScraper->grabNested($this->musicStoreConfig[$this->resultsOrProduct]['search_item_album'], $item));
 
-            $this->foundItems[$key]['price'] = $this->santizeSpotifyName($this->priceCorrection($this->htmlScraper->grabNested($this->musicStoreConfig[$this->resultsOrProduct]['search_item_price'], $item)));
+            $this->foundItems[$key]['price'] = $this->santizeName($this->priceCorrection($this->htmlScraper->grabNested($this->musicStoreConfig[$this->resultsOrProduct]['search_item_price'], $item)));
 
             if (Str::startsWith($this->musicStoreConfig[$this->resultsOrProduct]['search_item_format'], 'FIXED:')) {
                 $this->foundItems[$key]['format'] = trim(Str::after($this->musicStoreConfig[$this->resultsOrProduct]['search_item_format'], 'FIXED:'));
@@ -215,7 +215,7 @@ class MusicStoreScraper
         return false;
     }
 
-    public function santizeSpotifyName($name)
+    public function santizeName($name)
     {
 
         $name = strip_tags($name);

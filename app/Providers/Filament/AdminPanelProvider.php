@@ -49,7 +49,7 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\FilamentInfoWidget::class,
             ])
             ->plugins([
-                FilamentClearCachePlugin::make(),
+                //FilamentClearCachePlugin::make(),
             ])
             ->middleware([
                 EncryptCookies::class,
