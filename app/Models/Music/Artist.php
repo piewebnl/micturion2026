@@ -63,15 +63,7 @@ class Artist extends Model
         );
     }
 
-    public function getTotalArtistsWithAlbums(array $filterValues): int
-    {
-        $filterValues['page'] = null;
-        $artists = $this->getArtistsWithAlbums($filterValues);
-
-        return count($artists);
-    }
-
-    public function getArtistsWithAlbums(array $filterValues)
+        public function getArtistsWithAlbums(array $filterValues)
     {
         $artists = [];
         if (isset($filterValues['sort']) && $filterValues['sort'] != 'random') {

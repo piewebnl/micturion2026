@@ -198,8 +198,4 @@ class MirrorDirectory
         return $this->processedFiles;
     }
 
-    public function getTotalFiles(): int
-    {
-        return $this->totalFiles;
     }
-}

@@ -48,22 +48,7 @@ class WishlistAlbum extends Model
         );
     }
 
-    public function getTotalWishlistAlbums(array $filterValues): int
-    {
-        $filterValues['page'] = null;
-        $allWishlistAlbums = $this->getAllWishlistAlbums($filterValues);
-
-        return count($allWishlistAlbums);
-    }
-
-    public function getWishlistAlbum(int $id, array $filterValues = [])
-    {
-        $filterValues['id'] = $id;
-
-        return $this->getWishlistAlbumsWithPrices($filterValues)->first();
-    }
-
-    public function getWishlistAlbumsWithPrices(array $filterValues, $skipGetCache = false)
+            public function getWishlistAlbumsWithPrices(array $filterValues, $skipGetCache = false)
     {
 
         $wishlistAlbumsWithPrices = [];
@@ -117,26 +102,7 @@ class WishlistAlbum extends Model
         return $wishlistAlbumsWithPrices;
     }
 
-    public function getWishlistAlbums($filterValues)
-    {
-
-        $wishlistAlbums = WishlistAlbum::selectRaw('
-            wishlist_albums.id as wishlist_album_id,
-            wishlist_albums.persistent_album_id as  wishlist_album_persistent_album_id,
-            wishlist_albums.notes as wishlist_album_notes,
-            wishlist_albums.format as wishlist_album_format,
-            albums.id as album_id,
-            albums.name as album_name,
-            artists.name as artist_name,
-            artists.sort_name as artist_sort_name')
-            ->joinRelationship('album')
-            ->joinRelationship('album.artist')->orderBy('artist_sort_name', 'asc')
-            ->customPaginateOrLimit($filterValues);
-
-        return $wishlistAlbums;
-    }
-
-    public function getAllWishlistAlbums()
+        public function getAllWishlistAlbums()
     {
         $wishlistAlbums = $this->getCache('get-all-wishlist-albums');
 

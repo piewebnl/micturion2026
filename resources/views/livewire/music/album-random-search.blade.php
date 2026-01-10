@@ -23,7 +23,7 @@
                 CDs only
             </button>
 
-            <button wire:click="$dispatch('album-random-search-re-roll')" type="button" class="btn-primary">
+            <button wire:click="$dispatch('album-random-search')" type="button" class="btn-primary">
                 Re-roll
             </button>
 

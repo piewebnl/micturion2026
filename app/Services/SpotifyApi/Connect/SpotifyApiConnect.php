@@ -124,12 +124,7 @@ class SpotifyApiConnect
         exit;
     }
 
-    public function setRefreshToken(string $refreshToken)
-    {
-        $this->refreshToken = $refreshToken;
-    }
-
-    private function setupSession()
+        private function setupSession()
     {
 
         $this->session = new \SpotifyWebAPI\Session(

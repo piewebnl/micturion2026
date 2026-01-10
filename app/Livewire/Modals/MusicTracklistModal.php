@@ -21,23 +21,7 @@ class MusicTracklistModal extends ModalComponent
     public string $albumId;
 
     #[On('music-tracklist-modal-save-cropped-spine-image')]
-    public function saveCroppedSpineImage($id, $croppedTempFile)
-    {
-
-        $spineImage = SpineImage::find($id);
-
-        $source = $croppedTempFile;
-
-        $dest = config('music.spine_images_path') . '/' . $spineImage->slug . '.png';
-        copy($source, $dest);
-
-        $spineImage->checked = true;
-        $spineImage->save();
-
-        session()->flash('success', 'Image saved');
-    }
-
-    // Save the original and keep it in itunes
+        // Save the original and keep it in itunes
     public function saveSpineImage($spineImageId)
     {
         $album = Album::find($this->albumId);

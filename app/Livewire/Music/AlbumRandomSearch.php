@@ -57,12 +57,7 @@ class AlbumRandomSearch extends Component
         $this->search();
     }
 
-    #[On('album-random-search-re-roll')]
-    public function reRoll()
-    {
-        $this->search();
-    }
-
+    #[On('album-random-search')]
     public function search()
     {
         $this->checkBeenFiltered();

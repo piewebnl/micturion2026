@@ -55,14 +55,7 @@ class Playlist extends Model
         return $this->getPlaylists($filterValues)->first();
     }
 
-    public function getPlaylistByName(string $name)
-    {
-        $filterValues['name'] = $name;
-
-        return $this->getPlaylists($filterValues)->first();
-    }
-
-    public function getPlaylists(array $filterValues)
+        public function getPlaylists(array $filterValues)
     {
         return Playlist::withCount('playlistTracks')->whereId($filterValues, 'name', 'name')->orderBy('name')->customPaginateOrLimit($filterValues);
     }

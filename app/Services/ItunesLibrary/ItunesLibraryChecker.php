@@ -302,19 +302,7 @@ class ItunesLibraryChecker
         return $all;
     }
 
-    protected function getAllFiles($path, array $extensions)
-    {
-        return collect(File::allFiles($path))
-            ->filter(function ($file) use ($extensions) {
-                return in_array(strtolower($file->getExtension()), $extensions);
-            })
-            ->map(function ($file) {
-                return $file->getRealPath();
-            })
-            ->all();
-    }
-
-    public function getResource(): array
+        public function getResource(): array
     {
         return $this->resource;
     }

@@ -26,22 +26,7 @@ class SpotifyPlaylist extends Model
         return $this->hasManyThrough(SpotifyTrack::class, SpotifyPlaylistTrack::class, 'spotify_playlist_id', 'spotify_id', 'id', 'track_id');
     }
 
-    public function getTotalSpotifyPlaylistsWithTracks(array $filterValues)
-    {
-        $filterValues['page'] = null;
-        $allSpotifyPlaylists = $this->getSpotifyPlaylistsWithTracks($filterValues);
-
-        return count($allSpotifyPlaylists);
-    }
-
-    public function getTotalSpotifyPlaylistWithTracks(int $id, array $filterValues = [])
-    {
-        $filterValues['id'] = $id;
-
-        return $this->getSpotifyPlaylistsWithTracks($filterValues)->first();
-    }
-
-    public function getSpotifyPlaylistsWithTracks(array $filterValues)
+            public function getSpotifyPlaylistsWithTracks(array $filterValues)
     {
         return SpotifyPlaylist::selectRaw(
             'spotify_playlists.name as name,
@@ -62,12 +47,7 @@ class SpotifyPlaylist extends Model
             ->customPaginateOrLimit($filterValues);
     }
 
-    public function deleteTracksByPlaylistId($spotifyPlaylistId)
-    {
-        SpotifyPlaylistTrack::where('spotify_playlist_id', $spotifyPlaylistId)->delete();
-    }
-
-    public function getSpotifyPlaylistByName(string $playlistName)
+        public function getSpotifyPlaylistByName(string $playlistName)
     {
         return SpotifyPlaylist::where('name', $playlistName)->first();
     }

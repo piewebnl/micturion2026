@@ -72,8 +72,4 @@ class SpotifyTrackCustomIdSearcher
         return $this->response;
     }
 
-    public function getSpotifySearchResultTrack(): SpotifySearchResultTrack
-    {
-        return $this->spotifySearchResultTrack;
     }
-}

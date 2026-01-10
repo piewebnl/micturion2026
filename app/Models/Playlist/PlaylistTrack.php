@@ -48,16 +48,4 @@ class PlaylistTrack extends Model
         DB::table('playlist_tracks')->where('playlist_id', $playlist->id)->update(['has_changed' => 0]);
     }
 
-    public function getSpotifyTracksPerPage(array $filterValues)
-    {
-
-        return PlaylistTrack::whereHas('songSpotifyTrack', function ($q) {
-            $q->where('status', '=', 'success');
-        })->with(['song.album.artist', 'songSpotifyTrack' => function ($q) {
-            $q->where('status', '=', 'success');
-        }, 'songSpotifyTrack.spotifyTrack'])
-            ->whereId($filterValues, 'playlist_id', 'playlist_id')
-            ->orderBy('order')
-            ->customPaginateOrLimit($filterValues);
     }
-}

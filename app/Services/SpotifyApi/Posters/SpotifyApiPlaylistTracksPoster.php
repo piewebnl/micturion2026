@@ -12,15 +12,4 @@ class SpotifyApiPlaylistTracksPoster
         $this->api = $api;
     }
 
-    public function postPerPage(string $spotifyPlaylistId, array $trackIds, int $page)
-    {
-        // First batch (replace)
-        if ($page == 1) {
-            $this->api->replacePlaylistTracks($spotifyPlaylistId, $trackIds);
-
-            return;
-        }
-
-        $this->api->addPlaylistTracks($spotifyPlaylistId, $trackIds);
     }
-}

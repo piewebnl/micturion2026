@@ -12,23 +12,7 @@ class ConcertImageDeleter
 {
     private $response;
 
-    public function deleteConcertImage(int $id)
-    {
-
-        DD('DEAD');
-        $concertImage = ConcertImage::findOrFail($id);
-
-        // delete all from storage
-        $imageDeleter = new ImageDeleter('concert');
-        $imageDeleter->delete($concertImage['slug']);
-
-        // delete from database
-        $concertImage->delete();
-
-        $this->response = response()->deleted('Concert image deleted');
-    }
-
-    public function getResponse(): JsonResponse
+        public function getResponse(): JsonResponse
     {
         return $this->response;
     }

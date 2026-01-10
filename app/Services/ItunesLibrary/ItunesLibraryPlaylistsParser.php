@@ -35,18 +35,7 @@ class ItunesLibraryPlaylistsParser
         return $this->playlists;
     }
 
-    public function getPlaylistsByPersistentIds(array $playlistPersitentIds, bool $includeTracks = false): ?array
-    {
-        $this->parsePlaylists();
-        $this->getPlaylists('persistent_id', $playlistPersitentIds);
-        if ($includeTracks) {
-            $this->includeTracks();
-        }
-
-        return $this->playlists;
-    }
-
-    public function getPlaylistByPersistentId(string $playlistPersistentId, bool $includeTracks = false): array
+        public function getPlaylistByPersistentId(string $playlistPersistentId, bool $includeTracks = false): array
     {
 
         $this->parsePlaylists();

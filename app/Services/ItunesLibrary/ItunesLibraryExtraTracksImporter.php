@@ -78,12 +78,7 @@ class ItunesLibraryExtraTracksImporter
         }
     }
 
-    public function getExtraTracks(): array
-    {
-        return $this->extraTracks ?? [];
-    }
-
-    private function convertExtraTracks(): void
+        private function convertExtraTracks(): void
     {
         $tracks = preg_split('/\n|\r\n?/', $this->parsedExtratracks);
 

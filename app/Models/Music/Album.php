@@ -111,15 +111,7 @@ class Album extends Model
         }
     }
 
-    public function getTotalAlbumsWithSpotifyAlbum(array $filterValues): int
-    {
-        $filterValues['page'] = null;
-        $albums = $this->getAlbumsWithSpotifyAlbum($filterValues);
-
-        return count($albums);
-    }
-
-    public function getAlbumWithSpotifyAlbum(int $id, array $filterValues = [])
+        public function getAlbumWithSpotifyAlbum(int $id, array $filterValues = [])
     {
         $filterValues['id'] = $id;
 
@@ -250,21 +242,7 @@ class Album extends Model
             ->get();
     }
 
-    public function getAlbumIdsWithSongsModified($filterValues)
-    {
-        return Album::select(
-            'albums.id'
-        )->join('songs', 'songs.album_id', '=', 'albums.id')
-            ->where(
-                'songs.date_modified',
-                '>=',
-                Carbon::now()->subDays($filterValues['days'])
-            )
-            ->groupBy('albums.id')
-            ->customPaginateOrLimit($filterValues)->pluck('id');
-    }
-
-    public function getAllYears()
+        public function getAllYears()
     {
 
         $years = $this->getCache('get-albums-all-years');
@@ -329,10 +307,4 @@ class Album extends Model
         return $amount;
     }
 
-    public function calculateAlbumRating(Album $album)
-    {
-        // more than 75% must be rated
-        // tracks longer than 2 minutes
-
     }
-}

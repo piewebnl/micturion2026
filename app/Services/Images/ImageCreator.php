@@ -125,12 +125,7 @@ class ImageCreator
         $this->slugWithPath = $this->configValues['dest_image_path'] . $dim . '/' . $this->slug;
     }
 
-    public function getSlugWithPath(): ?string
-    {
-        return $this->slugWithPath;
-    }
-
-    public function getHash(): ?string
+        public function getHash(): ?string
     {
         return $this->hash;
     }

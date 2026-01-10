@@ -86,23 +86,7 @@ class ItunesLibrary extends Model
         return count((array) $this->getTracks());
     }
 
-    public function getTracksModifedAfterDate($date)
-    {
-
-        $new = new \stdClass;
-        $counter = 0;
-
-        foreach ($this->itunesLibrary['Tracks'] as $track) {
-            if ($track->{'Date Modified'} >= $date) {
-                $new->{$counter} = $track;
-                $counter++;
-            }
-        }
-
-        return $new;
-    }
-
-    public function getTracks(): array
+        public function getTracks(): array
     {
         return $this->itunesLibrary['Tracks'];
     }
@@ -200,20 +184,7 @@ class ItunesLibrary extends Model
         }
     }
 
-    public function getTrackIds(): array
-    {
-        $ids = [];
-
-        if ($this->itunesLibrary['Tracks']) {
-            foreach ($this->itunesLibrary['Tracks'] as $track) {
-                $ids[] = $track->{'Track ID'};
-            }
-
-            return $ids;
-        }
-    }
-
-    public function getPlaylists(): array
+        public function getPlaylists(): array
     {
         return $this->itunesLibrary['Playlists'];
     }

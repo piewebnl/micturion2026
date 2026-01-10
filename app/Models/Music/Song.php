@@ -75,12 +75,7 @@ class Song extends Model
         }
     }
 
-    public function getAllGroupings()
-    {
-        return Song::select('grouping', 'disc_count')->groupBy('grouping')->orderBy('grouping')->get();
-    }
-
-    public function getSongsWithAlbum(array $filterValues)
+        public function getSongsWithAlbum(array $filterValues)
     {
 
         return Song::select(
@@ -166,22 +161,7 @@ class Song extends Model
             ->customPaginateOrLimit($filterValues);
     }
 
-    public function getSongWithSpotifyTrack(int $id, array $filterValues = [])
-    {
-        $filterValues['id'] = $id;
-
-        return $this->getSongsWithSpotifyTrack($filterValues)->first();
-    }
-
-    public function getTotalSongsWithSpotifyTrack(array $filterValues): int
-    {
-        $filterValues['page'] = null;
-        $songs = $this->getSongsWithSpotifyTrack($filterValues);
-
-        return count($songs);
-    }
-
-    public function getSongsWithSpotifyTrack(array $filterValues)
+            public function getSongsWithSpotifyTrack(array $filterValues)
     {
         return Song::select(
             'songs.id as id',
