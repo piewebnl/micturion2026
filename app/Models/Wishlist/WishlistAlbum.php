@@ -43,7 +43,7 @@ class WishlistAlbum extends Model
             [
                 'persistent_album_id' => $wishlistAlbum->persistent_album_id,
                 'notes' => $wishlistAlbum->notes,
-                'format' => $wishlistAlbum->format,
+                'formats' => $wishlistAlbum->formats,
             ]
         );
     }
@@ -78,7 +78,7 @@ class WishlistAlbum extends Model
         wishlist_albums.id as wishlist_album_id,
         wishlist_albums.persistent_album_id as wishlist_album_persistent_album_id,
         wishlist_albums.notes as wishlist_album_notes,
-        wishlist_albums.format as wishlist_album_format,
+        wishlist_albums.formats as wishlist_album_formats,
         wishlist_album_prices.id as wishlist_album_price_id,
         wishlist_album_prices.price as wishlist_album_price_price,
         wishlist_album_prices.score as wishlist_album_price_score,

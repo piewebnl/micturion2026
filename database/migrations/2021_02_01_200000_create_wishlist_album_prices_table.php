@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('music_store_id')->constrained('music_stores');
 
             $table->string('url')->nullable();
-            $table->string('format', 10)->nullable();
+            $table->string('formats', 10)->nullable();
 
             $table->float('price', 10, 2)->nullable()->index();
             $table->unsignedInteger('score', null)->nullable();

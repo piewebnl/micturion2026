@@ -369,11 +369,7 @@ return [
             'path' => storage_path('logs/spotify_albums_export.log'),
             'days' => 1,
         ],
-        'wishlist_albums_scrape_prices' => [
-            'driver' => 'single',
-            'path' => storage_path('logs/wishlist_albums_scrape_prices.log'),
-            'days' => 1,
-        ],
+
         'wishlist_album_import_csv' => [
             'driver' => 'single',
             'path' => storage_path('logs/wishlist_album_import_csv.log'),
@@ -392,11 +388,7 @@ return [
             'days' => 1,
         ],
 
-        'html_scraper' => [
-            'driver' => 'single',
-            'path' => storage_path('logs/html_scraper.log'),
-            'days' => 1,
-        ],
+
 
         'discogs_collection_importer' => [
             'driver' => 'single',

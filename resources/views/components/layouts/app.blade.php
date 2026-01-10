@@ -27,6 +27,10 @@
 
     @filamentStyles
 
+    @if (app()->bound('debugbar') && app('debugbar')->isEnabled())
+        {!! app('debugbar')->getJavascriptRenderer()->renderHead() !!}
+    @endif
+
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
 
     <script>
@@ -84,6 +88,19 @@
 
 
     @livewireScripts()
+
+    @if (app()->bound('debugbar') && app('debugbar')->isEnabled())
+        {!! app('debugbar')->getJavascriptRenderer()->render() !!}
+        <script>
+            // Force-show Debugbar when a persisted "hidden" state is stuck.
+            document.addEventListener('DOMContentLoaded', () => {
+                const bar = document.querySelector('.phpdebugbar');
+                if (bar?.hasAttribute('hidden')) {
+                    bar.removeAttribute('hidden');
+                }
+            });
+        </script>
+    @endif
 
 
 </body>

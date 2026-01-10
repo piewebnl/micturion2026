@@ -19,9 +19,6 @@ class SyncCommand extends Command
         // $this->call('command:ItunesLibraryChecker');
         $this->call('command:AlbumImageCreate');
 
-        // iTunes CSV
-        // $this->call('command:ItunesCsvPlaylistFromSpotifyPlaylist');
-
         // To FTP [Local Only]
         $this->call('command:ItunesLibraryCopyXmlToFtp');
         $this->call('command:AlbumImageUploadToFtp');
@@ -31,9 +28,6 @@ class SyncCommand extends Command
         // Backup online CSV [Local Only]
         $this->call('command:DatabaseDumper');
 
-        // Sync local DB with online CSV [Local Only]
-        $this->call('command:WishlistAlbumLocalDbSync');
-
         // Images from production [Local Only]
         $this->call('command:ConcertImageDownloadFromFtp');
         $this->call('command:ConcertFestivalImageDownloadFromFtp');
@@ -41,13 +35,6 @@ class SyncCommand extends Command
         // Concert images [Local Only]
         $this->call('command:ConcertImageCreate');
         $this->call('command:ConcertFestivalImageCreate');
-
-        // Wishlist Prices [Local Only]
-        // $this->call('command:WishlistAlbumLocalDbSync');
-        // $this->call('command:WishlistAlbumPricesLocalToLive');
-
-        // Wishlist Prices
-        // $this->call('command:WishlistAlbumPricesScrape');
 
         // To iNas Plex Amp [Local Only]
         $this->call('command:MusicToPlexAmp');
@@ -58,7 +45,7 @@ class SyncCommand extends Command
         // Discogs
         $this->call('command:DiscogsCollectionImport');
         $this->call('command:DiscogsCollectionMatcher');
-        // $this->call('command:DiscogsReleaseInfoImport');
+        $this->call('command:DiscogsReleaseInfoImport');
 
         // Spines
         $this->call('command:SpineImageExtractor');
@@ -70,12 +57,6 @@ class SyncCommand extends Command
         $this->call('command:SpotifyPlaylistTracksImport');
         $this->call('command:SpotifySearchAndImportAlbums');
         $this->call('command:SpotifyAlbumsExport');
-
         $this->call('command:SpotifySearchAndImportAlbumTracks');
-        /*
-        $this->call('command:SpotifyTracksFavouriteExport');
-        $this->call('command:SpotifyPlaylistTrackSongSearch');
-        $this->call('command:potifyPlaylistTracksExporter');
-        */
     }
 }

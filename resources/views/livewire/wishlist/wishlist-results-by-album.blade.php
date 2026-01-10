@@ -27,11 +27,7 @@
                                     <span class="text-sm">{{ $wishlistAlbum['album_year'] }}</span>
                                     <br />
                                     <span class="text-lg">
-                                        @if ($wishlistAlbum['wishlist_album_format'] == '')
-                                            CD/LP
-                                        @else
-                                            {{ $wishlistAlbum['wishlist_album_format'] }}
-                                        @endif
+                                        {{ $wishlistAlbum['wishlist_album_formats'] }}
                                     </span>
 
                                     <br />
