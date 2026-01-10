@@ -121,31 +121,6 @@ class SongFinder
         ];
     }
 
-    /**
-     * SQL fragment for normalizing a column value in queries.
-     * Example: ->orWhereRaw($this->norm('songs.name') . ' LIKE ?', ['%needle%'])
-     */
-    private function norm(string $column): string
-    {
-        return "LOWER(TRIM(REGEXP_REPLACE($column, '[^A-Za-z0-9]+', ' ')))";
-    }
-
-    /**
-     * Normalize a string for comparison against the DB.
-     * Removes non-alphanumerics, collapses spaces, lowercases.
-     */
-    private function prepNeedle(?string $value): string
-    {
-        if (empty($value)) {
-            return '';
-        }
-
-        $value = \Illuminate\Support\Str::ascii($value);          // optional: remove accents
-        $value = preg_replace('/[^A-Za-z0-9]+/', ' ', $value);    // keep only letters/numbers
-
-        return strtolower(trim($value));
-    }
-
     // put inside SongFinder (public/protected both fine)
     protected function similarityScore(string $a, string $b): float
     {

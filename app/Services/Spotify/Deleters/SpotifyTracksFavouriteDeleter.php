@@ -46,22 +46,6 @@ class SpotifyTracksFavouriteDeleter
         // $this->response = response()->success('Spotify tracks deleted');
     }
 
-    private function getSpotifyTracksPerPage()
-    {
-        /*
-        $count = 0;
-        $this->start = ($this->page - 1) * $this->perPage;
-        $this->end = $this->start + $this->perPage;
-
-        foreach ($this->allSpotifyTrackIds as $track) {
-            if ($count >= $this->start and $count < $this->end) {
-                $this->allSpotifyTrackIdsPage[] = $track;
-            }
-            $count++;
-        }
-        */
-    }
-
     private function calculateLastPage()
     {
         $this->lastPage = PaginationHelper::calculateLastPage($this->total, $this->perPage);
