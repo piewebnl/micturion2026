@@ -45,20 +45,48 @@ class Concert extends Model
         }
 
         if (!$concerts) {
-            $concerts = Concert::with(
-                [
-                    'concertVenue',
-                    'concertFestival.ConcertFestivalImage',
-                    'concertItems' => fn ($query) => $query->orderBy('order', 'ASC'),
-                ]
-            )
+            $concertItemsOrder = function ($query) use ($filterValues) {
+                if (($filterValues['sort'] ?? null) !== 'artist') {
+                    return $query->orderBy('order', 'ASC');
+                }
+
+                return $query
+                    ->leftJoin('concert_artists', 'concert_artists.id', '=', 'concert_items.concert_artist_id')
+                    ->orderBy('concert_artists.name', 'ASC')
+                    ->orderBy('concert_items.order', 'ASC')
+                    ->select('concert_items.*');
+            };
+
+            $withRelations = [
+                'concertVenue',
+                'concertFestival.ConcertFestivalImage',
+                'concertItems' => $concertItemsOrder,
+            ];
+
+            $concertsQuery = Concert::with($withRelations)
                 ->ConcertWhereName($filterValues)
                 ->ConcertWhereYear($filterValues)
                 ->whereId($filterValues, 'concerts.concert_venue_id', 'venue')
                 ->whereId($filterValues, 'concerts.concert_festival_id', 'festival')
-                ->ConcertWhereKeyword($filterValues)
-                ->sortAndOrderBy($filterValues)
-                ->customPaginateOrLimit($filterValues);
+                ->ConcertWhereKeyword($filterValues);
+
+            $sort = $filterValues['sort'] ?? null;
+            if ($sort === 'date') {
+                $concertsQuery->orderBy('concerts.date', $filterValues['order'] ?? 'desc');
+            } elseif ($sort === 'artist') {
+                $order = $filterValues['order'] ?? 'asc';
+                $concertsQuery->orderByRaw(
+                    "(select min(concert_artists.name)
+                      from concert_items
+                      left join concert_artists on concert_artists.id = concert_items.concert_artist_id
+                      where concert_items.concert_id = concerts.id
+                        and (concert_items.support = 0 or concert_items.support is null)) {$order}"
+                );
+            } else {
+                $concertsQuery->sortAndOrderBy($filterValues);
+            }
+
+            $concerts = $concertsQuery->customPaginateOrLimit($filterValues);
 
             $this->setCache('get-concerts', $filterValues, $concerts);
         }

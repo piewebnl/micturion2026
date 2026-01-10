@@ -22,7 +22,7 @@ class ConcertVenue extends Model
         $concertVenues = $this->getCache('get-all-concert-venues');
 
         if (!$concertVenues) {
-            $concertVenues = ConcertVenue::groupBy('name')->get();
+            $concertVenues = ConcertVenue::groupBy('name')->orderBy('name')->get();
             $this->setCache('get-all-concert-venues', [], $concertVenues);
         }
 

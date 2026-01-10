@@ -48,6 +48,7 @@ class ConcertSearchFormData
 
         $formData['sort'] = [
             ['value' => 'date', 'label' => 'Date', 'order' => 'desc'],
+            ['value' => 'artist', 'label' => 'Artist', 'order' => 'desc']
         ];
 
         $formData['view'] = [

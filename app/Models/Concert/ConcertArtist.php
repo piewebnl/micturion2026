@@ -29,7 +29,7 @@ class ConcertArtist extends Model
         $concertArtists = $this->getCache('get-all-concert-artists');
 
         if (!$concertArtists) {
-            $concertArtists = ConcertArtist::groupBy('name')->get(); // collection;
+            $concertArtists = ConcertArtist::groupBy('name')->orderBy('name')->get(); // collection;
             $this->setCache('get-all-concert-artists', [], $concertArtists);
         }
 
