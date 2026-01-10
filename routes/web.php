@@ -1,13 +1,15 @@
 <?php
 
+use Livewire\Volt\Volt;
+use App\Models\Music\Album;
+use Illuminate\Support\Facades\Route;
 use App\Models\Wishlist\WishlistAlbum;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Route;
-use Livewire\Volt\Volt;
 
 Route::get('/', function () {
     return view('home');
 });
+
 
 
 Volt::route('/login', 'pages.auth.login')

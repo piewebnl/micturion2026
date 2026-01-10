@@ -30,6 +30,7 @@ class DiscogsReleaseInfoImporter
         foreach ($release['images'] as $image) {
             $imageUrls[] = $image['uri'];
         }
+
         $release['artwork_other_urls'] = $imageUrls;
         $this->downloadReleaseImage($imageUrls);
         $this->discogsRelease->storeFromDiscogsApiRelease($release);

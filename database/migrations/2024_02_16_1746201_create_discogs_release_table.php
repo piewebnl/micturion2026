@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->string('hash')->nullable();
             $table->string('artwork_url')->nullable();
-            $table->string('artwork_other_urls')->nullable();
+            $table->text('artwork_other_urls')->nullable();
 
             $table->timestamps();
         });

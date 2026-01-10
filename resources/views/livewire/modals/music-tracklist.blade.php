@@ -96,15 +96,15 @@
 
                 <div x-show="showCropper">
 
-                    @if (isset($discogsRelease['release_id']))
+                    @if ($discogsRelease?->release_id)
                         <div class="mb-2">
                             <a target="_blank"
-                                href="https://www.discogs.com/release/{{ $discogsRelease['release_id'] }}">View
+                                href="https://www.discogs.com/release/{{ $discogsRelease->release_id }}">View
                                 on
                                 Discogs</a>
                         </div>
                         @foreach ($sourceImageUrls as $key => $sourceImageUrl)
-                            <livewire:images.image-cropper :sourceImageUrl="$sourceImageUrls[$key]" :handler="'saveSpineImage'" :index="$index"
+                            <livewire:images.image-cropper :sourceImageUrl="$sourceImageUrl" :handler="'saveSpineImage'" :index="$key"
                                 :id="$album->spineImage->id" />
                         @endforeach
                     @else

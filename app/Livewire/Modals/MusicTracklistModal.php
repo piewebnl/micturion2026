@@ -21,7 +21,7 @@ class MusicTracklistModal extends ModalComponent
     public string $albumId;
 
     #[On('music-tracklist-modal-save-cropped-spine-image')]
-        // Save the original and keep it in itunes
+    // Save the original and keep it in itunes
     public function saveSpineImage($spineImageId)
     {
         $album = Album::find($this->albumId);
@@ -52,19 +52,24 @@ class MusicTracklistModal extends ModalComponent
         // Discogs back artwork from image cropper
         $sourceImageUrls = [];
         $discogsRelease = $album->discogsReleases->first();
-        if (isset($discogsRelease['artwork_other_urls'])) {
-            $images = json_decode($discogsRelease['artwork_other_urls']);
-            if (is_array($images)) {
-                foreach ($images as $index => $image) {
-                    $sourceImageUrls[$index] = Storage::url(
-                        'discogs-back-artwork/' .
-                            $discogsRelease['release_id'] .
-                            '-' .
-                            $index +
-                            1 .
-                            '.jpg',
-                    );
-                }
+
+
+        if ($discogsRelease?->artwork_other_urls) {
+            $images = json_decode($discogsRelease->artwork_other_urls, true);
+
+            if (!is_array($images)) {
+                preg_match_all('/https?:\\/\\/[^\\s"]+/', $discogsRelease->artwork_other_urls, $matches);
+                $images = $matches[0] ?? [];
+            }
+
+            foreach ($images as $index => $image) {
+                $sourceImageUrls[$index] = Storage::url(
+                    'discogs-back-artwork/' .
+                        $discogsRelease->release_id .
+                        '-' .
+                        ($index + 1) .
+                        '.jpg',
+                );
             }
         }
 

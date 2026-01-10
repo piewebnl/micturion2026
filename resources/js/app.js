@@ -1,5 +1,24 @@
 import './bootstrap';
 
+window.cropperComponent = (imageUrl) => ({
+    imageUrl,
+    __cropperLoaded: false,
+    async init() {
+        if (this.__cropperLoaded) return;
+        this.__cropperLoaded = true;
+
+        const mod = await import('./imageCropper');
+        if (typeof mod.createCropper !== 'function') return;
+
+        const data = mod.createCropper(imageUrl);
+        Object.assign(this, data);
+
+        if (typeof data.init === 'function') {
+            data.init.call(this);
+        }
+    },
+});
+
 const media = window.matchMedia('(prefers-color-scheme: dark)');
 
 function normalizeMode(mode) {
